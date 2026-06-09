@@ -145,6 +145,31 @@
       return url;
     };
 
+    const parseApiResponsePayload = (rawData) => {
+      if (Array.isArray(rawData)) return rawData;
+      if (typeof rawData !== 'string') return [];
+
+      const normalized = rawData.trim();
+      const parsed = [];
+      const markdownRegex = /(?:\d+)?titulo"([^"]+)"descripcion"([^"]+)"imagen"\[([^\]]+)\]\(([^\)]+)\)"/g;
+      let match;
+      while ((match = markdownRegex.exec(normalized)) !== null) {
+        parsed.push({ titulo: match[1], descripcion: match[2], imagen: match[4] || match[3] });
+      }
+
+      if (parsed.length) return parsed;
+
+      const fallbackRegex = /(?:\d+)?titulo"([^"]+)"descripcion"([^"]+)"imagen"([^"]+)"/g;
+      while ((match = fallbackRegex.exec(normalized)) !== null) {
+        let imageUrl = match[3];
+        const mdMatch = imageUrl.match(/\[([^\]]+)\]\(([^\)]+)\)/);
+        if (mdMatch) imageUrl = mdMatch[2] || mdMatch[1];
+        parsed.push({ titulo: match[1], descripcion: match[2], imagen: imageUrl });
+      }
+
+      return parsed;
+    };
+
     const MOCK_QUIZ = {
       title: "Aventura Matemática",
       questions: [
@@ -922,8 +947,8 @@
       const [params, setParams] = useState({});
       
       // Estado de la API
-      const [apiUrl, setApiUrl] = useState(() => localStorage.getItem('eduplay_api_url') || '');
-      const [inputUrl, setInputUrl] = useState(() => localStorage.getItem('eduplay_api_url') || '');
+      const [apiUrl, setApiUrl] = useState(() => localStorage.getItem('eduplay_api_url') || 'https://playhouse-strained-dimly.ngrok-free.dev');
+      const [inputUrl, setInputUrl] = useState(() => localStorage.getItem('eduplay_api_url') || 'https://playhouse-strained-dimly.ngrok-free.dev');
       const [apiStatus, setApiStatus] = useState('disconnected'); // 'disconnected' | 'connecting' | 'connected'
       const [games, setGames] = useState(MOCK_GAMES);
       const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -957,31 +982,67 @@
           const controller = new AbortController();
           const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
 
-          const res = await fetch(`${cleanUrl}/games`, { 
-            mode: 'cors',
-            signal: controller.signal
-          });
+          // Manejar de forma inteligente si la URL ya incluye el path del endpoint
+          let endpoint = cleanUrl;
+          if (!cleanUrl.endsWith('/juegos') && !cleanUrl.endsWith('/games')) {
+            endpoint = `${cleanUrl}/juegos`;
+          }
+
+          let res;
+          try {
+            res = await fetch(endpoint, { 
+              mode: 'cors',
+              signal: controller.signal
+            });
+          } catch (fetchErr) {
+            // Si falla con /juegos, intentamos /games de respaldo en caso de que use la nomenclatura antigua
+            if (endpoint.endsWith('/juegos')) {
+              const fallbackEndpoint = endpoint.replace('/juegos', '/games');
+              res = await fetch(fallbackEndpoint, {
+                mode: 'cors',
+                signal: controller.signal
+              });
+            } else {
+              throw fetchErr;
+            }
+          }
           
           clearTimeout(timeoutId);
 
           if (!res.ok) throw new Error("Error en respuesta del servidor");
-          const data = await res.json();
-          
-          // Mapear los datos de la API FastAPI a las propiedades esperadas por PremiumGameCard
-          const apiGamesMapped = data.map(g => {
-            const isRecycling = g.titulo.toLowerCase().includes('recicl') || g.titulo.toLowerCase().includes('crehabitat');
+          const text = await res.text();
+          let data;
+          try {
+            data = JSON.parse(text);
+          } catch {
+            data = parseApiResponsePayload(text);
+          }
+          if (!Array.isArray(data)) throw new Error("Formato de datos inesperado");
+
+          const apiGamesMapped = data.map((g, index) => {
+            const title = g.titulo || g.title || `Juego ${index + 1}`;
+            const normalizedTitle = title.toLowerCase();
+            const subject = normalizedTitle.includes('matem') ? 'Matemáticas'
+              : normalizedTitle.includes('letras') ? 'Lectura'
+              : normalizedTitle.includes('ciencia') || normalizedTitle.includes('explorador') ? 'Ciencias'
+              : 'General';
+            const icon = normalizedTitle.includes('matem') ? Zap
+              : normalizedTitle.includes('letras') ? BookOpen
+              : normalizedTitle.includes('ciencia') || normalizedTitle.includes('explorador') ? FlaskConical
+              : Shield;
+
             return {
-              id: `api-${g.id}`,
-              title: g.titulo,
-              subject: isRecycling ? 'Ecología' : 'Ciencias',
+              id: `api-${g.id ?? index}`,
+              title,
+              subject,
               level: 'Todas',
-              duration: '5 min',
-              points: 100,
-              color: isRecycling ? 'from-green-500 to-emerald-400' : 'from-red-500 to-orange-400',
-              bg: isRecycling ? 'bg-green-50' : 'bg-red-50',
-              icon: isRecycling ? FlaskConical : Shield,
-              image: g.imagen,
-              description: g.descripcion,
+              duration: g.duracion || '5 min',
+              points: g.puntos ?? 100,
+              color: subject === 'Matemáticas' ? 'from-blue-500 to-cyan-400' : subject === 'Lectura' ? 'from-red-500 to-pink-400' : 'from-green-500 to-emerald-400',
+              bg: subject === 'Matemáticas' ? 'bg-blue-50' : subject === 'Lectura' ? 'bg-red-50' : 'bg-green-50',
+              icon,
+              image: g.imagen || g.image,
+              description: g.descripcion || g.description || 'Explora este juego educativo.',
               isApi: true
             };
           });
