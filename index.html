@@ -116,13 +116,34 @@
     };
 
     const MOCK_GAMES = [
-      { id: "g1", title: "Aventura Matemática", subject: "Matemáticas", level: "8-10", duration: "10 min", points: 150, color: "from-blue-500 to-cyan-400", bg: "bg-blue-50", icon: Zap },
-      { id: "g2", title: "Memoria Espacial", subject: "Memoria", level: "5-7", duration: "5 min", points: 100, color: "from-purple-500 to-pink-400", bg: "bg-purple-50", icon: Brain },
-      { id: "g3", title: "Laboratorio Químico", subject: "Ciencias", level: "11-13", duration: "15 min", points: 200, color: "from-green-500 to-emerald-400", bg: "bg-green-50", icon: FlaskConical },
-      { id: "g4", title: "Lógica de Bloques", subject: "Programación", level: "11-13", duration: "20 min", points: 250, color: "from-orange-500 to-yellow-400", bg: "bg-orange-50", icon: Code },
-      { id: "g5", title: "Palabras Mágicas", subject: "Lectura", level: "5-7", duration: "10 min", points: 120, color: "from-red-500 to-rose-400", bg: "bg-red-50", icon: BookOpen },
-      { id: "g6", title: "Safari en Inglés", subject: "Inglés", level: "8-10", duration: "15 min", points: 180, color: "from-indigo-500 to-violet-400", bg: "bg-indigo-50", icon: Globe }
+      { id: "g1", title: "Aventura Matemática", subject: "Matemáticas", level: "8-10", duration: "10 min", points: 150, color: "from-blue-500 to-cyan-400", bg: "bg-blue-50", icon: Zap, image: "g1", description: "Resuelve acertijos matemáticos y sube de nivel entrenando tu cerebro." },
+      { id: "g2", title: "Memoria Espacial", subject: "Memoria", level: "5-7", duration: "5 min", points: 100, color: "from-purple-500 to-pink-400", bg: "bg-purple-50", icon: Brain, image: "g2", description: "Pon a prueba tu retención visual y memoriza los patrones en el espacio." },
+      { id: "g3", title: "Laboratorio Químico", subject: "Ciencias", level: "11-13", duration: "15 min", points: 200, color: "from-green-500 to-emerald-400", bg: "bg-green-50", icon: FlaskConical, image: "g3", description: "Combina elementos y experimenta en nuestro laboratorio virtual interactivo." },
+      { id: "g4", title: "Lógica de Bloques", subject: "Programación", level: "11-13", duration: "20 min", points: 250, color: "from-orange-500 to-yellow-400", bg: "bg-orange-50", icon: Code, image: "g4", description: "Aprende las bases de la programación ordenando bloques de código lógico." },
+      { id: "g5", title: "Palabras Mágicas", subject: "Lectura", level: "5-7", duration: "10 min", points: 120, color: "from-red-500 to-rose-400", bg: "bg-red-50", icon: BookOpen, image: "g5", description: "Completa oraciones y expande tu vocabulario de forma divertida." },
+      { id: "g6", title: "Safari en Inglés", subject: "Inglés", level: "8-10", duration: "15 min", points: 180, color: "from-indigo-500 to-violet-400", bg: "bg-indigo-50", icon: Globe, image: "g6", description: "Explora la sabana y aprende los nombres de los animales en inglés." }
     ];
+
+    // Mapeo de previsualizaciones (GIFs / Imágenes) optimizados con Play-on-Hover
+    const PREVIEW_IMAGES = {
+      "g1": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnBub3J5MTV1dTA2c3kzeHJ6azIwYXdoaXRlMjNjZmdpMnpiaGU3diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/71fMwwGrFRszyoHhUy/giphy_s.gif",
+      "g2": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2Q5MnNrY3Vxc3VkNGk3NXA5M21ubHhvbjJuazJ3enFqdHpuamNwcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/f0Dy5NDc1jBzpcbff9/giphy_s.gif",
+      "g3": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExamdvNDV2b3J1Y3Q2OHNpd3A1MWV3NnVtbW14d2tveTllOTkyb2gyZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/e9BAkE9fnOEHgddk15/giphy_s.gif",
+      "g4": "https://i.vimeocdn.com/video/2111149424-80e3b2974f1fd674f85bde22bcccedd7b2f0d26312df70e42dd7273e55360976-d_640.jpg",
+      "g5": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMDlvZ2dleXJ5YXl6bWI2OWNsbDJvNzRuNTh3ZHFrc3BmNnY2d2xrMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qX9oszuvxWoMwmVl8x/giphy_s.gif",
+      "g6": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcnJ4cnFqczJwcjE4cmd4YnUwbTlmNjc5dDQ0cWxiMHNzcjhmZGVoMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2xD3RrcxB20kTDuWeY/giphy_s.gif",
+      "crehabitat_thumb.jpg": "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExemgwZmJsNm5qc29qZnBrYnpiYWM0YXBoazc4YjhtejYwczI4bm82MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MbQPlY8F3nTuXldD4z/giphy_s.gif",
+      "extintor_thumb.jpg": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWJlNTdzbGw3Mjg4c2p6M3V0ZnJjcGtvZzk3ZTdvaDR6enY5eHQ1ZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/vEHJ3rEPheP5JjpktJ/giphy.gif"
+    };
+
+    const getImageUrl = (imageVal, id, isHovered) => {
+      let url = PREVIEW_IMAGES[imageVal] || PREVIEW_IMAGES[id] || imageVal;
+      if (!url) return null;
+      if (isHovered && url.includes('_s.gif')) {
+        return url.replace('_s.gif', '.gif');
+      }
+      return url;
+    };
 
     const MOCK_QUIZ = {
       title: "Aventura Matemática",
@@ -163,9 +184,10 @@
       </span>
     );
 
-    const PremiumGameCard = ({ title, subject, level, duration, points, color, bg, icon: Icon, onClick }) => {
+    const PremiumGameCard = ({ id, title, subject, level, duration, points, color, bg, icon: Icon, image, description, onClick }) => {
       const x = useMotionValue(0);
       const y = useMotionValue(0);
+      const [isHovered, setIsHovered] = useState(false);
 
       const mouseXSpring = useSpring(x);
       const mouseYSpring = useSpring(y);
@@ -183,12 +205,16 @@
         const yPct = mouseY / height - 0.5;
         x.set(xPct);
         y.set(yPct);
+        setIsHovered(true);
       };
 
       const handleMouseLeave = () => {
         x.set(0);
         y.set(0);
+        setIsHovered(false);
       };
+
+      const finalImageUrl = getImageUrl(image, id, isHovered);
 
       return (
         <motion.div
@@ -203,8 +229,21 @@
           <div className="relative bg-white rounded-[1.8rem] p-6 h-full flex flex-col z-10 overflow-hidden">
             <div className={`absolute -right-10 -top-10 w-32 h-32 rounded-full ${bg} opacity-50 blur-2xl group-hover:blur-3xl transition-all duration-500`} />
             
+            {/* Image Preview Banner */}
+            {finalImageUrl && (
+              <div className="relative w-full h-44 rounded-2xl overflow-hidden mb-5 border border-zinc-100/80 shadow-inner z-20" style={{ transform: "translateZ(30px)" }}>
+                <img 
+                  src={finalImageUrl} 
+                  alt={title} 
+                  className="w-full h-full object-cover transition-transform duration-700 scale-100 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent pointer-events-none" />
+              </div>
+            )}
+
             <div className="flex justify-between items-start mb-6 relative z-20" style={{ transform: "translateZ(30px)" }}>
-              <Badge className="bg-zinc-100 text-zinc-700 border border-zinc-200 shadow-sm">
+              <Badge className="bg-zinc-100 text-zinc-700 border border-zinc-200/50 shadow-sm">
                 <Icon size={14} className="opacity-70"/> {subject}
               </Badge>
               <Badge className="bg-yellow-50 text-yellow-600 border border-yellow-200 shadow-sm">
@@ -213,7 +252,10 @@
             </div>
             
             <div className="flex-grow relative z-20" style={{ transform: "translateZ(40px)" }}>
-              <h3 className="text-2xl font-bold text-zinc-900 mb-3 group-hover:text-blue-600 transition-colors">{title}</h3>
+              <h3 className="text-2xl font-bold text-zinc-900 mb-2 group-hover:text-blue-600 transition-colors">{title}</h3>
+              {description && (
+                <p className="text-zinc-500 text-sm mb-4 line-clamp-2 leading-relaxed">{description}</p>
+              )}
               <div className="flex items-center gap-4 text-sm text-zinc-500 font-medium">
                 <span className="flex items-center gap-1.5"><User size={16}/> Lvl {level}</span>
                 <span className="flex items-center gap-1.5"><Play size={16}/> {duration}</span>
@@ -236,7 +278,7 @@
     };
 
     // --- VIEWS ---
-    const Landing = ({ onNavigate }) => (
+    const Landing = ({ onNavigate, games = [] }) => (
       <div className="min-h-screen pt-20">
         <section className="relative overflow-hidden px-4 sm:px-6 lg:px-8 py-20 lg:py-32 max-w-7xl mx-auto flex flex-col items-center text-center">
           
@@ -369,8 +411,8 @@
               </div>
               <Button variant="secondary" onClick={() => onNavigate('catalog')} className="gap-2">Ver todo el catálogo <ArrowRight size={18}/></Button>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {MOCK_GAMES.slice(0,3).map((game, i) => (
+             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {games.slice(0, 3).map((game, i) => (
                 <motion.div key={game.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
                   <PremiumGameCard {...game} onClick={() => onNavigate('game', { gameId: game.id })} />
                 </motion.div>
@@ -469,10 +511,12 @@
       </div>
     );
 
-    const Catalog = ({ onNavigate }) => {
+    const Catalog = ({ onNavigate, games = [] }) => {
       const [filter, setFilter] = useState('Todos');
-      const subjects = ['Todos', 'Matemáticas', 'Ciencias', 'Lectura', 'Programación'];
-      const filtered = filter === 'Todos' ? MOCK_GAMES : MOCK_GAMES.filter(g => g.subject.includes(filter) || (filter==='Lectura' && g.subject==='Inglés'));
+      const subjects = ['Todos', 'Matemáticas', 'Ciencias', 'Lectura', 'Programación', 'Ecología'];
+      const filtered = filter === 'Todos' 
+        ? games 
+        : games.filter(g => g.subject.includes(filter) || (filter==='Lectura' && g.subject==='Inglés') || (filter==='Ciencias' && g.subject==='Ecología'));
 
       return (
         <div className="min-h-screen pt-32 pb-20 px-6 lg:px-8 bg-zinc-50/50">
@@ -816,7 +860,7 @@
       );
     };
 
-    const Navbar = ({ currentView, onNavigate }) => {
+    const Navbar = ({ currentView, onNavigate, apiStatus, onOpenSettings }) => {
       const [scrolled, setScrolled] = useState(false);
       
       useEffect(() => {
@@ -849,6 +893,18 @@
               </div>
               
               <div className="flex items-center gap-4">
+                {/* Indicador de Conexión de API */}
+                <button 
+                  onClick={onOpenSettings}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-200/60 bg-zinc-50/50 hover:bg-zinc-100/80 transition-all text-xs font-bold shadow-sm"
+                  title="Configuración de API"
+                >
+                  <span className={`w-2.5 h-2.5 rounded-full ${apiStatus === 'connected' ? 'bg-green-500 animate-pulse' : apiStatus === 'connecting' ? 'bg-yellow-500 animate-pulse' : 'bg-red-400'}`} />
+                  <span className="text-zinc-600 hidden sm:inline">
+                    {apiStatus === 'connected' ? 'API Conectada' : apiStatus === 'connecting' ? 'Conectando...' : 'API Desconectada'}
+                  </span>
+                </button>
+
                 <div className="hidden lg:flex items-center gap-2">
                   <button className="text-sm font-bold text-zinc-500 hover:text-zinc-900 transition-colors px-3 py-2 rounded-lg" onClick={() => onNavigate('parents')}>Padres</button>
                   <button className="text-sm font-bold text-zinc-500 hover:text-zinc-900 transition-colors px-3 py-2 rounded-lg" onClick={() => onNavigate('profile')}>Perfil</button>
@@ -864,6 +920,13 @@
     const App = () => {
       const [view, setView] = useState('landing');
       const [params, setParams] = useState({});
+      
+      // Estado de la API
+      const [apiUrl, setApiUrl] = useState(() => localStorage.getItem('eduplay_api_url') || '');
+      const [inputUrl, setInputUrl] = useState(() => localStorage.getItem('eduplay_api_url') || '');
+      const [apiStatus, setApiStatus] = useState('disconnected'); // 'disconnected' | 'connecting' | 'connected'
+      const [games, setGames] = useState(MOCK_GAMES);
+      const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
       const navigate = (newView, newParams = {}) => {
         setParams(newParams);
@@ -871,9 +934,90 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       };
 
+      // Función para conectar y cargar juegos de la API
+      const loadApiGames = async (urlToTest) => {
+        if (!urlToTest) {
+          setGames(MOCK_GAMES);
+          setApiStatus('disconnected');
+          return false;
+        }
+
+        setApiStatus('connecting');
+        
+        // Limpiar URL y agregar protocolo si falta
+        let cleanUrl = urlToTest.trim();
+        if (!/^https?:\/\//i.test(cleanUrl)) {
+          cleanUrl = 'http://' + cleanUrl;
+        }
+
+        try {
+          // Remover diagonal final si la tiene
+          cleanUrl = cleanUrl.replace(/\/$/, "");
+          
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
+
+          const res = await fetch(`${cleanUrl}/games`, { 
+            mode: 'cors',
+            signal: controller.signal
+          });
+          
+          clearTimeout(timeoutId);
+
+          if (!res.ok) throw new Error("Error en respuesta del servidor");
+          const data = await res.json();
+          
+          // Mapear los datos de la API FastAPI a las propiedades esperadas por PremiumGameCard
+          const apiGamesMapped = data.map(g => {
+            const isRecycling = g.titulo.toLowerCase().includes('recicl') || g.titulo.toLowerCase().includes('crehabitat');
+            return {
+              id: `api-${g.id}`,
+              title: g.titulo,
+              subject: isRecycling ? 'Ecología' : 'Ciencias',
+              level: 'Todas',
+              duration: '5 min',
+              points: 100,
+              color: isRecycling ? 'from-green-500 to-emerald-400' : 'from-red-500 to-orange-400',
+              bg: isRecycling ? 'bg-green-50' : 'bg-red-50',
+              icon: isRecycling ? FlaskConical : Shield,
+              image: g.imagen,
+              description: g.descripcion,
+              isApi: true
+            };
+          });
+
+          setGames([...apiGamesMapped, ...MOCK_GAMES]);
+          setApiStatus('connected');
+          return true;
+        } catch (err) {
+          console.error("Error al conectar con la API:", err);
+          setGames(MOCK_GAMES);
+          setApiStatus('disconnected');
+          return false;
+        }
+      };
+
+      // Intentar cargar al iniciar si hay una URL guardada
+      useEffect(() => {
+        if (apiUrl) {
+          loadApiGames(apiUrl);
+        }
+      }, [apiUrl]);
+
+      const handleTestConnection = async () => {
+        await loadApiGames(inputUrl);
+      };
+
+      const handleSaveSettings = async () => {
+        const success = await loadApiGames(inputUrl);
+        localStorage.setItem('eduplay_api_url', inputUrl.trim());
+        setApiUrl(inputUrl.trim());
+        setIsSettingsOpen(false);
+      };
+
       const views = {
-        landing: <Landing onNavigate={navigate} />,
-        catalog: <Catalog onNavigate={navigate} />,
+        landing: <Landing onNavigate={navigate} games={games} />,
+        catalog: <Catalog onNavigate={navigate} games={games} />,
         dashboard: <Dashboard onNavigate={navigate} />,
         game: <QuizGame onNavigate={navigate} gameId={params.gameId} />,
         parents: <ParentsPanel onNavigate={navigate} />,
@@ -882,11 +1026,110 @@
 
       return (
         <div className="w-full min-h-screen relative font-sans text-zinc-900 selection:bg-blue-200">
-          <Navbar currentView={view} onNavigate={navigate} />
+          <Navbar 
+            currentView={view} 
+            onNavigate={navigate} 
+            apiStatus={apiStatus} 
+            onOpenSettings={() => {
+              setInputUrl(apiUrl);
+              setIsSettingsOpen(true);
+            }} 
+          />
+          
           <AnimatePresence mode="wait">
             <motion.div key={view} initial={{ opacity: 0, filter: 'blur(10px)' }} animate={{ opacity: 1, filter: 'blur(0px)' }} exit={{ opacity: 0, filter: 'blur(10px)' }} transition={{ duration: 0.4 }}>
               {views[view]}
             </motion.div>
+          </AnimatePresence>
+
+          {/* Modal de Configuración de API */}
+          <AnimatePresence>
+            {isSettingsOpen && (
+              <motion.div 
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                exit={{ opacity: 0 }} 
+                className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md"
+                style={{ zIndex: 100 }}
+              >
+                <motion.div 
+                  initial={{ scale: 0.95, y: 20 }} 
+                  animate={{ scale: 1, y: 0 }} 
+                  exit={{ scale: 0.95, y: 20 }}
+                  transition={{ type: "spring", damping: 25, stiffness: 350 }}
+                  className="bg-white rounded-[2.5rem] border border-zinc-100 p-8 md:p-10 w-full max-w-lg shadow-2xl relative"
+                >
+                  <button 
+                    onClick={() => setIsSettingsOpen(false)} 
+                    className="absolute top-6 right-6 w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-500 flex items-center justify-center transition-colors"
+                  >
+                    <XCircle size={20} />
+                  </button>
+
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                      <Globe size={24} />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-black text-zinc-900">Configuración de API</h3>
+                      <p className="text-sm text-zinc-500 font-medium">Conecta el portal con el servidor FastAPI local</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block text-sm font-bold text-zinc-700 mb-2">URL del Túnel Ngrok / Localhost</label>
+                      <div className="relative">
+                        <input 
+                          type="text" 
+                          value={inputUrl} 
+                          onChange={(e) => setInputUrl(e.target.value)}
+                          placeholder="https://xxxx-xxxx.ngrok-free.app" 
+                          className="w-full px-5 py-4 rounded-2xl border-2 border-zinc-200 focus:border-blue-500 focus:outline-none font-medium transition-colors text-base"
+                        />
+                      </div>
+                      <p className="text-xs text-zinc-400 mt-2 font-medium">Pega la URL pública generada por Ngrok (ej: `ngrok http 8000`).</p>
+                    </div>
+
+                    {/* Detalles de Estado de Conexión */}
+                    <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-100">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-sm font-bold text-zinc-500">Estado de Conexión:</span>
+                        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${apiStatus === 'connected' ? 'bg-green-100 text-green-700' : apiStatus === 'connecting' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>
+                          {apiStatus === 'connected' ? 'Conectado' : apiStatus === 'connecting' ? 'Probando...' : 'Desconectado'}
+                        </span>
+                      </div>
+                      <p className="text-xs text-zinc-500 leading-relaxed font-medium">
+                        {apiStatus === 'connected' 
+                          ? '¡Excelente! Los juegos de la API han sido cargados e integrados al catálogo con éxito.' 
+                          : apiStatus === 'connecting' 
+                          ? 'Intentando contactar al servidor...' 
+                          : 'Utilizando juegos locales (MOCK_GAMES) como respaldo por defecto.'}
+                      </p>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <Button 
+                        variant="secondary" 
+                        onClick={handleTestConnection}
+                        className="flex-1 py-4"
+                        disabled={apiStatus === 'connecting'}
+                      >
+                        Probar Conexión
+                      </Button>
+                      <Button 
+                        variant="primary" 
+                        onClick={handleSaveSettings}
+                        className="flex-1 py-4 shadow-blue-500/20"
+                        disabled={apiStatus === 'connecting'}
+                      >
+                        Guardar y Cerrar
+                      </Button>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
           </AnimatePresence>
         </div>
       );
