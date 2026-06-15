@@ -1,0 +1,495 @@
+<!DOCTYPE html><html class="light" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>EduPlay UI Kit - Sistema de Diseño</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#23005c",
+                        "on-surface-variant": "#434655",
+                        "on-surface": "#191c1e",
+                        "tertiary-fixed": "#e9ddff",
+                        "tertiary-container": "#8455ef",
+                        "inverse-primary": "#b4c5ff",
+                        "on-secondary": "#ffffff",
+                        "outline": "#737686",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-fixed": "#acedff",
+                        "secondary-container": "#57dffe",
+                        "on-primary-container": "#fefcff",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#5516be",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#dbe1ff",
+                        "surface-container-high": "#e6e8ea",
+                        "primary-container": "#316bf3",
+                        "inverse-on-surface": "#eff1f3",
+                        "secondary-fixed-dim": "#4cd7f6",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#0053db",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface": "#f7f9fb",
+                        "on-primary-fixed": "#00174b",
+                        "on-tertiary-container": "#fffbff",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#004e5c",
+                        "secondary": "#00687a",
+                        "surface-dim": "#d8dadc",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-secondary-fixed": "#001f26",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "tertiary": "#6b38d4",
+                        "on-background": "#191c1e",
+                        "surface-bright": "#f7f9fb",
+                        "outline-variant": "#c3c6d7",
+                        "surface-container": "#eceef0",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#006172",
+                        "inverse-surface": "#2d3133",
+                        "tertiary-fixed-dim": "#d0bcff",
+                        "surface-variant": "#e0e3e5",
+                        "primary": "#0051d5",
+                        "error-container": "#ffdad6",
+                        "background": "#f7f9fb"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "16px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "container-max": "1200px",
+                        "gutter": "24px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "label-lg": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #f7f9fb;
+            color: #191c1e;
+        }
+        .soft-shadow {
+            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        .interactive-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -6px rgba(0, 81, 213, 0.12);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md docked full-width top-0 sticky z-50 shadow-sm">
+<div class="flex justify-between items-center w-full px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">joystick</span>
+<span class="font-display-lg text-headline-md font-bold text-primary">EduPlay</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-primary dark:text-primary-fixed font-bold border-b-2 border-primary py-1 font-label-lg text-label-lg" href="#">Inicio</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary-container transition-colors py-1 font-label-lg text-label-lg" href="#">Juegos</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary-container transition-colors py-1 font-label-lg text-label-lg" href="#">Mi Progreso</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary-container transition-colors py-1 font-label-lg text-label-lg" href="#">Padres</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary-container transition-colors py-1 font-label-lg text-label-lg" href="#">Perfil</a>
+</nav>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-full font-label-lg text-label-lg hover:opacity-90 active:scale-95 transition-all">
+                Jugar Ahora
+            </button>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-desktop py-12">
+<!-- UI KIT Header -->
+<section class="mb-16 text-center">
+<span class="bg-primary-fixed text-on-primary-fixed px-4 py-1 rounded-full text-label-sm font-label-sm mb-4 inline-block">SISTEMA DE DISEÑO V2.0</span>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-4">Librería de Componentes EduPlay</h1>
+<p class="text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                Una guía exhaustiva de los elementos visuales que componen la experiencia gamificada de EduPlay.
+            </p>
+</section>
+<!-- Bento Grid for Component Categories -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- BUTTON SYSTEM -->
+<section class="md:col-span-6 lg:col-span-7 bg-white p-8 rounded-xl soft-shadow">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-lg">touch_app</span>
+<h2 class="font-headline-md text-headline-md">Sistema de Botones</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+<div class="space-y-4">
+<p class="text-label-sm text-outline uppercase tracking-wider">Principales &amp; CTAs</p>
+<div class="flex flex-col gap-3">
+<button class="bg-primary text-on-primary px-6 py-3 rounded-xl font-label-lg text-label-lg flex items-center justify-center gap-2 hover:shadow-lg transition-all">
+<span class="material-symbols-outlined">rocket_launch</span>
+                                Cyan Tech Primary
+                            </button>
+<button class="bg-tertiary-container text-on-tertiary-container px-6 py-4 rounded-xl font-headline-md text-headline-md flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined">play_circle</span>
+                                Naranja Energía (CTA)
+                            </button>
+</div>
+</div>
+<div class="space-y-4">
+<p class="text-label-sm text-outline uppercase tracking-wider">Utilidades &amp; Ghost</p>
+<div class="flex flex-col gap-3">
+<button class="border-2 border-primary text-primary px-6 py-3 rounded-xl font-label-lg text-label-lg hover:bg-primary/5 transition-colors">
+                                Botón Outline
+                            </button>
+<button class="text-secondary font-label-lg text-label-lg px-6 py-3 rounded-xl hover:bg-secondary-fixed/20 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">visibility</span>
+                                Botón Ghost
+                            </button>
+<button class="bg-surface-container-highest text-on-surface-variant px-6 py-3 rounded-xl font-label-lg text-label-lg cursor-not-allowed opacity-50">
+                                Deshabilitado
+                            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- PROGRESS & ACHIEVEMENTS -->
+<section class="md:col-span-6 lg:col-span-5 bg-white p-8 rounded-xl soft-shadow">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-secondary bg-secondary-fixed p-2 rounded-lg">leaderboard</span>
+<h2 class="font-headline-md text-headline-md">Progreso y Logros</h2>
+</div>
+<div class="space-y-8">
+<!-- Progress bars -->
+<div class="space-y-3">
+<div class="flex justify-between items-end">
+<span class="text-label-lg font-label-lg">Nivel 14 - Explorador Espacial</span>
+<span class="text-label-sm font-label-sm text-primary">85%</span>
+</div>
+<div class="h-3 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: 85%"></div>
+</div>
+</div>
+<!-- Circular progress & Badge -->
+<div class="flex items-center justify-around bg-surface p-4 rounded-xl">
+<div class="relative w-20 h-20 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-highest" cx="40" cy="40" fill="transparent" r="36" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-tertiary-container" cx="40" cy="40" fill="transparent" r="36" stroke="currentColor" stroke-dasharray="226.2" stroke-dashoffset="67.8" stroke-width="6"></circle>
+</svg>
+<span class="absolute font-headline-md text-headline-md text-tertiary">70</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-14 h-14 bg-yellow-100 rounded-full flex items-center justify-center mb-2 shadow-inner border-2 border-yellow-200">
+<span class="material-symbols-outlined text-yellow-600 text-3xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<span class="text-label-sm font-label-sm text-center">MVP de Matemáticas</span>
+</div>
+</div>
+</div>
+</section>
+<!-- GAME CARDS PREVIEW -->
+<section class="md:col-span-12 mt-4">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary bg-tertiary-fixed p-2 rounded-lg">grid_view</span>
+<h2 class="font-headline-md text-headline-md">Tarjetas de Juego (Lobby)</h2>
+</div>
+<a class="text-primary font-label-lg text-label-lg flex items-center gap-1 hover:underline" href="#">Ver todas <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<div class="bg-white rounded-xl overflow-hidden soft-shadow interactive-card transition-all">
+<div class="aspect-[1.78] relative overflow-hidden">
+<img alt="Aventura Matemática" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLtmmWvIIRK9YNSreyMbCNK_jOpuaCyLSPPCcWZAVei2Wjce8tCf9yogDgzxrGR5k4CnDPSN_MEmG6l3vAjIWgH0cg1sI2RTO3hr9Oi-D_57ida8DLag3Iw5VmmYwRFARcNbxuOdt8T61uG8DuSfqfh9Ai401RkzMHGq0JF4x1GSueVBj9fPcP92K4sZiTah1oOEWY2T0ut5MO58r05endSaatEeiXtGS0D3XRwY4xSNDmMxv_BEnkCvWrUg">
+<div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-sm">bolt</span>
+<span class="text-label-sm font-label-sm text-on-surface">Matemáticas</span>
+</div>
+<div class="absolute top-3 right-3 bg-surface-container-lowest shadow px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-yellow-500 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm font-label-sm">150</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="font-headline-md text-headline-md mb-2">Aventura Matemática</h3>
+<p class="text-on-surface-variant text-body-md mb-4 line-clamp-2">Resuelve acertijos matemáticos y sube de nivel entrenando tu cerebro en entornos 3D.</p>
+<div class="flex items-center justify-between">
+<div class="flex gap-4">
+<div class="flex items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-lg">person</span>
+<span class="text-label-sm">8-10</span>
+</div>
+<div class="flex items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-lg">schedule</span>
+<span class="text-label-sm">10 min</span>
+</div>
+</div>
+<button class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white rounded-xl overflow-hidden soft-shadow interactive-card transition-all">
+<div class="aspect-[1.78] relative overflow-hidden">
+<img alt="Memoria Espacial" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLvGOLjLmwLvd579An9r0MKMDSA0zUu9oIH29JPBE07UPDVSU2fif99lz_pZ3ymFNE9fX95nQAiDlbUB8jphbATMppudWf662b6kpfj7RlksQ7IfHjPJCkOWXIYjXXVsERe0-0rjaDTEXlIZNq1mQ0Vuij_IDemDlBOaBZc1ds3C79O9EjfMrfnSQ1wpZylTrFb5499r2614QS03prXjRzS0fwEi7KxCZatwEltYGv9zSoTPc2Z563p-sbk2">
+<div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-tertiary text-sm">psychology</span>
+<span class="text-label-sm font-label-sm text-on-surface">Memoria</span>
+</div>
+<div class="absolute top-3 right-3 bg-surface-container-lowest shadow px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-yellow-500 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm font-label-sm">100</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="font-headline-md text-headline-md mb-2">Memoria Espacial</h3>
+<p class="text-on-surface-variant text-body-md mb-4 line-clamp-2">Pon a prueba tu retención visual y memoriza los patrones en el espacio profundo.</p>
+<div class="flex items-center justify-between">
+<div class="flex gap-4">
+<div class="flex items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-lg">person</span>
+<span class="text-label-sm">5-7</span>
+</div>
+<div class="flex items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-lg">schedule</span>
+<span class="text-label-sm">5 min</span>
+</div>
+</div>
+<button class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white rounded-xl overflow-hidden soft-shadow interactive-card transition-all">
+<div class="aspect-[1.78] relative overflow-hidden">
+<img alt="Laboratorio Químico" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLsmC2PtMOZwbfjiD9ca4eXcOLyeqOlvqUpQeXKPZpbfJnlD0GAY_ZcJ9Di1WV2oXUOA0xIedrTuzpW1Zu5k8kWYA7pcOgGI02dzszPh4mnqq45W2R1bKuEZrBY9DaX4KrDeGZuCTlhOuvlDjKacneLQcVSEN-ZcKNV9C4WOPeLLleghJ40ud4oHmtTlcucZIhttaYRcU6mTGtrWmNTToia43ekBaB0BYhONZoKVUsLBIklyLw1rwWumd-k">
+<div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary text-sm">science</span>
+<span class="text-label-sm font-label-sm text-on-surface">Ciencias</span>
+</div>
+<div class="absolute top-3 right-3 bg-surface-container-lowest shadow px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-yellow-500 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm font-label-sm">200</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="font-headline-md text-headline-md mb-2">Laboratorio Químico</h3>
+<p class="text-on-surface-variant text-body-md mb-4 line-clamp-2">Combina elementos y experimenta en nuestro laboratorio virtual interactivo.</p>
+<div class="flex items-center justify-between">
+<div class="flex gap-4">
+<div class="flex items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-lg">person</span>
+<span class="text-label-sm">11-13</span>
+</div>
+<div class="flex items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-lg">schedule</span>
+<span class="text-label-sm">15 min</span>
+</div>
+</div>
+<button class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FORM ELEMENTS & INTERACTION -->
+<section class="md:col-span-12 lg:col-span-8 bg-white p-8 rounded-xl soft-shadow mt-4">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-secondary bg-secondary-fixed p-2 rounded-lg">input</span>
+<h2 class="font-headline-md text-headline-md">Elementos de Formulario</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Search & Inputs -->
+<div class="space-y-6">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-low border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary transition-all outline-none" placeholder="Buscar nuevos retos..." type="text">
+</div>
+<div class="space-y-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant ml-1">Nombre del Avatar</label>
+<input class="w-full px-4 py-3 bg-white border border-outline-variant rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" type="text" value="SuperPanda99">
+</div>
+</div>
+<!-- Toggles & States -->
+<div class="space-y-6">
+<div class="flex items-center justify-between p-4 bg-surface rounded-xl">
+<span class="text-label-lg font-label-lg">Notificaciones de Sonido</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox">
+<div class="w-12 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 bg-surface-container p-3 rounded-xl border-2 border-primary flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">light_mode</span>
+<span class="text-label-sm font-label-sm">Claro</span>
+</button>
+<button class="flex-1 bg-surface-container p-3 rounded-xl border-2 border-transparent flex items-center justify-center gap-2 opacity-50">
+<span class="material-symbols-outlined text-outline">dark_mode</span>
+<span class="text-label-sm font-label-sm">Oscuro</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- NAVIGATION SNIPPET -->
+<section class="md:col-span-12 lg:col-span-4 bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/30 mt-4">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-on-surface-variant">menu</span>
+<h2 class="font-headline-md text-headline-md">Navegación Sidebar</h2>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-4 px-4 py-3 bg-primary-container text-on-primary-container rounded-xl font-label-lg text-label-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                        Dashboard
+                    </div>
+<div class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors rounded-xl font-label-lg text-label-lg">
+<span class="material-symbols-outlined">sports_esports</span>
+                        Biblioteca de Juegos
+                    </div>
+<div class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors rounded-xl font-label-lg text-label-lg">
+<span class="material-symbols-outlined">trending_up</span>
+                        Estadísticas
+                        <span class="ml-auto bg-error text-white text-[10px] px-2 py-0.5 rounded-full">NUEVO</span>
+</div>
+<div class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-colors rounded-xl font-label-lg text-label-lg">
+<span class="material-symbols-outlined">settings</span>
+                        Configuración
+                    </div>
+</div>
+</section>
+</div>
+</main>
+<!-- Global CTA Banner (Glassmorphism effect) -->
+<section class="max-w-container-max mx-auto px-margin-desktop my-16">
+<div class="relative rounded-[2rem] overflow-hidden p-12 text-white">
+<div class="absolute inset-0 bg-gradient-to-br from-primary to-tertiary-container z-0"></div>
+<div class="absolute top-0 right-0 p-8 opacity-20 pointer-events-none">
+<span class="material-symbols-outlined text-[12rem]">school</span>
+</div>
+<div class="relative z-10 max-w-2xl">
+<h2 class="font-display-lg text-headline-lg mb-6">¿Preparado para transformar el aprendizaje?</h2>
+<p class="text-body-lg mb-8 opacity-90">Únete a miles de padres y educadores que ya están gamificando la educación con EduPlay.</p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-white text-primary px-8 py-4 rounded-full font-headline-md text-headline-md shadow-xl hover:scale-105 transition-transform">
+                        Crear Cuenta Gratis
+                    </button>
+<button class="bg-white/20 backdrop-blur-md text-white border border-white/30 px-8 py-4 rounded-full font-headline-md text-headline-md hover:bg-white/30 transition-all">
+                        Agendar Demo
+                    </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-low border-t border-outline-variant full-width bottom-0">
+<div class="flex flex-col md:flex-row justify-between items-start w-full px-margin-desktop py-12 max-w-container-max mx-auto font-body-md text-body-md">
+<div class="mb-8 md:mb-0">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">joystick</span>
+<span class="font-display-lg text-headline-md font-bold text-primary">EduPlay</span>
+</div>
+<p class="text-on-surface-variant max-w-xs">El portal donde la educación y la diversión convergen para crear la mejor experiencia de aprendizaje.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-12">
+<div class="flex flex-col gap-4">
+<h4 class="font-bold text-on-surface uppercase text-label-sm tracking-widest">Plataforma</h4>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Juegos</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Padres</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Precios</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-bold text-on-surface uppercase text-label-sm tracking-widest">Legal</h4>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Privacidad</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Términos</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Cookies</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-bold text-on-surface uppercase text-label-sm tracking-widest">Contacto</h4>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Soporte</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Ventas</a>
+<div class="flex gap-3 mt-2">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">public</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">mail</span>
+</div>
+</div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-desktop py-6 flex flex-col md:flex-row justify-between border-t border-outline-variant/30 text-on-surface-variant/70 text-label-sm">
+<p>© 2026 EduPlay Inc. Todos los derechos reservados.</p>
+<div class="flex gap-4 mt-2 md:mt-0">
+<span>Versión: 2.4.0-build</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500"></span> Sistemas Operativos</span>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+                button.style.opacity = '0.8';
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+                button.style.opacity = '1';
+            });
+            button.addEventListener('mouseleave', () => {
+                button.classList.remove('scale-95');
+                button.style.opacity = '1';
+            });
+        });
+
+        // Skeleton loader simulation for image transition
+        document.querySelectorAll('img').forEach(img => {
+            img.classList.add('transition-opacity', 'duration-500', 'opacity-0');
+            img.onload = () => {
+                img.classList.remove('opacity-0');
+                img.classList.add('opacity-100');
+            };
+        });
+    </script>
+</body></html>

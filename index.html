@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EduPlay - Portal Educativo Gamificado</title>
   
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -13,7 +18,8 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Söhne', 'Avenir Next', 'system-ui', 'sans-serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
           },
           animation: {
             'appear': 'appear 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
@@ -97,7 +103,7 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
     const { motion, AnimatePresence, useMotionValue, useTransform, useSpring } = window.Motion;
-    const { ChevronRight, Star, Play, Award, Zap, BookOpen, FlaskConical, Trophy, User, ArrowRight, CheckCircle2, XCircle, Gamepad2, Brain, Compass, Users, Sparkles, Code, Globe, Shield } = window.LucideReact;
+    const { ChevronRight, Star, Play, Award, Zap, BookOpen, FlaskConical, Trophy, User, ArrowRight, CheckCircle2, XCircle, Gamepad2, Brain, Compass, Users, Sparkles, Code, Globe, Shield, Lock } = window.LucideReact;
 
     // --- MOCK DATA ---
     const MOCK_USER = {
@@ -118,10 +124,11 @@
     const MOCK_GAMES = [
       { id: "g1", title: "Aventura Matemática", subject: "Matemáticas", level: "8-10", duration: "10 min", points: 150, color: "from-blue-500 to-cyan-400", bg: "bg-blue-50", icon: Zap, image: "g1", description: "Resuelve acertijos matemáticos y sube de nivel entrenando tu cerebro." },
       { id: "g2", title: "Memoria Espacial", subject: "Memoria", level: "5-7", duration: "5 min", points: 100, color: "from-purple-500 to-pink-400", bg: "bg-purple-50", icon: Brain, image: "g2", description: "Pon a prueba tu retención visual y memoriza los patrones en el espacio." },
-      { id: "g3", title: "Laboratorio Químico", subject: "Ciencias", level: "11-13", duration: "15 min", points: 200, color: "from-green-500 to-emerald-400", bg: "bg-green-50", icon: FlaskConical, image: "g3", description: "Combina elementos y experimenta en nuestro laboratorio virtual interactivo." },
-      { id: "g4", title: "Lógica de Bloques", subject: "Programación", level: "11-13", duration: "20 min", points: 250, color: "from-orange-500 to-yellow-400", bg: "bg-orange-50", icon: Code, image: "g4", description: "Aprende las bases de la programación ordenando bloques de código lógico." },
+      { id: "g3", title: "Laboratorio Químico", subject: "Ciencias", level: "11-13", duration: "15 min", points: 200, color: "from-green-500 to-emerald-400", bg: "bg-green-50", icon: FlaskConical, image: "g3", description: "Combina elementos y experimenta en nuestro laboratorio virtual interactivo.", locked: true },
+      { id: "g4", title: "Lógica de Bloques", subject: "Programación", level: "11-13", duration: "20 min", points: 250, color: "from-orange-500 to-yellow-400", bg: "bg-orange-50", icon: Code, image: "g4", description: "Aprende las bases de la programación ordenando bloques de código lógico.", locked: true },
       { id: "g5", title: "Palabras Mágicas", subject: "Lectura", level: "5-7", duration: "10 min", points: 120, color: "from-red-500 to-rose-400", bg: "bg-red-50", icon: BookOpen, image: "g5", description: "Completa oraciones y expande tu vocabulario de forma divertida." },
-      { id: "g6", title: "Safari en Inglés", subject: "Inglés", level: "8-10", duration: "15 min", points: 180, color: "from-indigo-500 to-violet-400", bg: "bg-indigo-50", icon: Globe, image: "g6", description: "Explora la sabana y aprende los nombres de los animales en inglés." }
+      { id: "g6", title: "Safari en Inglés", subject: "Inglés", level: "8-10", duration: "15 min", points: 180, color: "from-indigo-500 to-violet-400", bg: "bg-indigo-50", icon: Globe, image: "g6", description: "Explora la sabana y aprende los nombres de los animales en inglés." },
+      { id: "g7", title: "Defensa de la Tierra", subject: "Ecología", level: "8-10", duration: "12 min", points: 160, color: "from-emerald-500 to-teal-400", bg: "bg-emerald-50", icon: Shield, image: "crehabitat_thumb.jpg", description: "Protege los hábitats de la Tierra y aprende a reciclar salvando especies.", locked: true }
     ];
 
     // Mapeo de previsualizaciones (GIFs / Imágenes) optimizados con Play-on-Hover
@@ -217,7 +224,7 @@
       </span>
     );
 
-    const PremiumGameCard = ({ id, title, subject, level, duration, points, color, bg, icon: Icon, image, description, onClick }) => {
+    const PremiumGameCard = ({ id, title, subject, level, duration, points, color, bg, icon: Icon, image, description, locked, onClick }) => {
       const x = useMotionValue(0);
       const y = useMotionValue(0);
       const [isHovered, setIsHovered] = useState(false);
@@ -255,7 +262,7 @@
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           onClick={onClick}
-          className={`relative w-full rounded-[2rem] p-1 cursor-pointer group bg-gradient-to-b from-white to-zinc-50 border border-zinc-200 shadow-sm hover:shadow-2xl transition-shadow duration-500`}
+          className={`relative w-full rounded-[2rem] p-1 cursor-pointer group bg-gradient-to-b from-white to-zinc-50 border border-zinc-200 shadow-sm hover:shadow-2xl transition-shadow duration-500 ${locked ? 'opacity-85' : ''}`}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           
@@ -268,9 +275,16 @@
                 <img 
                   src={finalImageUrl} 
                   alt={title} 
-                  className="w-full h-full object-cover transition-transform duration-700 scale-100 group-hover:scale-105"
+                  className={`w-full h-full object-cover transition-transform duration-700 scale-100 group-hover:scale-105 ${locked ? 'filter grayscale contrast-125 opacity-70' : ''}`}
                   loading="lazy"
                 />
+                {locked && (
+                  <div className="absolute inset-0 bg-zinc-900/60 backdrop-blur-[2px] flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-full bg-white/20 border border-white/30 backdrop-blur-md flex items-center justify-center text-white">
+                      <Lock size={20} />
+                    </div>
+                  </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent pointer-events-none" />
               </div>
             )}
@@ -279,9 +293,15 @@
               <Badge className="bg-zinc-100 text-zinc-700 border border-zinc-200/50 shadow-sm">
                 <Icon size={14} className="opacity-70"/> {subject}
               </Badge>
-              <Badge className="bg-yellow-50 text-yellow-600 border border-yellow-200 shadow-sm">
-                <Star size={14} fill="currentColor" /> {points}
-              </Badge>
+              {locked ? (
+                <Badge className="bg-purple-100 text-purple-700 border border-purple-200 shadow-sm font-bold flex items-center gap-1">
+                  <Lock size={10} /> Próximamente
+                </Badge>
+              ) : (
+                <Badge className="bg-yellow-50 text-yellow-600 border border-yellow-200 shadow-sm">
+                  <Star size={14} fill="currentColor" /> {points}
+                </Badge>
+              )}
             </div>
             
             <div className="flex-grow relative z-20" style={{ transform: "translateZ(40px)" }}>
@@ -301,9 +321,15 @@
                   <img key={i} src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i+title}&backgroundColor=e2e8f0`} className="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt="player" />
                 ))}
               </div>
-              <div className="w-12 h-12 rounded-full bg-zinc-900 text-white flex items-center justify-center group-hover:bg-blue-600 group-hover:scale-110 transition-all duration-300 shadow-md">
-                <Play size={20} fill="currentColor" className="ml-1"/>
-              </div>
+              {locked ? (
+                <div className="w-12 h-12 rounded-full bg-zinc-100 text-zinc-400 flex items-center justify-center group-hover:bg-zinc-200 transition-all duration-300 shadow-sm">
+                  <Lock size={18}/>
+                </div>
+              ) : (
+                <div className="w-12 h-12 rounded-full bg-zinc-900 text-white flex items-center justify-center group-hover:bg-blue-600 group-hover:scale-110 transition-all duration-300 shadow-md">
+                  <Play size={20} fill="currentColor" className="ml-1"/>
+                </div>
+              )}
             </div>
           </div>
         </motion.div>
@@ -311,240 +337,293 @@
     };
 
     // --- VIEWS ---
-    const Landing = ({ onNavigate, games = [] }) => (
-      <div className="min-h-screen pt-20">
-        <section className="relative overflow-hidden px-4 sm:px-6 lg:px-8 py-20 lg:py-32 max-w-7xl mx-auto flex flex-col items-center text-center">
-          
-          {/* Animated Background Elements */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-blue-400/20 to-purple-400/20 rounded-full blur-[100px] -z-10 animate-pulse-slow" />
-          <motion.div animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }} transition={{ duration: 6, repeat: Infinity }} className="absolute top-20 left-10 lg:left-20 w-16 h-16 bg-blue-100 rounded-2xl rotate-12 blur-[2px] -z-10 flex items-center justify-center text-blue-500"><Gamepad2 size={32}/></motion.div>
-          <motion.div animate={{ y: [0, 30, 0], rotate: [0, -10, 0] }} transition={{ duration: 8, repeat: Infinity }} className="absolute bottom-40 right-10 lg:right-32 w-24 h-24 bg-yellow-100 rounded-full blur-[2px] -z-10 flex items-center justify-center text-yellow-500"><Star size={40} fill="currentColor"/></motion.div>
-          <motion.div animate={{ y: [0, -15, 0], x: [0, 15, 0] }} transition={{ duration: 7, repeat: Infinity }} className="absolute top-40 right-20 w-12 h-12 bg-purple-100 rounded-full blur-[1px] -z-10 flex items-center justify-center text-purple-500"><Brain size={24}/></motion.div>
+    const Landing = ({ onNavigate, onLockClick, games = [] }) => {
+      const [email, setEmail] = useState('');
+      const [status, setStatus] = useState(() => {
+        const saved = localStorage.getItem('eduplay_subscribed_email');
+        return saved ? 'success' : 'idle';
+      });
+      const [loading, setLoading] = useState(false);
 
-          <div className="flex flex-col items-center gap-6 sm:gap-8 z-10 w-full">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-md border border-zinc-200/50 text-zinc-800 font-bold text-sm shadow-sm">
-                <Sparkles size={16} className="text-yellow-500"/> Nueva forma de aprender
-              </span>
-            </motion.div>
-            
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-zinc-900 tracking-tight leading-[1.1] max-w-5xl">
-              Descubre un <span className="gradient-text">universo</span> de conocimiento.
-            </motion.h1>
-            
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-lg sm:text-xl text-zinc-600 max-w-2xl font-medium leading-relaxed">
-              Plataforma premium de aprendizaje gamificado. Retos diarios, medallas y un catálogo infinito para entrenar tu mente de forma interactiva.
-            </motion.p>
-            
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-4">
-              <Button size="lg" onClick={() => onNavigate('catalog')} className="w-full sm:w-auto text-lg px-8 shadow-blue-500/40">Explorar Juegos <ArrowRight size={20}/></Button>
-              <Button variant="secondary" size="lg" onClick={() => onNavigate('dashboard')} className="w-full sm:w-auto text-lg px-8">Ver Dashboard</Button>
-            </motion.div>
-          </div>
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!email) return;
+        setLoading(true);
+        setTimeout(() => {
+          setLoading(false);
+          setStatus('success');
+          localStorage.setItem('eduplay_subscribed_email', email);
+        }, 1200);
+      };
 
-          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5 }} className="w-full max-w-5xl mt-20 relative">
-            <div className="absolute inset-0 bg-gradient-to-t from-[#f8fafc] via-transparent to-transparent z-20 h-full w-full pointer-events-none rounded-t-[2rem]" />
-            <div className="glass-panel p-2 rounded-[2rem] shadow-2xl relative z-10 border border-white/40">
-              <div className="bg-white rounded-[1.5rem] overflow-hidden border border-zinc-100 shadow-inner flex flex-col">
-                {/* Fake Browser Chrome */}
-                <div className="bg-zinc-50 border-b border-zinc-100 px-4 py-3 flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                </div>
-                <div className="p-6 md:p-10 bg-zinc-50 grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="md:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-zinc-100 relative overflow-hidden group hover:border-blue-200 transition-colors">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div className="relative z-10">
-                      <div className="h-4 w-32 bg-zinc-200 rounded-full mb-6"></div>
-                      <div className="space-y-3">
-                        <div className="h-3 w-full bg-zinc-100 rounded-full"></div>
-                        <div className="h-3 w-5/6 bg-zinc-100 rounded-full"></div>
-                        <div className="h-3 w-4/6 bg-zinc-100 rounded-full"></div>
-                      </div>
-                      <div className="mt-8 grid grid-cols-2 gap-4">
-                        <div className="h-24 bg-blue-50 rounded-xl border border-blue-100"></div>
-                        <div className="h-24 bg-purple-50 rounded-xl border border-purple-100"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="bg-white rounded-2xl p-6 shadow-sm border border-zinc-100 flex flex-col items-center justify-center group hover:border-yellow-200 transition-colors relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-b from-yellow-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div className="w-24 h-24 rounded-full border-4 border-yellow-100 flex items-center justify-center mb-4 relative z-10">
-                      <Trophy size={40} className="text-yellow-500 group-hover:scale-110 transition-transform" />
-                    </div>
-                    <div className="h-4 w-24 bg-zinc-200 rounded-full mb-2 relative z-10"></div>
-                    <div className="h-3 w-16 bg-zinc-100 rounded-full relative z-10"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </section>
+      return (
+        <div className="min-h-screen pt-20">
+          <section className="relative overflow-hidden px-4 sm:px-6 lg:px-8 py-20 lg:py-32 max-w-7xl mx-auto flex flex-col items-center text-center">
+            
+            {/* Animated Background Elements */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-blue-400/20 to-purple-400/20 rounded-full blur-[100px] -z-10 animate-pulse-slow" />
+            <motion.div animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }} transition={{ duration: 6, repeat: Infinity }} className="absolute top-20 left-10 lg:left-20 w-16 h-16 bg-blue-100 rounded-2xl rotate-12 blur-[2px] -z-10 flex items-center justify-center text-blue-500"><Gamepad2 size={32}/></motion.div>
+            <motion.div animate={{ y: [0, 30, 0], rotate: [0, -10, 0] }} transition={{ duration: 8, repeat: Infinity }} className="absolute bottom-40 right-10 lg:right-32 w-24 h-24 bg-yellow-100 rounded-full blur-[2px] -z-10 flex items-center justify-center text-yellow-500"><Star size={40} fill="currentColor"/></motion.div>
+            <motion.div animate={{ y: [0, -15, 0], x: [0, 15, 0] }} transition={{ duration: 7, repeat: Infinity }} className="absolute top-40 right-20 w-12 h-12 bg-purple-100 rounded-full blur-[1px] -z-10 flex items-center justify-center text-purple-500"><Brain size={24}/></motion.div>
 
-        {/* Benefits Section */}
-        <section className="py-24 bg-zinc-900 text-white px-6 lg:px-8 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent"></div>
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-20">
-              <h2 className="text-4xl lg:text-5xl font-bold mb-6">Aprendizaje que <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">engancha.</span></h2>
-              <p className="text-zinc-400 max-w-2xl mx-auto text-xl">Diseñado con principios de ciencias cognitivas para mantener la motivación al máximo nivel.</p>
-            </div>
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                { title: "Gamificación Real", desc: "No solo puntos. Una economía de XP real, niveles, rachas y recompensas que importan.", icon: Gamepad2, color: "text-purple-400", bg: "bg-purple-500/10 border-purple-500/20" },
-                { title: "Seguimiento Detallado", desc: "Panel para padres y profesores con métricas de precisión, tiempo y áreas de mejora.", icon: Shield, color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" },
-                { title: "Contenido Premium", desc: "Juegos desarrollados por educadores, abarcando desde matemáticas hasta lógica computacional.", icon: BookOpen, color: "text-green-400", bg: "bg-green-500/10 border-green-500/20" }
-              ].map((b, i) => (
-                <motion.div key={i} whileHover={{ y: -5 }} className={`bg-zinc-800/40 border border-zinc-700/50 p-10 rounded-[2rem] backdrop-blur-sm relative overflow-hidden group`}>
-                  <div className={`absolute top-0 right-0 w-32 h-32 ${b.bg} rounded-full blur-3xl -mr-10 -mt-10 transition-opacity opacity-50 group-hover:opacity-100`}></div>
-                  <div className={`w-14 h-14 rounded-2xl ${b.bg} flex items-center justify-center mb-8`}>
-                    <b.icon size={28} className={b.color}/>
+            <div className="flex flex-col items-center gap-6 sm:gap-8 z-10 w-full">
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-md border border-zinc-200/50 text-zinc-800 font-bold text-sm shadow-sm">
+                  <Sparkles size={16} className="text-yellow-500"/> Nueva forma de aprender
+                </span>
+              </motion.div>
+              
+              <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-zinc-900 tracking-tight leading-[1.1] max-w-5xl">
+                Descubre un <span className="gradient-text">universo</span> de conocimiento.
+              </motion.h1>
+              
+              <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-lg sm:text-xl text-zinc-600 max-w-2xl font-medium leading-relaxed">
+                Plataforma premium de aprendizaje gamificado. Retos diarios, medallas y un catálogo infinito para entrenar tu mente de forma interactiva.
+              </motion.p>
+              
+              {status === 'success' ? (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.95 }} 
+                  animate={{ opacity: 1, scale: 1 }} 
+                  className="bg-green-50 border border-green-200 text-green-800 p-6 rounded-3xl max-w-md w-full shadow-sm text-center z-20"
+                >
+                  <CheckCircle2 className="mx-auto text-green-500 mb-3" size={32} />
+                  <h3 className="font-extrabold text-xl mb-1">¡Suscrito con éxito!</h3>
+                  <p className="text-sm font-medium text-green-700 mb-4">Te enviaremos actualizaciones cuando lancemos más contenido.</p>
+                  <div className="flex gap-3">
+                    <Button size="md" onClick={() => onNavigate('catalog')} className="flex-1 shadow-green-500/10">Probar Juegos Demo <Play size={16} className="ml-1"/></Button>
+                    <Button variant="secondary" size="md" onClick={() => onNavigate('dashboard')} className="flex-1">Dashboard</Button>
                   </div>
-                  <h3 className="text-2xl font-bold mb-4">{b.title}</h3>
-                  <p className="text-zinc-400 text-lg leading-relaxed">{b.desc}</p>
                 </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Categories Section */}
-        <section className="px-6 lg:px-8 py-20 bg-white">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-zinc-900 mb-4">Explora por Categorías</h2>
-              <p className="text-xl text-zinc-600">Aprende lo que más te apasiona.</p>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { name: "Matemáticas", icon: Zap, color: "text-blue-500", bg: "bg-blue-50 hover:bg-blue-100" },
-                { name: "Ciencias", icon: FlaskConical, color: "text-green-500", bg: "bg-green-50 hover:bg-green-100" },
-                { name: "Lectura", icon: BookOpen, color: "text-red-500", bg: "bg-red-50 hover:bg-red-100" },
-                { name: "Lógica", icon: Brain, color: "text-purple-500", bg: "bg-purple-50 hover:bg-purple-100" }
-              ].map((cat, i) => (
-                <div key={i} onClick={() => onNavigate('catalog')} className={`cursor-pointer rounded-[2rem] p-8 text-center transition-colors duration-300 ${cat.bg}`}>
-                  <div className={`w-16 h-16 mx-auto rounded-2xl bg-white flex items-center justify-center mb-4 shadow-sm ${cat.color}`}>
-                    <cat.icon size={32} />
+              ) : (
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} className="w-full max-w-lg mt-4 z-20">
+                  <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full bg-white/70 backdrop-blur-md p-2 rounded-[22px] border border-zinc-200/50 shadow-md">
+                    <input 
+                      type="email" 
+                      required 
+                      placeholder="Correo de papá, mamá o profesor..." 
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="flex-1 bg-transparent px-5 py-3 text-zinc-800 placeholder-zinc-400 font-semibold focus:outline-none text-sm sm:text-base"
+                      disabled={loading}
+                    />
+                    <Button type="submit" disabled={loading} className="py-3 px-6 shadow-blue-500/10 whitespace-nowrap text-sm sm:text-base rounded-2xl">
+                      {loading ? 'Registrando...' : 'Unirse a la lista'}
+                    </Button>
+                  </form>
+                  <div className="flex justify-center gap-6 mt-4">
+                    <button onClick={() => onNavigate('catalog')} className="text-sm font-bold text-zinc-500 hover:text-blue-600 transition-colors flex items-center gap-1.5">
+                      Probar Demo Gratuita (Catálogo) <ArrowRight size={14}/>
+                    </button>
                   </div>
-                  <h3 className="font-bold text-zinc-900">{cat.name}</h3>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Featured Games */}
-        <section className="px-6 lg:px-8 py-32 bg-zinc-50 relative">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-6 text-center md:text-left">
-              <div>
-                <h2 className="text-4xl font-bold text-zinc-900 mb-4">Juegos Destacados</h2>
-                <p className="text-xl text-zinc-600">Empieza tu aventura con los favoritos.</p>
-              </div>
-              <Button variant="secondary" onClick={() => onNavigate('catalog')} className="gap-2">Ver todo el catálogo <ArrowRight size={18}/></Button>
-            </div>
-             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {games.slice(0, 3).map((game, i) => (
-                <motion.div key={game.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                  <PremiumGameCard {...game} onClick={() => onNavigate('game', { gameId: game.id })} />
                 </motion.div>
-              ))}
+              )}
             </div>
-          </div>
-        </section>
 
-        {/* Testimonials */}
-        <section className="py-24 bg-white px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-zinc-900 mb-4">Lo que dicen de nosotros</h2>
-              <p className="text-xl text-zinc-600">Familias y educadores que ya disfrutan EduPlay.</p>
-            </div>
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                { text: "Mi hijo por fin disfruta practicar matemáticas. ¡La gamificación hace toda la diferencia!", author: "María P.", role: "Madre" },
-                { text: "Excelente herramienta para asignar retos adicionales en clase. Muy intuitiva.", author: "Carlos R.", role: "Profesor" },
-                { text: "Me encanta ganar insignias cada vez que completo los retos de ciencia.", author: "Sofi (10 años)", role: "Estudiante" }
-              ].map((test, i) => (
-                <div key={i} className="bg-zinc-50 p-8 rounded-[2rem] border border-zinc-100">
-                  <div className="flex text-yellow-400 mb-4">
-                    {[1,2,3,4,5].map(star => <Star key={star} size={20} fill="currentColor" />)}
+            <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5 }} className="w-full max-w-5xl mt-20 relative">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#f8fafc] via-transparent to-transparent z-20 h-full w-full pointer-events-none rounded-t-[2rem]" />
+              <div className="glass-panel p-2 rounded-[2rem] shadow-2xl relative z-10 border border-white/40">
+                <div className="bg-white rounded-[1.5rem] overflow-hidden border border-zinc-100 shadow-inner flex flex-col">
+                  {/* Fake Browser Chrome */}
+                  <div className="bg-zinc-50 border-b border-zinc-100 px-4 py-3 flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-400"></div>
                   </div>
-                  <p className="text-zinc-700 italic mb-6">"{test.text}"</p>
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center font-bold text-blue-600">{test.author[0]}</div>
-                    <div>
-                      <div className="font-bold text-zinc-900">{test.author}</div>
-                      <div className="text-sm text-zinc-500">{test.role}</div>
+                  <div className="p-6 md:p-10 bg-zinc-50 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="md:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-zinc-100 relative overflow-hidden group hover:border-blue-200 transition-colors">
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                      <div className="relative z-10">
+                        <div className="h-4 w-32 bg-zinc-200 rounded-full mb-6"></div>
+                        <div className="space-y-3">
+                          <div className="h-3 w-full bg-zinc-100 rounded-full"></div>
+                          <div className="h-3 w-5/6 bg-zinc-100 rounded-full"></div>
+                          <div className="h-3 w-4/6 bg-zinc-100 rounded-full"></div>
+                        </div>
+                        <div className="mt-8 grid grid-cols-2 gap-4">
+                          <div className="h-24 bg-blue-50 rounded-xl border border-blue-100"></div>
+                          <div className="h-24 bg-purple-50 rounded-xl border border-purple-100"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-zinc-100 flex flex-col items-center justify-center group hover:border-yellow-200 transition-colors relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-b from-yellow-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                      <div className="w-24 h-24 rounded-full border-4 border-yellow-100 flex items-center justify-center mb-4 relative z-10">
+                        <Trophy size={40} className="text-yellow-500 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <div className="h-4 w-24 bg-zinc-200 rounded-full mb-2 relative z-10"></div>
+                      <div className="h-3 w-16 bg-zinc-100 rounded-full relative z-10"></div>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
+              </div>
+            </motion.div>
+          </section>
 
-        {/* Parents/Teachers CTA */}
-        <section className="py-24 bg-blue-600 px-6 lg:px-8 text-center overflow-hidden relative">
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-          <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-400 rounded-full blur-[80px] opacity-50 mix-blend-screen"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500 rounded-full blur-[80px] opacity-50 mix-blend-screen"></div>
-          
-          <div className="max-w-3xl mx-auto relative z-10 text-white">
-            <Shield size={64} className="mx-auto mb-8 text-blue-200" />
-            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight">¿Eres padre o profesor?</h2>
-            <p className="text-xl text-blue-100 mb-10 leading-relaxed">
-              Descubre nuestro panel de control. Haz seguimiento del progreso, detecta áreas de mejora y asigna retos personalizados en tiempo real.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-zinc-50" onClick={() => onNavigate('parents')}>
-                Ir al Panel de Control <ArrowRight size={20} className="ml-2" />
-              </Button>
+          {/* Benefits Section */}
+          <section className="py-24 bg-zinc-900 text-white px-6 lg:px-8 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent"></div>
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center mb-20">
+                <h2 className="text-4xl lg:text-5xl font-bold mb-6">Aprendizaje que <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">engancha.</span></h2>
+                <p className="text-zinc-400 max-w-2xl mx-auto text-xl">Diseñado con principios de ciencias cognitivas para mantener la motivación al máximo nivel.</p>
+              </div>
+              <div className="grid md:grid-cols-3 gap-8">
+                {[
+                  { title: "Gamificación Real", desc: "No solo puntos. Una economía de XP real, niveles, rachas y recompensas que importan.", icon: Gamepad2, color: "text-purple-400", bg: "bg-purple-500/10 border-purple-500/20" },
+                  { title: "Seguimiento Detallado", desc: "Panel para padres y profesores con métricas de precisión, tiempo y áreas de mejora.", icon: Shield, color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" },
+                  { title: "Contenido Premium", desc: "Juegos desarrollados por educadores, abarcando desde matemáticas hasta lógica computacional.", icon: BookOpen, color: "text-green-400", bg: "bg-green-500/10 border-green-500/20" }
+                ].map((b, i) => (
+                  <motion.div key={i} whileHover={{ y: -5 }} className={`bg-zinc-800/40 border border-zinc-700/50 p-10 rounded-[2rem] backdrop-blur-sm relative overflow-hidden group`}>
+                    <div className={`absolute top-0 right-0 w-32 h-32 ${b.bg} rounded-full blur-3xl -mr-10 -mt-10 transition-opacity opacity-50 group-hover:opacity-100`}></div>
+                    <div className={`w-14 h-14 rounded-2xl ${b.bg} flex items-center justify-center mb-8`}>
+                      <b.icon size={28} className={b.color}/>
+                    </div>
+                    <h3 className="text-2xl font-bold mb-4">{b.title}</h3>
+                    <p className="text-zinc-400 text-lg leading-relaxed">{b.desc}</p>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Footer */}
-        <footer className="bg-white border-t border-zinc-200 pt-20 pb-10 px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-              <div className="col-span-1 md:col-span-2">
-                <div className="flex items-center gap-2 mb-6 text-zinc-900">
-                  <Gamepad2 size={28} className="text-blue-600"/> <span className="font-extrabold text-2xl tracking-tight">EduPlay</span>
+          {/* Categories Section */}
+          <section className="px-6 lg:px-8 py-20 bg-white">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-3xl font-bold text-zinc-900 mb-4">Explora por Categorías</h2>
+                <p className="text-xl text-zinc-600">Aprende lo que más te apasiona.</p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {[
+                  { name: "Matemáticas", icon: Zap, color: "text-blue-500", bg: "bg-blue-50 hover:bg-blue-100" },
+                  { name: "Ciencias", icon: FlaskConical, color: "text-green-500", bg: "bg-green-50 hover:bg-green-100" },
+                  { name: "Lectura", icon: BookOpen, color: "text-red-500", bg: "bg-red-50 hover:bg-red-100" },
+                  { name: "Lógica", icon: Brain, color: "text-purple-500", bg: "bg-purple-50 hover:bg-purple-100" }
+                ].map((cat, i) => (
+                  <div key={i} onClick={() => onNavigate('catalog')} className={`cursor-pointer rounded-[2rem] p-8 text-center transition-colors duration-300 ${cat.bg}`}>
+                    <div className={`w-16 h-16 mx-auto rounded-2xl bg-white flex items-center justify-center mb-4 shadow-sm ${cat.color}`}>
+                      <cat.icon size={32} />
+                    </div>
+                    <h3 className="font-bold text-zinc-900">{cat.name}</h3>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Featured Games */}
+          <section className="px-6 lg:px-8 py-32 bg-zinc-50 relative">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-6 text-center md:text-left">
+                <div>
+                  <h2 className="text-4xl font-bold text-zinc-900 mb-4">Juegos Destacados</h2>
+                  <p className="text-xl text-zinc-600">Empieza tu aventura con los favoritos.</p>
                 </div>
-                <p className="text-zinc-500 text-lg max-w-sm mb-6">El portal donde la educación y la diversión convergen para crear la mejor experiencia de aprendizaje.</p>
+                <Button variant="secondary" onClick={() => onNavigate('catalog')} className="gap-2">Ver todo el catálogo <ArrowRight size={18}/></Button>
               </div>
-              <div>
-                <h4 className="font-bold text-zinc-900 mb-6 uppercase tracking-wider text-sm">Plataforma</h4>
-                <ul className="space-y-4 text-zinc-500 font-medium">
-                  <li><a href="#" className="hover:text-blue-600 transition-colors">Juegos</a></li>
-                  <li><a href="#" className="hover:text-blue-600 transition-colors">Padres</a></li>
-                  <li><a href="#" className="hover:text-blue-600 transition-colors">Precios</a></li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-bold text-zinc-900 mb-6 uppercase tracking-wider text-sm">Legal</h4>
-                <ul className="space-y-4 text-zinc-500 font-medium">
-                  <li><a href="#" className="hover:text-blue-600 transition-colors">Privacidad</a></li>
-                  <li><a href="#" className="hover:text-blue-600 transition-colors">Términos</a></li>
-                  <li><a href="#" className="hover:text-blue-600 transition-colors">Contacto</a></li>
-                </ul>
+               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {games.slice(0, 3).map((game, i) => (
+                  <motion.div key={game.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                    <PremiumGameCard {...game} onClick={() => game.locked ? onLockClick(game) : onNavigate('game', { gameId: game.id })} />
+                  </motion.div>
+                ))}
               </div>
             </div>
-            <div className="border-t border-zinc-100 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-zinc-400 font-medium">
-              <p>© 2026 EduPlay Inc. Todos los derechos reservados.</p>
-              <div className="flex gap-4">
-                {/* Social placeholders */}
-                <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center hover:bg-blue-100 hover:text-blue-600 transition-colors cursor-pointer"><Globe size={18}/></div>
-              </div>
-            </div>
-          </div>
-        </footer>
-      </div>
-    );
+          </section>
 
-    const Catalog = ({ onNavigate, games = [] }) => {
+          {/* Testimonials */}
+          <section className="py-24 bg-white px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold text-zinc-900 mb-4">Lo que dicen de nosotros</h2>
+                <p className="text-xl text-zinc-600">Familias y educadores que ya disfrutan EduPlay.</p>
+              </div>
+              <div className="grid md:grid-cols-3 gap-8">
+                {[
+                  { text: "Mi hijo por fin disfruta practicar matemáticas. ¡La gamificación hace toda la diferencia!", author: "María P.", role: "Madre" },
+                  { text: "Excelente herramienta para asignar retos adicionales en clase. Muy intuitiva.", author: "Carlos R.", role: "Profesor" },
+                  { text: "Me encanta ganar insignias cada vez que completo los retos de ciencia.", author: "Sofi (10 años)", role: "Estudiante" }
+                ].map((test, i) => (
+                  <div key={i} className="bg-zinc-50 p-8 rounded-[2rem] border border-zinc-100">
+                    <div className="flex text-yellow-400 mb-4">
+                      {[1,2,3,4,5].map(star => <Star key={star} size={20} fill="currentColor" />)}
+                    </div>
+                    <p className="text-zinc-700 italic mb-6">"{test.text}"</p>
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center font-bold text-blue-600">{test.author[0]}</div>
+                      <div>
+                        <div className="font-bold text-zinc-900">{test.author}</div>
+                        <div className="text-sm text-zinc-500">{test.role}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Parents/Teachers CTA */}
+          <section className="py-24 bg-blue-600 px-6 lg:px-8 text-center overflow-hidden relative">
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-400 rounded-full blur-[80px] opacity-50 mix-blend-screen"></div>
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500 rounded-full blur-[80px] opacity-50 mix-blend-screen"></div>
+            
+            <div className="max-w-3xl mx-auto relative z-10 text-white">
+              <Shield size={64} className="mx-auto mb-8 text-blue-200" />
+              <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight">¿Eres padre o profesor?</h2>
+              <p className="text-xl text-blue-100 mb-10 leading-relaxed">
+                Descubre nuestro panel de control. Haz seguimiento del progreso, detecta áreas de mejora y asigna retos personalizados en tiempo real.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" className="bg-white text-blue-600 hover:bg-zinc-50" onClick={() => onNavigate('parents')}>
+                  Ir al Panel de Control <ArrowRight size={20} className="ml-2" />
+                </Button>
+              </div>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer className="bg-white border-t border-zinc-200 pt-20 pb-10 px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div className="col-span-1 md:col-span-2">
+                  <div className="flex items-center gap-2 mb-6 text-zinc-900">
+                    <Gamepad2 size={28} className="text-blue-600"/> <span className="font-extrabold text-2xl tracking-tight">EduPlay</span>
+                  </div>
+                  <p className="text-zinc-500 text-lg max-w-sm mb-6">El portal donde la educación y la diversión convergen para crear la mejor experiencia de aprendizaje.</p>
+                </div>
+                <div>
+                  <h4 className="font-bold text-zinc-900 mb-6 uppercase tracking-wider text-sm">Plataforma</h4>
+                  <ul className="space-y-4 text-zinc-500 font-medium">
+                    <li><a href="#" className="hover:text-blue-600 transition-colors">Juegos</a></li>
+                    <li><a href="#" className="hover:text-blue-600 transition-colors">Padres</a></li>
+                    <li><a href="#" className="hover:text-blue-600 transition-colors">Precios</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-bold text-zinc-900 mb-6 uppercase tracking-wider text-sm">Legal</h4>
+                  <ul className="space-y-4 text-zinc-500 font-medium">
+                    <li><a href="#" className="hover:text-blue-600 transition-colors">Privacidad</a></li>
+                    <li><a href="#" className="hover:text-blue-600 transition-colors">Términos</a></li>
+                    <li><a href="#" className="hover:text-blue-600 transition-colors">Contacto</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div className="border-t border-zinc-100 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-zinc-400 font-medium">
+                <p>© 2026 EduPlay Inc. Todos los derechos reservados.</p>
+                <div className="flex gap-4">
+                  {/* Social placeholders */}
+                  <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center hover:bg-blue-100 hover:text-blue-600 transition-colors cursor-pointer"><Globe size={18}/></div>
+                </div>
+              </div>
+            </div>
+          </footer>
+        </div>
+      );
+    };
+
+    const Catalog = ({ onNavigate, onLockClick, games = [] }) => {
       const [filter, setFilter] = useState('Todos');
       const subjects = ['Todos', 'Matemáticas', 'Ciencias', 'Lectura', 'Programación', 'Ecología'];
       const filtered = filter === 'Todos' 
@@ -572,7 +651,7 @@
               <AnimatePresence mode="popLayout">
                 {filtered.map((game) => (
                   <motion.div key={game.id} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.3 }}>
-                    <PremiumGameCard {...game} onClick={() => onNavigate('game', { gameId: game.id })} />
+                    <PremiumGameCard {...game} onClick={() => game.locked ? onLockClick(game) : onNavigate('game', { gameId: game.id })} />
                   </motion.div>
                 ))}
               </AnimatePresence>
@@ -582,8 +661,8 @@
       );
     };
 
-    const Dashboard = ({ onNavigate }) => {
-      const progressPct = (MOCK_USER.xp / MOCK_USER.nextLevelXp) * 100;
+    const Dashboard = ({ onNavigate, user }) => {
+      const progressPct = (user.xp / user.nextLevelXp) * 100;
       return (
         <div className="min-h-screen pt-32 pb-20 px-6 lg:px-8 bg-zinc-50/50">
           <div className="max-w-7xl mx-auto space-y-8">
@@ -592,12 +671,12 @@
               
               <div className="flex items-center gap-8 relative z-10">
                 <div className="relative group">
-                  <img src={MOCK_USER.avatar} alt="Avatar" className="w-28 h-28 rounded-full bg-orange-100 border-4 border-white shadow-xl group-hover:scale-105 transition-transform" />
-                  <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-bold px-4 py-1.5 rounded-full border-2 border-white shadow-lg">Lvl {MOCK_USER.level}</div>
+                  <img src={user.avatar} alt="Avatar" className="w-28 h-28 rounded-full bg-orange-100 border-4 border-white shadow-xl group-hover:scale-105 transition-transform" />
+                  <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-bold px-4 py-1.5 rounded-full border-2 border-white shadow-lg">Lvl {user.level}</div>
                 </div>
                 <div>
-                  <h1 className="text-4xl font-black text-zinc-900 mb-2">¡Hola, {MOCK_USER.name}!</h1>
-                  <p className="text-zinc-500 font-medium text-lg">Estás a <strong className="text-zinc-900">{MOCK_USER.nextLevelXp - MOCK_USER.xp} XP</strong> del nivel {MOCK_USER.level + 1}</p>
+                  <h1 className="text-4xl font-black text-zinc-900 mb-2">¡Hola, {user.name}!</h1>
+                  <p className="text-zinc-500 font-medium text-lg">Estás a <strong className="text-zinc-900">{user.nextLevelXp - user.xp} XP</strong> del nivel {user.level + 1}</p>
                 </div>
               </div>
               
@@ -606,14 +685,14 @@
                   <div className="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mb-3">
                     <Zap className="text-yellow-500" size={24}/>
                   </div>
-                  <span className="text-3xl font-black text-zinc-900 mb-1">{MOCK_USER.streak}</span>
+                  <span className="text-3xl font-black text-zinc-900 mb-1">{user.streak}</span>
                   <span className="text-xs text-zinc-500 font-bold uppercase tracking-wider">Días seguidos</span>
                 </div>
                 <div className="bg-white px-8 py-6 rounded-[1.5rem] border border-zinc-100 shadow-sm flex flex-col items-center min-w-[140px] hover:shadow-md transition-shadow">
                   <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-3">
                     <Star className="text-blue-500" size={24}/>
                   </div>
-                  <span className="text-3xl font-black text-zinc-900 mb-1">{MOCK_USER.xp}</span>
+                  <span className="text-3xl font-black text-zinc-900 mb-1">{user.xp}</span>
                   <span className="text-xs text-zinc-500 font-bold uppercase tracking-wider">XP Total</span>
                 </div>
               </div>
@@ -629,8 +708,8 @@
                     </motion.div>
                   </div>
                   <div className="flex justify-between text-base font-bold text-zinc-500">
-                    <span>Lvl {MOCK_USER.level} <span className="text-zinc-400 font-medium">({MOCK_USER.xp} XP)</span></span>
-                    <span>Lvl {MOCK_USER.level + 1} <span className="text-zinc-400 font-medium">({MOCK_USER.nextLevelXp} XP)</span></span>
+                    <span>Lvl {user.level} <span className="text-zinc-400 font-medium">({user.xp} XP)</span></span>
+                    <span>Lvl {user.level + 1} <span className="text-zinc-400 font-medium">({user.nextLevelXp} XP)</span></span>
                   </div>
                 </div>
                 
@@ -663,20 +742,41 @@
                 <div className="bg-white p-10 rounded-[2rem] border border-zinc-100 shadow-sm">
                   <h3 className="text-2xl font-bold text-zinc-900 mb-8">Tus Insignias</h3>
                   <div className="grid grid-cols-2 gap-4">
-                    {MOCK_USER.badges.map(b => (
-                      <div key={b.id} className={`flex flex-col items-center text-center p-6 rounded-2xl ${b.bg} border border-white/50 shadow-sm hover:-translate-y-1 transition-transform cursor-pointer`}>
-                        <div className={`w-14 h-14 rounded-full bg-white flex items-center justify-center mb-4 shadow-sm ${b.color}`}>
-                          <b.icon size={28} />
+                    {user.badges && user.badges.map(b => {
+                      // Lookup static icon from dynamic name/id to render SVG cleanly
+                      const BadgeIcon = b.name.includes("Matem") ? Zap : b.name.includes("Lector") ? BookOpen : b.name.includes("Cient") ? FlaskConical : b.name.includes("Aprendiz") ? Award : Trophy;
+                      return (
+                        <div key={b.id} className={`flex flex-col items-center text-center p-6 rounded-2xl ${b.bg} border border-white/50 shadow-sm hover:-translate-y-1 transition-transform cursor-pointer`}>
+                          <div className={`w-14 h-14 rounded-full bg-white flex items-center justify-center mb-4 shadow-sm ${b.color}`}>
+                            <BadgeIcon size={28} />
+                          </div>
+                          <span className="text-sm font-bold text-zinc-900 leading-tight">{b.name}</span>
                         </div>
-                        <span className="text-sm font-bold text-zinc-900 leading-tight">{b.name}</span>
-                      </div>
-                    ))}
+                      );
+                    })}
                     <div className="flex flex-col items-center justify-center text-center p-6 rounded-2xl border-2 border-dashed border-zinc-200 text-zinc-400">
                       <div className="w-14 h-14 rounded-full bg-zinc-50 flex items-center justify-center mb-4"><Trophy size={24} /></div>
                       <span className="text-sm font-bold">Bloqueado</span>
                     </div>
                   </div>
                 </div>
+
+                {/* Torneos Semanales Bloqueados (Coming Soon Hook) */}
+                <div className="bg-white p-10 rounded-[2rem] border border-zinc-100 shadow-sm relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-zinc-50/20 backdrop-blur-[1px] z-20 flex flex-col items-center justify-center text-center p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="px-4 py-1.5 bg-yellow-100 text-yellow-800 font-black text-xs rounded-full uppercase tracking-wider mb-2">Próximamente</div>
+                    <p className="text-xs text-zinc-500 font-bold">¡Desafía a otros niños en vivo!</p>
+                  </div>
+                  <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-2xl font-bold text-zinc-900 flex items-center gap-2">
+                      <Trophy className="text-yellow-500" size={24}/> Torneos en Vivo
+                    </h3>
+                    <span className="text-xs bg-zinc-100 text-zinc-400 font-bold px-3 py-1 rounded-full uppercase">Bloqueado</span>
+                  </div>
+                  <p className="text-zinc-500 text-sm leading-relaxed mb-4">Competencias de matemáticas y ciencias los fines de semana. Gana premios exclusivos.</p>
+                  <div className="w-full h-1 bg-zinc-100 rounded-full"></div>
+                </div>
+
                 <Button variant="primary" className="w-full py-6 text-xl shadow-xl shadow-blue-500/30 rounded-[1.5rem]" onClick={() => onNavigate('catalog')}>
                   ¡Seguir Jugando!
                 </Button>
@@ -687,11 +787,19 @@
       );
     };
 
-    const QuizGame = ({ onNavigate }) => {
+    const QuizGame = ({ onNavigate, onAddXp }) => {
       const [currentQ, setCurrentQ] = useState(0);
       const [selected, setSelected] = useState(null);
       const [status, setStatus] = useState('idle');
       const [score, setScore] = useState(0);
+      const [xpAdded, setXpAdded] = useState(false);
+
+      useEffect(() => {
+        if (status === 'finished' && score > 0 && !xpAdded) {
+          onAddXp(score);
+          setXpAdded(true);
+        }
+      }, [status, score, xpAdded, onAddXp]);
 
       const q = MOCK_QUIZ.questions[currentQ];
 
@@ -822,7 +930,7 @@
             </div>
             
             <h3 className="text-2xl font-bold text-zinc-900 mb-6">Progreso de Estudiantes</h3>
-            <div className="bg-white rounded-[2rem] shadow-sm border border-zinc-100 overflow-hidden">
+            <div className="bg-white rounded-[2rem] shadow-sm border border-zinc-100 overflow-hidden mb-12">
               <div className="divide-y divide-zinc-100">
                 {students.map((student, i) => (
                   <div key={i} className="p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:bg-zinc-50/50 transition-colors">
@@ -844,45 +952,166 @@
                 ))}
               </div>
             </div>
+
+            {/* Reportes Premium Proximamente */}
+            <div className="bg-white rounded-[2.5rem] border border-zinc-200/60 p-8 md:p-10 relative overflow-hidden shadow-sm">
+              {/* Blur Overlay */}
+              <div className="absolute inset-0 bg-zinc-50/40 backdrop-blur-md z-20 flex flex-col items-center justify-center text-center p-6">
+                <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 mb-4 shadow-sm">
+                  <Award size={28} />
+                </div>
+                <h4 className="text-2xl font-black text-zinc-900 mb-2">Reportes de Rendimiento Avanzados</h4>
+                <p className="text-zinc-500 text-sm max-w-sm font-medium mb-6">Gráficos de progreso semanal, análisis de fortalezas y sugerencias personalizadas por IA.</p>
+                <div className="px-4 py-2 bg-blue-100 text-blue-700 font-bold text-xs rounded-full uppercase tracking-wider animate-pulse-slow mb-4">
+                  Próximamente en EduPlay Pro
+                </div>
+              </div>
+              
+              {/* Fake Background Content to look good behind blur */}
+              <div className="opacity-20 select-none pointer-events-none space-y-6">
+                <div className="h-6 w-48 bg-zinc-200 rounded"></div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="h-28 bg-zinc-100 rounded-xl"></div>
+                  <div className="h-28 bg-zinc-100 rounded-xl"></div>
+                </div>
+                <div className="h-40 bg-zinc-100 rounded-xl"></div>
+              </div>
+            </div>
           </div>
         </div>
       );
     };
 
-    const ProfilePanel = ({ onNavigate }) => {
+    const ProfilePanel = ({ onNavigate, user, onSaveUser }) => {
+      const [isEditing, setIsEditing] = useState(false);
+      const [name, setName] = useState(user.name);
+      const [avatarSeed, setAvatarSeed] = useState(() => {
+        const match = user.avatar.match(/seed=([^&]+)/);
+        return match ? match[1] : user.name;
+      });
+      const [avatarBg, setAvatarBg] = useState(() => {
+        const match = user.avatar.match(/backgroundColor=([^&]+)/);
+        return match ? match[1] : 'ffdfbf';
+      });
+
+      const PRESET_BG = [
+        { label: "Naranja", value: "ffdfbf", color: "bg-[#ffdfbf]" },
+        { label: "Celeste", value: "b6e3f4", color: "bg-[#b6e3f4]" },
+        { label: "Morado", value: "c0aede", color: "bg-[#c0aede]" },
+        { label: "Cian", value: "d1f4ff", color: "bg-[#d1f4ff]" },
+        { label: "Rosado", value: "ffd5dc", color: "bg-[#ffd5dc]" }
+      ];
+
+      const previewAvatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${avatarSeed}&backgroundColor=${avatarBg}`;
+
+      const handleRandomize = () => {
+        const randomWords = ["Leo", "Mia", "Paco", "Lola", "Gatito", "Panda", "Zorro", "Sparky", "Nacho", "Sofi", "Max", "Luna", "Astro", "Rayo", "Coco"];
+        const random = randomWords[Math.floor(Math.random() * randomWords.length)] + Math.floor(Math.random() * 100);
+        setAvatarSeed(random);
+      };
+
+      const handleSave = () => {
+        onSaveUser({
+          ...user,
+          name: name.trim() || user.name,
+          avatar: previewAvatar
+        });
+        setIsEditing(false);
+      };
+
       return (
         <div className="min-h-screen pt-32 px-6 lg:px-8 bg-zinc-50 pb-20">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white p-10 rounded-[3rem] shadow-sm border border-zinc-100 flex flex-col md:flex-row items-center gap-10 mb-12 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-bl from-blue-500/10 to-purple-500/10 rounded-full blur-[80px] -z-0 pointer-events-none"></div>
-              <div className="relative z-10 w-40 h-40 bg-orange-100 rounded-[2.5rem] border-[6px] border-white shadow-xl overflow-hidden flex-shrink-0 rotate-3">
-                <img src={MOCK_USER.avatar} alt="Avatar" className="w-full h-full object-cover" />
-              </div>
-              <div className="relative z-10 flex-grow text-center md:text-left">
-                <h2 className="text-5xl font-black text-zinc-900 mb-4 tracking-tight">{MOCK_USER.name}</h2>
-                <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-6">
-                  <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-100 text-yellow-700 font-bold text-sm border border-yellow-200"><Trophy size={18}/> Nivel {MOCK_USER.level}</span>
-                  <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-bold text-sm border border-blue-200"><Star size={18}/> {MOCK_USER.xp} XP</span>
-                  <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100 text-orange-700 font-bold text-sm border border-orange-200"><Zap size={18}/> Racha {MOCK_USER.streak} días</span>
+            {isEditing ? (
+              <div className="bg-white p-10 rounded-[3rem] shadow-sm border border-zinc-100 flex flex-col md:flex-row gap-10 mb-12 relative overflow-hidden w-full">
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-bl from-blue-500/10 to-purple-500/10 rounded-full blur-[80px] -z-0 pointer-events-none"></div>
+                <div className="flex flex-col items-center gap-4 flex-shrink-0 z-10">
+                  <div className="w-40 h-40 bg-zinc-50 rounded-[2.5rem] border-[6px] border-white shadow-xl overflow-hidden flex-shrink-0 flex items-center justify-center relative">
+                    <img src={previewAvatar} alt="Preview Avatar" className="w-full h-full object-cover" />
+                  </div>
+                  <Button variant="secondary" size="sm" onClick={handleRandomize} className="rounded-xl flex items-center gap-1 shadow-sm">
+                    <Sparkles size={14} className="text-yellow-500"/> Aleatorio
+                  </Button>
                 </div>
-                <div className="w-full bg-zinc-100 rounded-full h-3 mb-3 shadow-inner">
-                  <div className="bg-gradient-to-r from-blue-500 to-cyan-400 h-3 rounded-full" style={{width: `${(MOCK_USER.xp / MOCK_USER.nextLevelXp) * 100}%`}}></div>
+                
+                <div className="flex-grow space-y-6 z-10 w-full">
+                  <div>
+                    <label className="block text-sm font-bold text-zinc-700 mb-2">Tu Nombre de Aventurero</label>
+                    <input 
+                      type="text" 
+                      value={name} 
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="SuperPanda99" 
+                      className="w-full px-5 py-3.5 rounded-2xl border-2 border-zinc-200 focus:border-blue-500 focus:outline-none font-medium transition-colors text-base"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-bold text-zinc-700 mb-2">Semilla de Avatar (Escribe palabras para cambiarlo)</label>
+                    <input 
+                      type="text" 
+                      value={avatarSeed} 
+                      onChange={(e) => setAvatarSeed(e.target.value)}
+                      placeholder="seed" 
+                      className="w-full px-5 py-3.5 rounded-2xl border-2 border-zinc-200 focus:border-blue-500 focus:outline-none font-medium transition-colors text-base"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-bold text-zinc-700 mb-2">Color de Fondo</label>
+                    <div className="flex gap-3 mt-1">
+                      {PRESET_BG.map(bg => (
+                        <button 
+                          key={bg.value} 
+                          onClick={() => setAvatarBg(bg.value)}
+                          className={`w-10 h-10 rounded-full border-2 transition-all ${bg.color} ${avatarBg === bg.value ? 'border-zinc-800 scale-110 shadow-md' : 'border-white hover:scale-105'}`}
+                          title={bg.label}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 pt-2">
+                    <Button variant="secondary" onClick={() => setIsEditing(false)} className="px-6 py-3.5 rounded-2xl">Cancelar</Button>
+                    <Button variant="primary" onClick={handleSave} className="flex-1 py-3.5 rounded-2xl shadow-blue-500/20">Guardar Cambios</Button>
+                  </div>
                 </div>
-                <p className="text-sm font-bold text-zinc-400 text-right uppercase tracking-wider">{MOCK_USER.nextLevelXp - MOCK_USER.xp} XP para subir de nivel</p>
               </div>
-              <div className="relative z-10">
-                <Button className="rounded-2xl">Editar Perfil</Button>
+            ) : (
+              <div className="bg-white p-10 rounded-[3rem] shadow-sm border border-zinc-100 flex flex-col md:flex-row items-center gap-10 mb-12 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-bl from-blue-500/10 to-purple-500/10 rounded-full blur-[80px] -z-0 pointer-events-none"></div>
+                <div className="relative z-10 w-40 h-40 bg-orange-100 rounded-[2.5rem] border-[6px] border-white shadow-xl overflow-hidden flex-shrink-0 rotate-3">
+                  <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover" />
+                </div>
+                <div className="relative z-10 flex-grow text-center md:text-left">
+                  <h2 className="text-5xl font-black text-zinc-900 mb-4 tracking-tight">{user.name}</h2>
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-6">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-100 text-yellow-700 font-bold text-sm border border-yellow-200"><Trophy size={18}/> Nivel {user.level}</span>
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-bold text-sm border border-blue-200"><Star size={18}/> {user.xp} XP</span>
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100 text-orange-700 font-bold text-sm border border-orange-200"><Zap size={18}/> Racha {user.streak} días</span>
+                  </div>
+                  <div className="w-full bg-zinc-100 rounded-full h-3 mb-3 shadow-inner">
+                    <div className="bg-gradient-to-r from-blue-500 to-cyan-400 h-3 rounded-full" style={{width: `${(user.xp / user.nextLevelXp) * 100}%`}}></div>
+                  </div>
+                  <p className="text-sm font-bold text-zinc-400 text-right uppercase tracking-wider">{user.nextLevelXp - user.xp} XP para subir de nivel</p>
+                </div>
+                <div className="relative z-10">
+                  <Button className="rounded-2xl" onClick={() => setIsEditing(true)}>Editar Perfil</Button>
+                </div>
               </div>
-            </div>
+            )}
             
             <h3 className="text-2xl font-bold text-zinc-900 mb-6 flex items-center gap-3"><Award className="text-purple-500" size={28}/> Insignias Desbloqueadas</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-              {MOCK_USER.badges.map(b => (
-                <motion.div key={b.id} whileHover={{y:-8, scale: 1.02}} className={`${b.bg} p-8 rounded-[2rem] flex flex-col items-center justify-center text-center cursor-pointer border border-white/50 shadow-sm hover:shadow-lg transition-all`}>
-                  <b.icon size={40} className={`${b.color} mb-4`} />
-                  <span className={`font-bold text-base ${b.color}`}>{b.name}</span>
-                </motion.div>
-              ))}
+              {user.badges && user.badges.map(b => {
+                const BadgeIcon = b.name.includes("Matem") ? Zap : b.name.includes("Lector") ? BookOpen : b.name.includes("Cient") ? FlaskConical : b.name.includes("Aprendiz") ? Award : Trophy;
+                return (
+                  <motion.div key={b.id} whileHover={{y:-8, scale: 1.02}} className={`${b.bg} p-8 rounded-[2rem] flex flex-col items-center justify-center text-center cursor-pointer border border-white/50 shadow-sm hover:shadow-lg transition-all`}>
+                    <BadgeIcon size={40} className={`${b.color} mb-4`} />
+                    <span className={`font-bold text-base ${b.color}`}>{b.name}</span>
+                  </motion.div>
+                );
+              })}
               <div className="bg-zinc-100 p-8 rounded-[2rem] flex flex-col items-center justify-center text-center border-2 border-zinc-200 border-dashed opacity-60">
                 <Compass size={40} className="text-zinc-400 mb-4" />
                 <span className="font-bold text-base text-zinc-500">Bloqueado</span>
@@ -950,10 +1179,120 @@
       );
     }
 
+    const ModalWaitlistForm = ({ gameTitle, onFinish }) => {
+      const [email, setEmail] = useState('');
+      const [status, setStatus] = useState('idle');
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!email) return;
+        setStatus('loading');
+        setTimeout(() => {
+          setStatus('success');
+          localStorage.setItem('eduplay_subscribed_email', email);
+        }, 1000);
+      };
+
+      if (status === 'success') {
+        return (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="w-full space-y-4">
+            <div className="p-4 bg-green-50 border border-green-200 rounded-2xl text-green-800 text-sm font-semibold flex items-center gap-3 justify-center">
+              <CheckCircle2 size={18} className="text-green-500" />
+              <span>¡Te has registrado con éxito!</span>
+            </div>
+            <Button variant="secondary" className="w-full py-3.5 rounded-xl font-bold" onClick={onFinish}>Entendido</Button>
+          </motion.div>
+        );
+      }
+
+      return (
+        <form onSubmit={handleSubmit} className="w-full space-y-4">
+          <div className="text-left">
+            <label className="block text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">Regístrate para Acceso Anticipado</label>
+            <input 
+              type="email" 
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Ingresa tu email (papá o profesor)..." 
+              className="w-full px-5 py-3.5 rounded-2xl border-2 border-zinc-200 focus:border-purple-500 focus:outline-none font-medium text-base"
+              disabled={status === 'loading'}
+            />
+          </div>
+          <div className="flex gap-3 w-full">
+            <Button type="button" variant="secondary" className="flex-1 py-3.5 rounded-2xl" onClick={onFinish} disabled={status === 'loading'}>Cancelar</Button>
+            <Button type="submit" className="flex-1 py-3.5 bg-purple-600 text-white rounded-2xl shadow-purple-500/20" disabled={status === 'loading'}>
+              {status === 'loading' ? 'Registrando...' : 'Notificarme'}
+            </Button>
+          </div>
+        </form>
+      );
+    };
+
     const App = () => {
       const [view, setView] = useState('landing');
       const [params, setParams] = useState({});
+      const [lockedGame, setLockedGame] = useState(null);
       
+      // Estado del Usuario (Caché del navegador)
+      const [user, setUser] = useState(() => {
+        const saved = localStorage.getItem('eduplay_user');
+        if (saved) {
+          try {
+            return JSON.parse(saved);
+          } catch (e) {
+            console.error("Error al cargar perfil, reiniciando al invitado", e);
+          }
+        }
+        return {
+          name: "Aventurero",
+          avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Aventurero&backgroundColor=ffdfbf",
+          level: 1,
+          xp: 0,
+          nextLevelXp: 100,
+          streak: 1,
+          completedChallenges: 0,
+          badges: [
+            { id: 1, name: "Matemático Veloz", color: "text-yellow-500", bg: "bg-yellow-100" }
+          ]
+        };
+      });
+
+      const saveUser = (updatedUser) => {
+        setUser(updatedUser);
+        localStorage.setItem('eduplay_user', JSON.stringify(updatedUser));
+      };
+
+      const addXp = (amount) => {
+        let newXp = user.xp + amount;
+        let newLevel = user.level;
+        let newNextLevelXp = user.nextLevelXp;
+
+        while (newXp >= newNextLevelXp) {
+          newXp -= newNextLevelXp;
+          newLevel += 1;
+          newNextLevelXp = newLevel * 200; // Incremento progresivo de XP requerida
+        }
+
+        let newBadges = [...(user.badges || [])];
+        if (newLevel >= 2 && !newBadges.some(b => b.id === 4)) {
+          newBadges.push({ id: 4, name: "Super Aprendiz", color: "text-purple-500", bg: "bg-purple-100" });
+        }
+        if (newLevel >= 5 && !newBadges.some(b => b.id === 5)) {
+          newBadges.push({ id: 5, name: "Héroe Educativo", color: "text-amber-500", bg: "bg-amber-100" });
+        }
+
+        const updated = {
+          ...user,
+          xp: newXp,
+          level: newLevel,
+          nextLevelXp: newNextLevelXp,
+          completedChallenges: (user.completedChallenges || 0) + 1,
+          badges: newBadges
+        };
+        saveUser(updated);
+      };
+
       // Estado de la API
       const [apiUrl, setApiUrl] = useState(() => localStorage.getItem('eduplay_api_url') || '');
       const [inputUrl, setInputUrl] = useState(() => localStorage.getItem('eduplay_api_url') || '');
@@ -1068,12 +1407,12 @@
       };
 
       const views = {
-        landing: <Landing onNavigate={navigate} games={games} />,
-        catalog: <Catalog onNavigate={navigate} games={games} />,
-        dashboard: <Dashboard onNavigate={navigate} />,
-        game: <QuizGame onNavigate={navigate} gameId={params.gameId} />,
+        landing: <Landing onNavigate={navigate} onLockClick={setLockedGame} games={games} />,
+        catalog: <Catalog onNavigate={navigate} onLockClick={setLockedGame} games={games} />,
+        dashboard: <Dashboard onNavigate={navigate} user={user} />,
+        game: <QuizGame onNavigate={navigate} onAddXp={addXp} gameId={params.gameId} />,
         parents: <ParentsPanel onNavigate={navigate} />,
-        profile: <ProfilePanel onNavigate={navigate} />
+        profile: <ProfilePanel onNavigate={navigate} user={user} onSaveUser={saveUser} />
       };
 
       return (
@@ -1178,6 +1517,48 @@
                         Guardar y Cerrar
                       </Button>
                     </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Modal de Juego Bloqueado / Waitlist */}
+          <AnimatePresence>
+            {lockedGame && (
+              <motion.div 
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                exit={{ opacity: 0 }} 
+                className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-md"
+                style={{ zIndex: 110 }}
+              >
+                <motion.div 
+                  initial={{ scale: 0.95, y: 20 }} 
+                  animate={{ scale: 1, y: 0 }} 
+                  exit={{ scale: 0.95, y: 20 }}
+                  className="bg-white rounded-[2.5rem] border border-zinc-100 p-8 md:p-10 w-full max-w-lg shadow-2xl relative overflow-hidden"
+                >
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-blue-500/10 to-purple-500/10 rounded-full blur-[40px] -z-0"></div>
+                  
+                  <button 
+                    onClick={() => setLockedGame(null)} 
+                    className="absolute top-6 right-6 w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-500 flex items-center justify-center transition-colors"
+                  >
+                    <XCircle size={20} />
+                  </button>
+
+                  <div className="flex flex-col items-center text-center relative z-10">
+                    <div className="w-16 h-16 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mb-6">
+                      <Lock size={32} />
+                    </div>
+                    
+                    <h3 className="text-3xl font-black text-zinc-900 mb-2">¡Próximamente en EduPlay Pro!</h3>
+                    <p className="text-zinc-600 font-medium text-base mb-6">
+                      El juego <strong className="text-zinc-950 font-bold">"{lockedGame.title}"</strong> y más de 30 aventuras interactivas avanzadas estarán disponibles muy pronto en nuestra versión completa.
+                    </p>
+
+                    <ModalWaitlistForm gameTitle={lockedGame.title} onFinish={() => setLockedGame(null)} />
                   </div>
                 </motion.div>
               </motion.div>
