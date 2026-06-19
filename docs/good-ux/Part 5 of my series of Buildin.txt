@@ -1,0 +1,47 @@
+Part 5 of my series of Building with Good UX 🥳
+
+You guys the support and love for this series has been overwhelming the last couple of days, and I am so happy that you find me nerding out on this stuff useful! 
+
+And thank you for being patient with, full transparency I am on vacation and so my filming time is limited here and there but I already have the next 5 parts prepped so buckle in and follow along
+
+ #vibecoding #uxdesign #uxdesignmastery
+
+[Transcribed by Dictationer. Upgrade to Unlimited to remove this message.](https://dictationer.com)
+
+What makes a good error message?
+This is part five of my series of building with good UX.
+In the last three parts, we went deep on loading states,
+and now we're going to error states.
+And if you're building with AI tools,
+unless you specifically ask for it,
+most tools are pretty bad at creating error states
+by default.
+First is your error message should never be
+your database or backend logic just dumped on the screen.
+
+One, being how would a regular person
+even know what that means?
+And two, this could also be a security vulnerability
+if you're exposing details about your app's backend.
+Okay, so then you just put something went wrong, right?
+wrong. Your user doesn't need to know the technical details, but they do need something
+less vague than that. Think about it. If you enter your card information and you press pay
+and it says something went wrong, you have no idea if your payment went through or not. That
+is a pretty terrible user experience. A good error message does three things. It tells them what
+happened, why it happened, and gives them a clear action. So instead of saying something went wrong,
+
+you say your payment didn't go through, your card was declined. Please check your card details or
+try a different payment method. Now the user knows exactly what happened, why, and what's next. And
+And then there's the worst kind of error, the silent failure.
+No message at all.
+The user clicks submit, the button does nothing, the screen doesn't change.
+They don't know if it worked, if it broke.
+And this is what a lot of vibe coding AI tools generate by default.
+So you need to know these things to know what to ask for.
+In the next video, we're going to talk about forms
+and how a lot of people don't feel like filling them out
+
+and how to design them so that your user hates you a little less.
+So follow for more.
+[Transcribed by Dictationer. Upgrade to Unlimited to remove this message.](https://dictationer.com)
+

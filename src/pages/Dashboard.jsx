@@ -1,12 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Zap, Star, CheckCircle2, Trophy, Award, BookOpen, FlaskConical } from 'lucide-react';
+import { Zap, Star, CheckCircle2, Trophy, Award, BookOpen, FlaskConical, Sparkles } from 'lucide-react';
 import TicketProfileCard from '../components/ui/TicketProfileCard';
 import AlertBanner from '../components/ui/AlertBanner';
 import Badge from '../components/ui/Badge';
 import StarExplosionBtn from '../components/ui/StarExplosionBtn';
+import PageSkeleton from '../components/ui/PageSkeleton';
 
-const Dashboard = ({ onNavigate, user }) => {
+const Dashboard = ({ onNavigate, user, onAddXp, isLoading }) => {
+  if (isLoading) {
+    return <PageSkeleton view="dashboard" />;
+  }
+
+  const [challenges, setChallenges] = useState([
+    { id: 1, title: "Juega 2 partidas de Matemáticas", xp: 50, done: true },
+    { id: 2, title: "Mantén tu racha de días", xp: 20, done: true },
+    { id: 3, title: "Obtén 100% en Ciencias", xp: 100, done: false }
+  ]);
+
+  const handleToggleChallenge = (id, xp, done) => {
+    if (done) return; // ya completado
+    setChallenges(prev => prev.map(ch => ch.id === id ? { ...ch, done: true } : ch));
+    if (onAddXp) onAddXp(xp);
+  };
+
+  const completedCount = challenges.filter(c => c.done).length;
+  const isAllCompleted = completedCount === challenges.length;
   const progressPct = (user.xp / user.nextLevelXp) * 100;
   return (
     <div className="min-h-screen pt-32 pb-20 px-6 lg:px-8 bg-zinc-50/50 dark:bg-zinc-950 transition-colors duration-300">
@@ -67,29 +86,53 @@ const Dashboard = ({ onNavigate, user }) => {
                 <span>Lvl {user.level + 1} <span className="text-zinc-400 dark:text-zinc-500 font-medium">({user.nextLevelXp} XP)</span></span>
               </div>
             </div>
-            
-            <div className="bg-white dark:bg-zinc-900 p-10 rounded-[2rem] border border-zinc-100 dark:border-zinc-800 shadow-sm transition-colors duration-300">
+                   <div className="bg-white dark:bg-zinc-900 p-10 rounded-[2rem] border border-zinc-100 dark:border-zinc-800 shadow-sm transition-colors duration-300">
               <div className="flex justify-between items-center mb-8">
                 <h3 className="text-2xl font-bold text-zinc-900 dark:text-white">Retos Diarios</h3>
-                <Badge className="bg-blue-50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400 text-sm px-4 py-1.5">2/3 Completados</Badge>
+                <Badge className={`text-sm px-4 py-1.5 ${isAllCompleted ? 'bg-green-150 dark:bg-green-950/20 text-green-700 dark:text-green-400' : 'bg-blue-50 dark:bg-blue-955/20 text-blue-600 dark:text-blue-400'}`}>
+                  {completedCount} / {challenges.length} Completados
+                </Badge>
               </div>
-              <div className="space-y-4">
-                {[
-                  { title: "Juega 2 partidas de Matemáticas", xp: 50, done: true },
-                  { title: "Mantén tu racha de días", xp: 20, done: true },
-                  { title: "Obtén 100% en Ciencias", xp: 100, done: false }
-                ].map((task, i) => (
-                  <div key={i} className={`flex items-center justify-between p-6 rounded-2xl border transition-colors ${task.done ? 'bg-zinc-50/50 dark:bg-zinc-850/30 border-zinc-200 dark:border-zinc-800' : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 shadow-sm hover:border-blue-300 dark:hover:border-blue-700'}`}>
-                    <div className="flex items-center gap-4">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${task.done ? 'bg-green-100 dark:bg-green-950/30 text-green-600 dark:text-green-400' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-550'}`}>
-                        {task.done ? <CheckCircle2 size={20} /> : <div className="w-3 h-3 rounded-full bg-zinc-350 dark:bg-zinc-700"/>}
-                      </div>
-                      <span className={`font-bold text-lg ${task.done ? 'text-zinc-400 dark:text-zinc-500 line-through' : 'text-zinc-900 dark:text-white'}`}>{task.title}</span>
-                    </div>
-                    <span className="font-black text-yellow-500 flex items-center gap-1.5"><Star size={18} fill="currentColor"/> {task.xp}</span>
+
+              {isAllCompleted ? (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex flex-col items-center text-center p-8 bg-gradient-to-b from-green-50/50 to-emerald-50/20 dark:from-green-950/10 dark:to-emerald-950/5 rounded-2xl border border-green-100 dark:border-green-900/30"
+                >
+                  <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center mb-4 shadow-sm">
+                    <Trophy size={32} />
                   </div>
-                ))}
-              </div>
+                  <h4 className="text-xl font-black text-zinc-900 dark:text-white mb-2">¡Misión Cumplida! 🚀</h4>
+                  <p className="text-zinc-650 dark:text-zinc-400 text-sm max-w-sm font-medium">
+                    Has completado todos tus retos diarios de hoy. Tu rango y XP han aumentado estelarmente. ¡Vuelve mañana para nuevas misiones!
+                  </p>
+                </motion.div>
+              ) : (
+                <div className="space-y-4">
+                  {challenges.map((task) => (
+                    <button
+                      key={task.id}
+                      onClick={() => handleToggleChallenge(task.id, task.xp, task.done)}
+                      className={`w-full flex items-center justify-between p-6 rounded-2xl border transition-all text-left ${
+                        task.done 
+                          ? 'bg-zinc-50/50 dark:bg-zinc-850/30 border-zinc-200 dark:border-zinc-800 cursor-default' 
+                          : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 shadow-sm hover:border-blue-300 dark:hover:border-blue-700 hover:scale-[1.01] active:scale-[0.99]'
+                      }`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${task.done ? 'bg-green-100 dark:bg-green-950/30 text-green-600 dark:text-green-400' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-550'}`}>
+                          {task.done ? <CheckCircle2 size={20} /> : <div className="w-3 h-3 rounded-full bg-zinc-350 dark:bg-zinc-700"/>}
+                        </div>
+                        <span className={`font-bold text-lg ${task.done ? 'text-zinc-400 dark:text-zinc-550 line-through font-medium' : 'text-zinc-900 dark:text-white'}`}>
+                          {task.title}
+                        </span>
+                      </div>
+                      <span className="font-black text-yellow-500 flex items-center gap-1.5"><Star size={18} fill="currentColor"/> {task.xp}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           

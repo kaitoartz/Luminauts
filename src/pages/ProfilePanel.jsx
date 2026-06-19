@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Trophy, Star, Zap, Award, BookOpen, FlaskConical, Compass } from 'lucide-react';
 import Button from '../components/ui/Button';
+import PageSkeleton from '../components/ui/PageSkeleton';
 
-const ProfilePanel = ({ onNavigate, user, onSaveUser }) => {
+const ProfilePanel = ({ onNavigate, user, onSaveUser, isLoading }) => {
+  if (isLoading) {
+    return <PageSkeleton view="profile" />;
+  }
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(user.name);
   const [avatarSeed, setAvatarSeed] = useState(() => {

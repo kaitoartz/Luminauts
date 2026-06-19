@@ -1,0 +1,53 @@
+Part 8 of Building With Good UX series 
+
+And we are back with another video! In this video we cover the importance of empty states, how it’s easy to forget when you are designing or developing an app because we always think about the end result with data. 
+
+But empty states is the first impression your user will see, so make it memorable and give them something to do! 
+
+#uxdesign #uxdesignmastery #vibecoding
+
+[Transcribed by Dictationer. Upgrade to Unlimited to remove this message.](https://dictationer.com)
+
+You log into an app for the first time and you see this.
+Or maybe even worse, this.
+This is part eight of my Building with Good UX series.
+This one is all about empty states.
+And although they're not sexy to think about,
+because as designers and developers,
+we like to think about all the new features,
+the empty state is often what your user will see first.
+So let's make a good impression.
+Your user signs up, lands on the dashboard, and it's blank.
+
+You have no projects, leaves the user with no actions.
+They don't know what to do.
+So you add create your first project
+with a button right here.
+Amazing, now the user has an action.
+Maybe let's add a step-by-step gamified instructions
+to get them started with the project.
+And for every section of your app
+that doesn't have content yet, don't just leave it blank.
+Let the user know what the section is for
+
+and how to start using it.
+Next, empty search results.
+No results is okay,
+but what about no results for purple shoes?
+What about purple shoes?
+With a link to search that term.
+That keeps the user moving.
+Now, sometimes the goal is empty state.
+A zero inbox.
+So when someone clears all their mail and hits zero,
+
+make it feel like an achievement.
+Add a nice animation.
+Add a background that is something
+that they look forward to seeing.
+A good empty state tells a user why it's empty,
+shows them what to do next, and doesn't feel broken.
+In the next video, we talk about partial states,
+so see you there and follow for more.
+[Transcribed by Dictationer. Upgrade to Unlimited to remove this message.](https://dictationer.com)
+

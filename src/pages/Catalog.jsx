@@ -3,8 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import GameCardSkeleton from '../components/ui/GameCardSkeleton';
 import SkeletonLoader from '../components/ui/SkeletonLoader';
 import PremiumGameCard from '../components/ui/PremiumGameCard';
+import PageSkeleton from '../components/ui/PageSkeleton';
 
-const Catalog = ({ onNavigate, onLockClick, games = [], theme }) => {
+const Catalog = ({ onNavigate, onLockClick, games = [], theme, isLoading: isPageLoading }) => {
+  if (isPageLoading) {
+    return <PageSkeleton view="catalog" />;
+  }
   const [filter, setFilter] = useState('Todos');
   const [isLoading, setIsLoading] = useState(false);
   const subjects = ['Todos', 'Matemáticas', 'Ciencias', 'Lectura', 'Programación', 'Ecología'];

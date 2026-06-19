@@ -517,8 +517,8 @@ body {
   100% { transform: translateY(0px) rotate(-3deg); }
 }
 @keyframes ep-astro-spinning {
-  0% { transform: rotateY(0deg); }
-  100% { transform: rotateY(360deg); }
+  0% { transform: rotateZ(0deg); }
+  100% { transform: rotateZ(360deg); }
 }
 .ep-astro-container {
   width: 100%;
@@ -566,7 +566,7 @@ body {
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  animation: ep-astro-spinning 5s linear infinite;
+  animation: ep-astro-spinning 14s linear infinite;
 }
 .ep-astro-schoolbag { width: 100px; height: 150px; position: absolute; z-index: 1; top: calc(50% - 75px); left: calc(50% - 50px); background-color: #3b82f6; border-radius: 50px 50px 0 0 / 30px 30px 0 0; opacity: 0.8; }
 .ep-astro-head { width: 97px; height: 80px; position: absolute; z-index: 3; background: -webkit-linear-gradient(left, #e2e8f0 0%, #e2e8f0 50%, #f8fafc 50%, #f8fafc 100%); border-radius: 50%; top: 34px; left: calc(50% - 47.5px); }
@@ -968,6 +968,245 @@ model-viewer.ep-earth-viewer {
   --poster-color: transparent;
   background-color: transparent;
 }
+
+/* ── generic-card: Card styling from cards-generic.md ── */
+.generic-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #2c2242;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s ease-out;
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.generic-card:hover {
+  transform: translateY(-20px) !important;
+  text-shadow: 2px 2px 8px #6e5b94;
+  box-shadow: 0 25px 45px rgba(110, 91, 148, 0.35);
+}
+
+.generic-card .title-1 {
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  z-index: 2;
+}
+
+.generic-card .content {
+  color: #eae0fd;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  z-index: 2;
+  flex-grow: 1;
+}
+
+.generic-card .btn {
+  width: 120px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background-color: #4a2f7c;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.8rem;
+  transition: all 0.4s ease-out;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.generic-card .btn:hover {
+  background-color: #8a4ff8;
+  color: #ffffff;
+  box-shadow: 0px 0px 20px rgba(157, 71, 255, 0.5),
+              0px 5px 5px -1px rgba(163, 58, 233, 0.25),
+              inset 4px 4px 8px rgba(219, 175, 255, 0.5),
+              inset -4px -4px 8px rgba(137, 19, 216, 0.35);
+}
+
+.generic-card .bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 6px;
+  width: 100%;
+  z-index: 2;
+}
+
+.generic-card .emptybar {
+  background-color: #1a1624;
+  width: 100%;
+  height: 100%;
+}
+
+.generic-card .filledbar {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  z-index: 3;
+  width: 0px;
+  height: 100%;
+  background: linear-gradient(90deg, #6831cfab, #a777ff 100%);
+  transition: 0.6s ease-out;
+}
+
+.generic-card:hover .filledbar {
+  width: 100%;
+}
+
+/* ── card-cookie: Cookies Consent styling from card-cookies.md ── */
+.card-cookie {
+  width: 320px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dark .card-cookie {
+  background-color: rgb(24, 24, 27);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+#cookieSvg {
+  width: 50px;
+}
+
+#cookieSvg g path {
+  fill: rgb(245, 158, 11);
+}
+
+.cookieHeading {
+  font-size: 1.2em;
+  font-weight: 800;
+  color: rgb(26, 26, 26);
+}
+
+.dark .cookieHeading {
+  color: rgb(241, 241, 241);
+}
+
+.cookieDescription {
+  text-align: center;
+  font-size: 0.75em;
+  font-weight: 600;
+  color: rgb(99, 99, 99);
+}
+
+.dark .cookieDescription {
+  color: rgb(161, 161, 170);
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 20px;
+  flex-direction: row;
+}
+
+.acceptButton {
+  width: 90px;
+  height: 32px;
+  background-color: #7b57ff;
+  transition-duration: .2s;
+  border: none;
+  color: rgb(241, 241, 241);
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px -1px #977ef3, 0 2px 4px -1px #977ef3;
+  transition: all .6s ease;
+}
+
+.declineButton {
+  width: 90px;
+  height: 32px;
+  background-color: #dadada;
+  transition-duration: .2s;
+  color: rgb(46, 46, 46);
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px -1px #bebdbd, 0 2px 4px -1px #bebdbd;
+  transition: all .6s ease;
+}
+
+.declineButton:hover {
+  background-color: #ebebeb;
+  box-shadow: 0 10px 15px -3px #bebdbd, 0 4px 6px -2px #bebdbd;
+  transition-duration: .2s;
+}
+
+.acceptButton:hover {
+  background-color: #9173ff;
+  box-shadow: 0 10px 15px -3px #977ef3, 0 4px 6px -2px #977ef3;
+  transition-duration: .2s;
+}
+
+/* ── Emil-Design-Eng & Responsive Rules ── */
+
+:root {
+  --fluid-h1: clamp(2.2rem, 1.6rem + 2.5vw, 4rem);
+  --fluid-h2: clamp(1.8rem, 1.4rem + 1.8vw, 3rem);
+  --fluid-h3: clamp(1.4rem, 1.1rem + 1.2vw, 2rem);
+  --fluid-p: clamp(0.95rem, 0.9rem + 0.2vw, 1.1rem);
+}
+
+/* Global button scale feedback on click */
+button, 
+a.button, 
+.btn, 
+.ep-button, 
+.acceptButton, 
+.declineButton,
+[role="button"] {
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease !important;
+}
+
+button:active, 
+a.button:active, 
+.btn:active, 
+.ep-button:active,
+.acceptButton:active,
+.declineButton:active,
+[role="button"]:active {
+  transform: scale(0.97) !important;
+}
+
+/* Fluid typography application */
+h1 {
+  font-size: var(--fluid-h1);
+}
+h2 {
+  font-size: var(--fluid-h2);
+}
+h3 {
+  font-size: var(--fluid-h3);
+}
+p {
+  font-size: var(--fluid-p);
+}
+
+/* Responsive grid for generic cards */
+.grid-auto-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: 1.5rem;
+}
+
 
 
 

@@ -12,10 +12,11 @@ import ShineButton from '../components/ui/ShineButton';
 import PremiumGameCard from '../components/ui/PremiumGameCard';
 import GitHubStarButton from '../components/ui/GitHubStarButton';
 import StarsBg from '../components/ui/StarsBg';
+import PageSkeleton from '../components/ui/PageSkeleton';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Landing = ({ onNavigate, onLockClick, games = [], theme }) => {
+const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState(() => {
     const saved = localStorage.getItem('eduplay_subscribed_email');
@@ -23,9 +24,6 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme }) => {
   });
   const [loading, setLoading] = useState(false);
 
-  const gamesWrapRef = useRef(null);
-  const gamesTrackRef = useRef(null);
-  const testimonialsRef = useRef(null);
   const modelViewerRef = useRef(null);
 
   const handleSubmit = (e) => {
@@ -122,49 +120,20 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme }) => {
         }
       }
 
-      // 2. Games horizontal scroll pan (if motion allowed)
-      if (gamesWrapRef.current && gamesTrackRef.current && !hasReducedMotion) {
-        const distance = gamesTrackRef.current.scrollWidth - window.innerWidth;
-        if (distance > 0) {
-          gsap.to(gamesTrackRef.current, {
-            x: -distance,
-            ease: "none",
-            scrollTrigger: {
-              trigger: gamesWrapRef.current,
-              start: "top top",
-              end: () => `+=${distance}`,
-              pin: true,
-              scrub: 1,
-              invalidateOnRefresh: true,
-            }
-          });
-        }
-      }
-
-      // 3. Testimonials Sticky Stack (if motion allowed)
-      if (!hasReducedMotion) {
-        const cardEls = gsap.utils.toArray(".stack-card");
-        cardEls.forEach((card, i) => {
-          if (i === cardEls.length - 1) return;
-          ScrollTrigger.create({
-            trigger: card,
-            start: "top 15%",
-            endTrigger: cardEls[cardEls.length - 1],
-            end: "top 15%",
-            pin: true,
-            pinSpacing: false,
-          });
-          gsap.to(card, {
-            scale: 0.92,
-            opacity: 0.55,
-            ease: "none",
-            scrollTrigger: {
-              trigger: cardEls[i + 1],
-              start: "top bottom",
-              end: "top 15%",
-              scrub: true,
-            },
-          });
+      // 2. Games Grid Entrance Animation
+      const gameItems = gsap.utils.toArray(".featured-game-item");
+      if (gameItems.length > 0 && !hasReducedMotion) {
+        gsap.from(gameItems, {
+          y: 40,
+          opacity: 0,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".featured-games-section",
+            start: "top 75%",
+            toggleActions: "play none none none"
+          }
         });
       }
     });
@@ -173,7 +142,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme }) => {
   }, [games]);
 
   return (
-    <div className="min-h-screen pt-20 bg-zinc-950 text-white transition-colors duration-300">
+    <div className={`min-h-screen pt-20 bg-zinc-950 text-white transition-all duration-700 ${isLoading ? 'blur-md opacity-40 pointer-events-none' : 'blur-none opacity-100'}`}>
       {/* Scroll Container wrapper (400vh height to trigger scroll timeline) */}
       <div className="relative h-[400vh] w-full hero-scroll-container">
         {/* Sticky Stage (pinned container) */}
@@ -230,33 +199,48 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme }) => {
           {/* Panel 2: Showcase Cards */}
           <div className="panel-2 absolute inset-0 flex justify-center items-center z-10 pointer-events-none opacity-0">
             <div className="relative w-full max-w-6xl h-full flex justify-between items-center px-12">
-              <div className="hero-img-left absolute left-10 w-72 h-[340px] bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl rotate-[-12deg] p-6 flex flex-col justify-between">
-                <div className="h-40 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-400">
-                  <Gamepad2 size={56} />
+              <div className="hero-img-left absolute left-10 w-72 h-[340px] generic-card rotate-[-12deg]">
+                <div className="title-1 flex items-center gap-3">
+                  <Gamepad2 size={24} className="text-blue-400" />
+                  <span>Aventura Matemática</span>
                 </div>
-                <div className="text-left mt-4">
-                  <div className="font-bold text-xl text-white">Aventura Matemática</div>
-                  <div className="text-zinc-400 text-sm mt-1">Resuelve acertijos matemáticos y sube de nivel.</div>
+                <div className="content mt-8 text-zinc-300">
+                  Resuelve acertijos matemáticos y sube de nivel.
+                </div>
+                <button className="btn" onClick={() => onNavigate('catalog')}>Jugar</button>
+                <div className="bar">
+                  <div className="emptybar" />
+                  <div className="filledbar" />
                 </div>
               </div>
               
-              <div className="hero-img-center absolute bottom-12 left-1/2 -translate-x-1/2 w-80 h-[360px] bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl p-6 flex flex-col justify-between">
-                <div className="h-44 bg-purple-500/10 rounded-2xl flex items-center justify-center text-purple-400">
-                  <Brain size={64} />
+              <div className="hero-img-center absolute bottom-12 left-1/2 -translate-x-1/2 w-80 h-[360px] generic-card z-20">
+                <div className="title-1 flex items-center gap-3">
+                  <Brain size={24} className="text-purple-400" />
+                  <span>Memoria Espacial</span>
                 </div>
-                <div className="text-left mt-4">
-                  <div className="font-bold text-xl text-white">Memoria Espacial</div>
-                  <div className="text-zinc-400 text-sm mt-1">Pon a prueba tu retención visual y memoriza.</div>
+                <div className="content mt-8 text-zinc-300">
+                  Pon a prueba tu retención visual y memoriza.
+                </div>
+                <button className="btn" onClick={() => onNavigate('catalog')}>Jugar</button>
+                <div className="bar">
+                  <div className="emptybar" />
+                  <div className="filledbar" />
                 </div>
               </div>
 
-              <div className="hero-img-right absolute right-10 w-72 h-[340px] bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl rotate-[12deg] p-6 flex flex-col justify-between">
-                <div className="h-40 bg-green-500/10 rounded-2xl flex items-center justify-center text-green-400">
-                  <FlaskConical size={56} />
+              <div className="hero-img-right absolute right-10 w-72 h-[340px] generic-card rotate-[12deg]">
+                <div className="title-1 flex items-center gap-3">
+                  <FlaskConical size={24} className="text-green-400" />
+                  <span>Laboratorio Químico</span>
                 </div>
-                <div className="text-left mt-4">
-                  <div className="font-bold text-xl text-white">Laboratorio Químico</div>
-                  <div className="text-zinc-400 text-sm mt-1">Combina elementos en el lab virtual.</div>
+                <div className="content mt-8 text-zinc-300">
+                  Combina elementos en el lab virtual.
+                </div>
+                <button className="btn" onClick={() => onNavigate('catalog')}>Jugar</button>
+                <div className="bar">
+                  <div className="emptybar" />
+                  <div className="filledbar" />
                 </div>
               </div>
             </div>
@@ -347,18 +331,24 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme }) => {
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: "Gamificación Real", desc: "No solo puntos. Una economía de XP real, niveles, rachas y recompensas que importan.", icon: Gamepad2, color: "text-purple-400", bg: "bg-purple-500/10 border-purple-500/20" },
-              { title: "Seguimiento Detallado", desc: "Panel para padres y profesores con métricas de precisión, tiempo y áreas de mejora.", icon: Shield, color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" },
-              { title: "Contenido Premium", desc: "Juegos desarrollados por educadores, abarcando desde matemáticas hasta lógica computacional.", icon: BookOpen, color: "text-green-400", bg: "bg-green-500/10 border-green-500/20" }
+              { title: "Gamificación Real", desc: "No solo puntos. Una economía de XP real, niveles, rachas y recompensas que importan.", icon: Gamepad2, color: "text-purple-400" },
+              { title: "Seguimiento Detallado", desc: "Panel para padres y profesores con métricas de precisión, tiempo y áreas de mejora.", icon: Shield, color: "text-blue-400" },
+              { title: "Contenido Premium", desc: "Juegos desarrollados por educadores, abarcando desde matemáticas hasta lógica computacional.", icon: BookOpen, color: "text-green-400" }
             ].map((b, i) => (
-              <motion.div key={i} whileHover={{ y: -5 }} className="bg-zinc-900/40 border border-zinc-800/60 p-10 rounded-[2rem] backdrop-blur-sm relative overflow-hidden group shadow-sm hover:shadow-md transition-all duration-300">
-                <div className={`absolute top-0 right-0 w-32 h-32 ${b.bg} rounded-full blur-3xl -mr-10 -mt-10 transition-opacity opacity-50 group-hover:opacity-100`}></div>
-                <div className={`w-14 h-14 rounded-2xl ${b.bg} flex items-center justify-center mb-8`}>
-                  <b.icon size={28} className={b.color}/>
+              <div key={i} className="generic-card">
+                <div className="title-1 flex items-center gap-3">
+                  <b.icon size={24} className={b.color} />
+                  <span>{b.title}</span>
                 </div>
-                <h3 className="text-2xl font-bold mb-4 text-white">{b.title}</h3>
-                <p className="text-zinc-400 text-lg leading-relaxed">{b.desc}</p>
-              </motion.div>
+                <div className="content mt-8 text-zinc-300">
+                  {b.desc}
+                </div>
+                <button className="btn" onClick={() => onNavigate('catalog')}>Aprender más</button>
+                <div className="bar">
+                  <div className="emptybar" />
+                  <div className="filledbar" />
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -425,7 +415,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme }) => {
       </section>
 
       {/* Featured Games */}
-      <section ref={gamesWrapRef} className="ep-pan-container py-36 md:py-48 min-h-screen flex flex-col justify-center relative">
+      <section className="featured-games-section py-36 md:py-48 relative">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="absolute inset-0 bg-radial-gradient from-blue-950/10 via-transparent to-transparent pointer-events-none"></div>
         
@@ -439,11 +429,11 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme }) => {
           </Button>
         </div>
 
-        {/* Horizontal Track Wrapper */}
-        <div className="w-full overflow-hidden z-10">
-          <div ref={gamesTrackRef} className="ep-pan-track">
-            {games.slice(0, 6).map((game) => (
-              <div key={game.id} className="ep-pan-slide">
+        {/* Games Grid layout */}
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {games.slice(0, 3).map((game) => (
+              <div key={game.id} className="featured-game-item w-full">
                 <PremiumGameCard 
                   {...game} 
                   isDark={true} 

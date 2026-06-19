@@ -7,128 +7,248 @@
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
-  perspective: 1200px;
 }
 
 .pricing-card-wrap {
   width: 100%;
   max-width: 320px;
-  min-height: 550px;
+  min-height: 580px;
   display: flex;
   flex-direction: column;
 }
 
+/* 3D Container */
+.card-effect {
+  perspective: 1000px;
+}
+
+/* Card Body (adapted from card-inner) */
 .pricing-card {
+  --card-bg: #ffffff;
+  --card-accent: #3b82f6;
+  --card-text: #18181b;
+  --card-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+  
   width: 100%;
-  height: 145px;
-  padding: 1.75rem;
-  background: rgba(10, 15, 30, 0.65);
+  flex-grow: 1;
+  background: var(--card-bg);
   border-radius: 24px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 3px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
   overflow: hidden;
-  color: white;
+  transition:
+    transform 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+    border-color 0.4s ease;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transform-style: preserve-3d; /* Required for 3D effects */
+  display: flex;
+  flex-direction: column;
+}
+
+.dark .pricing-card {
+  --card-bg: #09090b;
+  --card-text: #ffffff;
+  --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Hover rotation (3D) */
+.pricing-card:hover {
+  transform: rotateY(6deg) rotateX(6deg) translateZ(10px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.dark .pricing-card:hover {
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+/* Liquid Blob */
+.card__liquid {
+  position: absolute;
+  top: -80px;
+  left: -20px;
+  width: 360px;
+  height: 240px;
+  background: #3b82f6; /* Liquid color */
+  border-radius: 50%;
+  transform: translateZ(-80px); /* Position behind */
+  filter: blur(80px);
+  transition:
+    transform 0.7s cubic-bezier(0.36, 0, 0.66, -0.56),
+    opacity 0.4s ease-in-out;
+  opacity: 0; /* Initially hidden */
+  pointer-events: none;
+}
+
+.pricing-card:hover .card__liquid {
+  transform: translateZ(-50px) translateY(30px) translateX(-10px) rotate(-10deg) scale(1.1);
+  opacity: 0.25; /* Soft glow in light mode */
+}
+
+.dark .pricing-card:hover .card__liquid {
+  opacity: 0.15; /* Even softer in dark mode */
+}
+
+/* Shine overlay */
+.card__shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  pointer-events: none;
+}
+
+.pricing-card:hover .card__shine {
+  opacity: 1;
+  animation: shine-effect 2.5s infinite linear;
+}
+
+/* Radial Glow overlay */
+.card__glow {
+  position: absolute;
+  inset: -15px;
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(59, 130, 246, 0.15) 0%,
+    rgba(59, 130, 246, 0) 60%
+  );
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  pointer-events: none;
+}
+
+.pricing-card:hover .card__glow {
+  opacity: 1;
+}
+
+/* Content wrapper */
+.card__content {
+  padding: 1.75rem;
+  height: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
-  z-index: 10;
+  z-index: 2;
+  flex-grow: 1;
 }
 
-/* Spaceship console grid and celestial lighting background */
-.pricing-card::before {
+/* Badge (Trending style) */
+.card__badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #22c55e;
+  color: white;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  transform: scale(0.85);
+  opacity: 0.9;
+  transition: all 0.3s ease;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
+}
+
+.pricing-card:hover .card__badge {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Header Area (Adapted from card__image) */
+.card__image {
+  width: 100%;
+  height: 90px;
+  background: var(--bg-color);
+  border-radius: 16px;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+}
+
+.pricing-card:hover .card__image {
+  transform: translateY(-4px) scale(1.02);
+}
+
+.card__image::after {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: 
-    radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.18), transparent 70%),
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 100% 100%, 20px 20px, 20px 20px;
-  background-position: center;
-  pointer-events: none;
-  opacity: 0.5;
-  z-index: -1;
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  background: radial-gradient(
+    circle at 20% 80%,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 40%
+  ),
+  repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.02) 0px,
+    rgba(255, 255, 255, 0.02) 3px,
+    transparent 3px,
+    transparent 6px
+  );
+  opacity: 0.6;
 }
 
-/* Hover console state update */
-.pricing-card:hover {
-  height: 540px;
-  transform: translateY(-8px);
-  background: rgba(8, 12, 24, 0.85);
-  border-color: rgba(96, 165, 250, 0.4);
-  border-bottom-color: rgba(96, 165, 250, 0.7);
-  box-shadow: 
-    0 0 30px rgba(59, 130, 246, 0.2), 
-    0 25px 50px rgba(0, 0, 0, 0.5),
-    inset 0 0 20px rgba(59, 130, 246, 0.1);
+/* Text and title modifications */
+.card__text {
+  transition: transform 0.4s ease-in-out;
 }
 
-.pricing-card:hover::before {
-  opacity: 0.95;
-  background-image: 
-    radial-gradient(circle at 50% 0%, rgba(96, 165, 250, 0.3), transparent 70%),
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+.pricing-card:hover .card__text {
+  transform: translateX(3px);
 }
 
-.pricing-card-align {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  margin-bottom: 1.25rem;
+.card__description {
+  min-height: 48px;
 }
 
-.pricing-card-red, .pricing-card-yellow, .pricing-card-green {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  box-shadow: 0 0 6px currentColor;
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
+/* Pricing display */
+.card__price {
+  transition: transform 0.4s ease-in-out;
 }
 
-.pricing-card:hover .pricing-card-red,
-.pricing-card:hover .pricing-card-yellow,
-.pricing-card:hover .pricing-card-green {
-  opacity: 1;
+/* Footer / CTA Area */
+.card__footer {
+  margin-top: auto;
 }
 
-.pricing-card-red { background-color: #ef4444; color: #ef4444; }
-.pricing-card-yellow { background-color: #eab308; color: #eab308; }
-.pricing-card-green { background-color: #22c55e; color: #22c55e; }
-
-.pricing-card h1 {
-  text-align: center;
-  font-size: 1.75rem;
-  font-weight: 950;
-  margin-top: 0.25rem;
-  margin-bottom: 1rem;
-  color: #ffffff;
-  text-shadow: 0 0 8px rgba(96, 165, 250, 0.4);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+/* Animations */
+@keyframes shine-effect {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
 }
 
-/* Details slide and fade entry */
-.pricing-card-details {
-  opacity: 0;
-  transform: translateY(12px);
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  justify-content: space-between;
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .pricing-card {
+    transform: none !important;
+    transition: none !important;
+  }
+  .pricing-card:hover {
+    transform: none !important;
+    box-shadow: var(--card-shadow) !important;
+  }
+  .card__shine {
+    animation: none !important;
+  }
+  .card__liquid {
+    display: none !important;
+  }
 }
 
-.pricing-card:hover .pricing-card-details {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  transition-delay: 0.05s;
-}

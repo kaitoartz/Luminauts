@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { Users, Star, Sparkles, Trash2, Award } from 'lucide-react';
 import Button from '../components/ui/Button';
+import PageSkeleton from '../components/ui/PageSkeleton';
 
-const ParentsPanel = ({ onNavigate }) => {
+const ParentsPanel = ({ onNavigate, isLoading }) => {
+  if (isLoading) {
+    return <PageSkeleton view="parents" />;
+  }
   // Cargar estudiantes de localStorage o valores por defecto
   const [kids, setKids] = useState(() => {
     const saved = localStorage.getItem('eduplay_kids');

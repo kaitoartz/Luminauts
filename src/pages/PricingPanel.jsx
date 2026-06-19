@@ -3,8 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Check, XCircle, CheckCircle2 } from 'lucide-react';
 import Button from '../components/ui/Button';
 import '../components/ui/PricingCards.css';
+import PageSkeleton from '../components/ui/PageSkeleton';
 
-const PricingPanel = ({ onNavigate }) => {
+const PricingPanel = ({ onNavigate, isLoading }) => {
+  if (isLoading) {
+    return <PageSkeleton view="pricing" />;
+  }
   const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' | 'annual'
   const [checkoutPlan, setCheckoutPlan] = useState(null);
   const [email, setEmail] = useState('');
@@ -120,59 +124,75 @@ const PricingPanel = ({ onNavigate }) => {
             const totalAnnually = price * 12;
 
             return (
-              <div key={plan.id} className="pricing-card-wrap">
+              <div key={plan.id} className="pricing-card-wrap card-effect">
                 <div className="pricing-card">
-                  {/* Top align dots */}
-                  <div className="pricing-card-align">
-                    <span className="pricing-card-red" />
-                    <span className="pricing-card-yellow" />
-                    <span className="pricing-card-green" />
-                  </div>
-                  
-                  {/* Title is always visible */}
-                  <h1>{plan.name}</h1>
-                  
-                  {/* Rest of details only visible on expansion (hover) */}
-                  <div className="pricing-card-details">
-                    <div className="text-left mt-2">
-                      <p className="text-zinc-300 text-xs font-medium mb-4 leading-relaxed h-12 overflow-hidden">{plan.description}</p>
+                  <div className="card__liquid" />
+                  <div className="card__shine" />
+                  <div className="card__glow" />
+                  <div className="card__content">
+                    {plan.badge && <div className="card__badge">{plan.badge}</div>}
+                    
+                    {/* Visual Area at the top */}
+                    <div 
+                      className="card__image" 
+                      style={{ 
+                        '--bg-color': plan.id === 'pro' 
+                          ? 'linear-gradient(135deg, #3b82f6, #8b5cf6)' 
+                          : plan.id === 'classroom' 
+                            ? 'linear-gradient(135deg, #18181b, #27272a)' 
+                            : 'linear-gradient(135deg, #94a3b8, #cbd5e1)' 
+                      }}
+                    >
+                      <div className="flex flex-col items-center justify-center h-full text-white p-4">
+                        <h2 className="text-xl font-black uppercase tracking-wider text-shadow-sm">{plan.name}</h2>
+                      </div>
+                    </div>
+
+                    {/* Text Container */}
+                    <div className="card__text flex-grow flex flex-col gap-4 text-left">
+                      <p className="card__description text-xs text-zinc-500 dark:text-zinc-400 font-medium leading-relaxed">
+                        {plan.description}
+                      </p>
                       
-                      {/* Price display */}
-                      <div className="flex items-baseline gap-2 mb-4">
-                        <span className="text-3xl font-black tracking-tight">
+                      {/* Price Display */}
+                      <div className="card__price flex items-baseline gap-2">
+                        <span className="text-3xl font-black tracking-tight text-zinc-900 dark:text-white">
                           ${price}
                         </span>
                         <span className="text-zinc-400 font-bold text-xs">/ mes</span>
                       </div>
                       
                       {billingCycle === 'annual' && price > 0 && (
-                        <div className="text-[10px] text-green-400 font-bold mb-4 bg-green-950/30 px-2.5 py-0.5 rounded-lg inline-block">
+                        <div className="text-[10px] text-green-600 dark:text-green-400 font-bold bg-green-50 dark:bg-green-950/30 border border-green-200/50 dark:border-green-900/30 px-2.5 py-0.5 rounded-lg inline-block self-start">
                           Facturado anualmente (${totalAnnually.toFixed(2)}/año)
                         </div>
                       )}
 
-                      <div className="w-full h-px bg-zinc-800 mb-4" />
+                      <div className="w-full h-px bg-zinc-200 dark:bg-zinc-800" />
 
                       {/* Feature list */}
-                      <ul className="space-y-2.5 mb-6 text-left">
+                      <ul className="space-y-2.5 text-left flex-grow">
                         {plan.features.map((feature, i) => (
-                          <li key={i} className="flex items-start gap-2.5 text-xs font-semibold">
-                            <span className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 bg-blue-955/50 text-blue-400">
+                          <li key={i} className="flex items-start gap-2.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                            <span className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 bg-blue-50 dark:bg-blue-955/30 text-blue-600 dark:text-blue-400">
                               <Check size={10} strokeWidth={3}/>
                             </span>
-                            <span className="text-zinc-300">{feature}</span>
+                            <span>{feature}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
 
-                    <Button
-                      variant={plan.id === 'classroom' ? 'glow' : plan.id === 'pro' ? 'primary' : 'secondary'}
-                      className="w-full py-2.5 text-sm rounded-xl font-bold shadow-lg"
-                      onClick={() => setCheckoutPlan(plan)}
-                    >
-                      {plan.buttonText}
-                    </Button>
+                    {/* Footer / CTA Area */}
+                    <div className="card__footer pt-4">
+                      <Button
+                        variant={plan.id === 'classroom' ? 'glow' : plan.id === 'pro' ? 'primary' : 'secondary'}
+                        className="w-full py-2.5 text-sm rounded-xl font-bold shadow-lg"
+                        onClick={() => setCheckoutPlan(plan)}
+                      >
+                        {plan.buttonText}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
