@@ -39,7 +39,68 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. Hero timeline animation
+      // 1. Far Vector Stars Parallax (Smaller, slower scroll, loop wrapping at modulo 400)
+      gsap.fromTo("#stars_far", 
+        { opacity: .2, y: .2 }, 
+        { 
+          opacity: 0.8, 
+          y: -1200, 
+          ease: "none", 
+          modifiers: {
+            y: (y) => {
+              const val = parseFloat(y);
+              return `${val % 300}px`;
+            }
+          },
+          scrollTrigger: {
+            trigger: ".hero-scroll-container",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 1,
+          }
+        }
+      );
+
+      // 2. Close Vector Stars Parallax (Larger, faster scroll, loop wrapping at modulo 700)
+      gsap.fromTo("#stars_close", 
+        { opacity: .4, y: .4 }, 
+        { 
+          opacity: 0.95, 
+          y: -2100, 
+          ease: "none", 
+          modifiers: {
+            y: (y) => {
+              const val = parseFloat(y);
+              return `${val % 600}px`;
+            }
+          },
+          scrollTrigger: {
+            trigger: ".hero-scroll-container",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 1,
+          }
+        }
+      );
+
+
+      // 2. Independent comet (shooting star) flight timeline
+      const cometTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".hero-scroll-container",
+          start: "15% top",
+          end: "55% top",
+          scrub: 1,
+        }
+      });
+      cometTl.fromTo("#fstar",
+        { opacity: 0, x: 300, y: -150 },
+        { opacity: 1, x: 50, y: 100, ease: "power1.out" }
+      ).to("#fstar",
+        { opacity: 0, x: -350, y: 400, ease: "power1.in" }
+      );
+
+      // 3. Main Hero sequencing timeline animation
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".hero-scroll-container",
@@ -51,12 +112,13 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
 
       // 3D Globe entrance & grow (Webflow + Spotify effect)
       tl.fromTo(".ep-orbit-wrapper", 
-        { scale: 0.05, y: "20%", opacity: 0.2 }, 
-        { scale: 0.8, y: "0%", opacity: 1, duration: 1.2, ease: "power2.out" }
+        { scale: 0.25, y: "20%", opacity: 0.5 }, 
+        { scale: 0.8, y: "0%", opacity: 1, duration: 2.2, ease: "power2.out" }
       );
 
       // Stagger reveal character entries in Hero Scroll trigger
       tl.to(".panel-1 h1 .split-char", { y: "0%", opacity: 1, stagger: 0.03, ease: "power2.out", duration: 1.5 })
+
         .to(".panel-1", { opacity: 0, scale: 0.9, duration: 1.2 })
         
         // Panel 2: Showcase Images fly in
@@ -83,25 +145,11 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
         .from(".panel-4 h2, .panel-4 p, .panel-4 .flex-container", { y: 40, opacity: 0, stagger: 0.15, ease: "power3.out", duration: 1.2 }, "<")
         
         // Final Touch: Globe scales huge and fades out into the next section
-        .to(".ep-orbit-wrapper", { scale: 2.2, opacity: 0, duration: 1.5, ease: "power1.inOut" }, "<");
+        .to(".ep-orbit-wrapper", { scale: 2.2, opacity: 1, duration: 1.5, ease: "power1.inOut" }, "<");
 
       const hasReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Rotate orbital vertical lines sequentially (Staggered offset)
       if (!hasReducedMotion) {
-        const orbitLines = gsap.utils.toArray(".ep-orbit-vertical-line");
-        gsap.to(orbitLines, {
-          rotateY: 180,
-          ease: "none",
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: ".hero-scroll-container",
-            start: "top top",
-            end: "bottom bottom",
-            scrub: 1,
-          }
-        });
-
         // Rotate 3D Earth model camera-orbit continuously
         if (modelViewerRef.current) {
           gsap.fromTo(modelViewerRef.current,
@@ -155,18 +203,6 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
           {/* 3D Line Globe Container */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-[5]">
             <div className="ep-orbit-wrapper">
-              <div className="ep-orbit-line-wrapper">
-                <div className="ep-orbit-vertical-line" style={{ transform: 'rotateY(0deg)' }}></div>
-                <div className="ep-orbit-vertical-line" style={{ transform: 'rotateY(30deg)' }}></div>
-                <div className="ep-orbit-vertical-line" style={{ transform: 'rotateY(60deg)' }}></div>
-                <div className="ep-orbit-vertical-line" style={{ transform: 'rotateY(90deg)' }}></div>
-                <div className="ep-orbit-vertical-line" style={{ transform: 'rotateY(120deg)' }}></div>
-                <div className="ep-orbit-vertical-line" style={{ transform: 'rotateY(150deg)' }}></div>
-                <div className="ep-orbit-horizontal-line center"></div>
-                <div className="ep-orbit-horizontal-line top"></div>
-                <div className="ep-orbit-horizontal-line bottom"></div>
-                <div className="ep-orbit-horizontal-line mid"></div>
-              </div>
               <div className="ep-model-container">
                 <model-viewer
                   ref={modelViewerRef}

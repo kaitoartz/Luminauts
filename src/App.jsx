@@ -253,7 +253,7 @@ const App = () => {
     landing: <Landing onNavigate={navigate} onLockClick={setLockedGame} games={games} theme={theme} isLoading={isTostadora && pageLoading && view === 'landing'} />,
     catalog: <Catalog onNavigate={navigate} onLockClick={setLockedGame} games={games} theme={theme} isLoading={isTostadora && pageLoading && view === 'catalog'} />,
     dashboard: <Dashboard onNavigate={navigate} user={user} onAddXp={addXp} isLoading={isTostadora && pageLoading && view === 'dashboard'} />,
-    game: <QuizGame onNavigate={navigate} onAddXp={addXp} gameId={params.gameId} />,
+    game: <QuizGame onNavigate={navigate} onAddXp={addXp} gameId={params.gameId} games={games} apiUrl={apiUrl} />,
     parents: <ParentsPanel onNavigate={navigate} isLoading={isTostadora && pageLoading && view === 'parents'} />,
     profile: <ProfilePanel onNavigate={navigate} user={user} onSaveUser={saveUser} isLoading={isTostadora && pageLoading && view === 'profile'} />,
     pricing: <PricingPanel onNavigate={navigate} isLoading={isTostadora && pageLoading && view === 'pricing'} />

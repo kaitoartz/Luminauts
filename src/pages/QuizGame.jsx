@@ -6,12 +6,21 @@ import TransactionCard from '../components/ui/TransactionCard';
 import StarRatingInput from '../components/ui/StarRatingInput';
 import Button from '../components/ui/Button';
 
-const QuizGame = ({ onNavigate, onAddXp }) => {
+const QuizGame = ({ onNavigate, onAddXp, gameId, games = [], apiUrl }) => {
   const [currentQ, setCurrentQ] = useState(0);
   const [selected, setSelected] = useState(null);
   const [status, setStatus] = useState('idle');
   const [score, setScore] = useState(0);
   const [xpAdded, setXpAdded] = useState(false);
+
+  const game = games.find(g => g.id === gameId);
+  const isApiGame = game?.isApi;
+
+  useEffect(() => {
+    if (isApiGame && game) {
+      setScore(game.points || 100);
+    }
+  }, [isApiGame, game]);
 
   useEffect(() => {
     if (status === 'finished' && score > 0 && !xpAdded) {
@@ -20,7 +29,7 @@ const QuizGame = ({ onNavigate, onAddXp }) => {
     }
   }, [status, score, xpAdded, onAddXp]);
 
-  const q = MOCK_QUIZ.questions[currentQ];
+  const q = !isApiGame && MOCK_QUIZ.questions[currentQ];
 
   const handleSelect = (idx) => {
     if (status !== 'idle') return;
@@ -50,7 +59,9 @@ const QuizGame = ({ onNavigate, onAddXp }) => {
             <Trophy size={64} />
           </motion.div>
           <h2 className="text-4xl font-black text-zinc-900 dark:text-white mb-3 tracking-tight">¡Misión Cumplida!</h2>
-          <p className="text-xl text-zinc-550 dark:text-zinc-400 font-medium mb-10">Has completado el reto matemático con éxito.</p>
+          <p className="text-xl text-zinc-555 dark:text-zinc-400 font-medium mb-10">
+            {isApiGame ? `Has completado el juego "${game?.title}" con éxito.` : "Has completado el reto matemático con éxito."}
+          </p>
           
           <div className="bg-zinc-50 dark:bg-zinc-800/50 rounded-[2rem] p-8 mb-6 border border-zinc-100 dark:border-zinc-700/50 shadow-sm">
             <div className="text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wider text-sm mb-2">Recompensa Obtenida</div>
@@ -75,6 +86,46 @@ const QuizGame = ({ onNavigate, onAddXp }) => {
             <Button variant="secondary" onClick={() => onNavigate('catalog')} className="w-full py-4 text-lg rounded-2xl">Jugar otro reto</Button>
           </div>
         </motion.div>
+      </div>
+    );
+  }
+
+  if (isApiGame) {
+    return (
+      <div className="min-h-screen flex flex-col items-center pt-28 pb-10 px-4 md:px-8 bg-zinc-50/50 dark:bg-zinc-950 text-zinc-900 dark:text-white transition-colors duration-300">
+        <div className="w-full max-w-6xl flex flex-col gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-zinc-900 p-6 rounded-[2rem] border border-zinc-150 dark:border-zinc-800 shadow-sm">
+            <div className="flex items-center gap-4">
+              <Button variant="ghost" size="sm" onClick={() => onNavigate('catalog')} className="text-zinc-500 hover:text-zinc-900 dark:hover:text-white">&larr; Volver al catálogo</Button>
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-blue-500 bg-blue-50 dark:bg-blue-950/40 px-3 py-1 rounded-full">{game?.subject}</span>
+                <h2 className="text-2xl font-black tracking-tight mt-1">{game?.title}</h2>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="hidden md:flex items-center gap-2 text-yellow-500 font-bold bg-yellow-50 dark:bg-yellow-950/30 px-4 py-2 rounded-full border border-yellow-100 dark:border-yellow-900/30 text-sm">
+                <Star size={16} fill="currentColor"/> {game?.points} XP
+              </div>
+              <Button 
+                variant="primary" 
+                onClick={() => setStatus('finished')}
+                className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-2xl shadow-lg shadow-green-500/25 transition-all duration-300"
+              >
+                ¡Terminé de jugar!
+              </Button>
+            </div>
+          </div>
+          
+          <div className="relative w-full aspect-[16/9] md:aspect-[16/10] bg-black rounded-[2.5rem] overflow-hidden border-4 border-zinc-200 dark:border-zinc-800 shadow-2xl">
+            <iframe 
+              src={`${apiUrl}/jugar`} 
+              className="w-full h-full" 
+              frameBorder="0"
+              allow="autoplay; fullscreen; keyboard"
+              title={game?.title}
+            />
+          </div>
+        </div>
       </div>
     );
   }
