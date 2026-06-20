@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
 import SplitText from '../components/ui/SplitText';
 import Button from '../components/ui/Button';
 import ShineButton from '../components/ui/ShineButton';
@@ -38,51 +39,24 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
   };
 
   useEffect(() => {
+    // Initialize Lenis smooth scroll
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    });
+
+    // Update ScrollTrigger on Lenis scroll events
+    lenis.on('scroll', ScrollTrigger.update);
+
+    // Sync Lenis RAF with GSAP Ticker
+    const tickerCallback = (time) => {
+      lenis.raf(time * 1000);
+    };
+    gsap.ticker.add(tickerCallback);
+    gsap.ticker.lagSmoothing(0);
+
     const ctx = gsap.context(() => {
-      // 1. Far Vector Stars Parallax (Smaller, slower scroll, loop wrapping at modulo 400)
-      gsap.fromTo("#stars_far", 
-        { opacity: .2, y: .2 }, 
-        { 
-          opacity: 0.8, 
-          y: -1200, 
-          ease: "none", 
-          modifiers: {
-            y: (y) => {
-              const val = parseFloat(y);
-              return `${val % 300}px`;
-            }
-          },
-          scrollTrigger: {
-            trigger: ".hero-scroll-container",
-            start: "top top",
-            end: "bottom bottom",
-            scrub: 1,
-          }
-        }
-      );
-
-      // 2. Close Vector Stars Parallax (Larger, faster scroll, loop wrapping at modulo 700)
-      gsap.fromTo("#stars_close", 
-        { opacity: .4, y: .4 }, 
-        { 
-          opacity: 0.95, 
-          y: -2100, 
-          ease: "none", 
-          modifiers: {
-            y: (y) => {
-              const val = parseFloat(y);
-              return `${val % 600}px`;
-            }
-          },
-          scrollTrigger: {
-            trigger: ".hero-scroll-container",
-            start: "top top",
-            end: "bottom bottom",
-            scrub: 1,
-          }
-        }
-      );
-
+      // Stars animation is managed independently inside the StarsBg component.
 
       // 2. Independent comet (shooting star) flight timeline
       const cometTl = gsap.timeline({
@@ -186,7 +160,11 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
       }
     });
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      gsap.ticker.remove(tickerCallback);
+      lenis.destroy();
+    };
   }, [games]);
 
   return (
