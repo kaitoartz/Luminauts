@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Gamepad2 } from 'lucide-react';
+import { Rocket } from 'lucide-react';
 import PremiumThemeToggle from './ui/PremiumThemeToggle';
 import Button from './ui/Button';
 
@@ -13,19 +13,19 @@ const Navbar = ({ currentView, onNavigate, apiStatus, onOpenSettings, theme, onT
   }, []);
 
   const navs = [
-    { id: 'landing', label: 'Inicio' },
-    { id: 'catalog', label: 'Juegos' },
-    { id: 'pricing', label: 'Precios' },
-    { id: 'dashboard', label: 'Mi Progreso' }
+    { id: 'landing', label: 'Bitácora' },
+    { id: 'catalog', label: 'Mapa Estelar' },
+    { id: 'pricing', label: 'Suscripción' },
+    { id: 'dashboard', label: 'Misiones' }
   ];
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'py-3' : 'py-5'}`}>
       <div className="px-4 sm:px-6 lg:px-8">
-        <div className={`max-w-7xl mx-auto flex justify-between items-center transition-all duration-500 rounded-full px-6 ${scrolled ? 'bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border border-zinc-200/50 dark:border-zinc-800 shadow-lg py-3' : 'bg-transparent py-2'}`}>
+        <div className={`max-w-7xl mx-auto flex justify-between items-center transition-all duration-500 rounded-full px-6 ${scrolled ? 'bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 shadow-lg py-3' : 'bg-transparent py-2'}`}>
           <div className="flex items-center gap-3 cursor-pointer group" onClick={() => onNavigate('landing')}>
-            <div className="w-12 h-12 bg-gradient-to-tr from-blue-600 to-cyan-500 rounded-[14px] flex items-center justify-center text-white shadow-lg shadow-blue-500/30 group-hover:scale-105 group-hover:rotate-3 transition-transform"><Gamepad2 size={24} /></div>
-            <span className="font-black text-2xl tracking-tight text-zinc-900 dark:text-white hidden sm:block">EduPlay</span>
+            <div className="w-12 h-12 bg-gradient-to-tr from-[#6B8BB4] to-[#E0B0FF] rounded-[18px] flex items-center justify-center text-white shadow-lg shadow-indigo-500/10 group-hover:scale-105 group-hover:rotate-3 transition-transform"><Rocket size={24} /></div>
+            <span className="font-black text-2xl tracking-tight text-zinc-900 dark:text-white hidden sm:block">LumiNauts</span>
           </div>
           
           <div className="hidden md:flex items-center gap-2">

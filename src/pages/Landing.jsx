@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Sparkles, Gamepad2, Brain, FlaskConical, Shield, BookOpen, Star, 
-  ArrowRight, Globe, Zap, CheckCircle2, Play, Music, Code, Compass, Heart, Palette 
+  ArrowRight, Globe, Zap, CheckCircle2, Play, Music, Code, Compass, Heart, Palette, Rocket 
 } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -330,26 +330,26 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
       </div>
 
       {/* Benefits Section */}
-      <section className="py-36 md:py-48 bg-zinc-950 text-white px-6 lg:px-8 relative overflow-hidden transition-colors duration-300">
+      <section className="py-36 md:py-48 bg-[#141923] text-white px-6 lg:px-8 relative overflow-hidden transition-colors duration-300">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
         {/* Ambient gradients */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-[120px] pointer-events-none"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#6B8BB4]/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#E0B0FF]/10 rounded-full blur-[120px] pointer-events-none"></div>
         
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
             <h2 className="text-4xl lg:text-5xl font-black mb-6 text-white">
-              Aprendizaje que <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-450 to-cyan-450">engancha.</span>
+              Exploración que <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8DA9C4] to-[#E0B0FF]">fascina.</span>
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto text-xl font-medium">Diseñado con principios de ciencias cognitivas para mantener la motivación al máximo nivel.</p>
+            <p className="text-zinc-400 max-w-2xl mx-auto text-xl font-medium">Tematizado para alimentar la curiosidad innata de los Luminautas y asegurar la retención activa.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: "Gamificación Real", desc: "No solo puntos. Una economía de XP real, niveles, rachas y recompensas que importan.", icon: Gamepad2, color: "text-purple-400" },
-              { title: "Seguimiento Detallado", desc: "Panel para padres y profesores con métricas de precisión, tiempo y áreas de mejora.", icon: Shield, color: "text-blue-400" },
-              { title: "Contenido Premium", desc: "Juegos desarrollados por educadores, abarcando desde matemáticas hasta lógica computacional.", icon: BookOpen, color: "text-green-400" }
+              { title: "Navegación Lúdica", desc: "Combustible de XP, insignias de tripulación y constelaciones completadas que marcan tu rango.", icon: Rocket, color: "text-[#E0B0FF]" },
+              { title: "Control de Misión", desc: "Panel detallado para Comandantes (padres/profesores) con métricas de precisión orbital y vuelo cognitivo.", icon: Shield, color: "text-[#8DA9C4]" },
+              { title: "Órbita Alta", desc: "Misiones construidas bajo rigurosos estándares pedagógicos, cubriendo desde cálculo hasta lógica cuántica.", icon: BookOpen, color: "text-[#6B8BB4]" }
             ].map((b, i) => (
-              <div key={i} className="generic-card">
+              <div key={i} className="generic-card rounded-[24px]">
                 <div className="title-1 flex items-center gap-3">
                   <b.icon size={24} className={b.color} />
                   <span>{b.title}</span>
@@ -357,7 +357,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
                 <div className="content mt-8 text-zinc-300">
                   {b.desc}
                 </div>
-                <button className="btn" onClick={() => onNavigate('catalog')}>Aprender más</button>
+                <button className="btn" onClick={() => onNavigate('catalog')}>Explorar</button>
                 <div className="bar">
                   <div className="emptybar" />
                   <div className="filledbar" />
@@ -381,21 +381,21 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
           {/* Row 1: Forward */}
           <div className="ep-marquee-track">
             {[
-              { name: "Matemáticas", icon: Zap, color: "#3b82f6" },
-              { name: "Ciencias", icon: FlaskConical, color: "#10b981" },
-              { name: "Lectura", icon: BookOpen, color: "#ef4444" },
-              { name: "Lógica", icon: Brain, color: "#8b5cf6" },
-              { name: "Programación", icon: Code, color: "#ec4899" },
-              { name: "Espacio", icon: Sparkles, color: "#f59e0b" },
+              { name: "Cálculo Orbital", icon: Zap, color: "#8DA9C4" },
+              { name: "Física Solar", icon: FlaskConical, color: "#10b981" },
+              { name: "Bitácoras del Espacio", icon: BookOpen, color: "#ef4444" },
+              { name: "Sistemas Estelares", icon: Brain, color: "#E0B0FF" },
+              { name: "Código de Navegación", icon: Code, color: "#ec4899" },
+              { name: "Astronomía Kepler", icon: Sparkles, color: "#f59e0b" },
               // Duplicate items for seamless loop
-              { name: "Matemáticas", icon: Zap, color: "#3b82f6" },
-              { name: "Ciencias", icon: FlaskConical, color: "#10b981" },
-              { name: "Lectura", icon: BookOpen, color: "#ef4444" },
-              { name: "Lógica", icon: Brain, color: "#8b5cf6" },
-              { name: "Programación", icon: Code, color: "#ec4899" },
-              { name: "Espacio", icon: Sparkles, color: "#f59e0b" },
+              { name: "Cálculo Orbital", icon: Zap, color: "#8DA9C4" },
+              { name: "Física Solar", icon: FlaskConical, color: "#10b981" },
+              { name: "Bitácoras del Espacio", icon: BookOpen, color: "#ef4444" },
+              { name: "Sistemas Estelares", icon: Brain, color: "#E0B0FF" },
+              { name: "Código de Navegación", icon: Code, color: "#ec4899" },
+              { name: "Astronomía Kepler", icon: Sparkles, color: "#f59e0b" },
             ].map((cat, i) => (
-              <div key={i} onClick={() => onNavigate('catalog')} className="ep-marquee-card group">
+              <div key={i} onClick={() => onNavigate('catalog')} className="ep-marquee-card group rounded-full">
                 <cat.icon size={22} style={{ color: cat.color }} className="group-hover:scale-110 transition-transform" />
                 <span>{cat.name}</span>
               </div>
@@ -405,21 +405,21 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
           {/* Row 2: Reverse */}
           <div className="ep-marquee-track-reverse">
             {[
-              { name: "Historia", icon: Compass, color: "#14b8a6" },
-              { name: "Geografía", icon: Globe, color: "#06b6d4" },
-              { name: "Música", icon: Music, color: "#f43f5e" },
-              { name: "Astronomía", icon: Star, color: "#eab308" },
-              { name: "Creatividad", icon: Sparkles, color: "#a855f7" },
-              { name: "Salud", icon: Heart, color: "#10b981" },
+              { name: "Cronología Galáctica", icon: Compass, color: "#14b8a6" },
+              { name: "Cartografía Exoplanetaria", icon: Globe, color: "#06b6d4" },
+              { name: "Frecuencias Cósmicas", icon: Music, color: "#f43f5e" },
+              { name: "Órbitas y Nebulosas", icon: Star, color: "#eab308" },
+              { name: "Fusión Artística", icon: Sparkles, color: "#a855f7" },
+              { name: "Biosfera de Cabina", icon: Heart, color: "#10b981" },
               // Duplicate items for seamless loop
-              { name: "Historia", icon: Compass, color: "#14b8a6" },
-              { name: "Geografía", icon: Globe, color: "#06b6d4" },
-              { name: "Música", icon: Music, color: "#f43f5e" },
-              { name: "Astronomía", icon: Star, color: "#eab308" },
-              { name: "Creatividad", icon: Sparkles, color: "#a855f7" },
-              { name: "Salud", icon: Heart, color: "#10b981" },
+              { name: "Cronología Galáctica", icon: Compass, color: "#14b8a6" },
+              { name: "Cartografía Exoplanetaria", icon: Globe, color: "#06b6d4" },
+              { name: "Frecuencias Cósmicas", icon: Music, color: "#f43f5e" },
+              { name: "Órbitas y Nebulosas", icon: Star, color: "#eab308" },
+              { name: "Fusión Artística", icon: Sparkles, color: "#a855f7" },
+              { name: "Biosfera de Cabina", icon: Heart, color: "#10b981" },
             ].map((cat, i) => (
-              <div key={i} onClick={() => onNavigate('catalog')} className="ep-marquee-card group">
+              <div key={i} onClick={() => onNavigate('catalog')} className="ep-marquee-card group rounded-full">
                 <cat.icon size={22} style={{ color: cat.color }} className="group-hover:scale-110 transition-transform" />
                 <span>{cat.name}</span>
               </div>
@@ -435,11 +435,11 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
         
         <div className="max-w-7xl mx-auto px-6 lg:px-8 mb-16 w-full flex flex-col md:flex-row justify-between items-center md:items-end gap-6 z-10">
           <div>
-            <h2 className="text-4xl font-bold text-white mb-4">Juegos Destacados</h2>
-            <p className="text-xl text-zinc-400 font-medium">Empieza tu aventura con los favoritos de la comunidad.</p>
+            <h2 className="text-4xl font-bold text-white mb-4">Misiones Destacadas</h2>
+            <p className="text-xl text-zinc-400 font-medium">Inicia el viaje con las misiones más aclamadas de la tripulación.</p>
           </div>
           <Button variant="secondary" onClick={() => onNavigate('catalog')} className="gap-2 bg-zinc-900 border-zinc-850 hover:bg-zinc-800 text-white rounded-2xl">
-            Ver todo el catálogo <ArrowRight size={18}/>
+            Ver Mapa Estelar <ArrowRight size={18}/>
           </Button>
         </div>
 
@@ -463,16 +463,16 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
       <section className="py-36 md:py-48 bg-zinc-950 text-white px-6 lg:px-8 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="max-w-7xl mx-auto mb-20 text-center">
-          <h2 className="text-4xl font-black text-white mb-4">Lo que dicen de nosotros</h2>
-          <p className="text-xl text-zinc-400 font-medium">Familias y educadores que ya disfrutan EduPlay.</p>
+          <h2 className="text-4xl font-black text-white mb-4">Señales del Control de Misiones</h2>
+          <p className="text-xl text-zinc-400 font-medium">Comentarios de las tripulaciones y comandantes de LumiNauts.</p>
         </div>
 
         {/* Sticky Stack Cards Container */}
         <div className="ep-stack-container px-4">
           {[
-            { text: "Mi hijo por fin disfruta practicar matemáticas. ¡La gamificación hace toda la diferencia!", author: "María P.", role: "Madre", avatar: "M" },
-            { text: "Excelente herramienta para asignar retos adicionales en clase. Muy intuitiva.", author: "Carlos R.", role: "Profesor", avatar: "C" },
-            { text: "Me encanta ganar insignias cada vez que completo los retos de ciencia.", author: "Sofi (10 años)", role: "Estudiante", avatar: "S" }
+            { text: "Mi cadete por fin disfruta entrenar cálculo orbital. ¡Aprender es ahora una aventura estelar!", author: "María P.", role: "Comandante (Madre)", avatar: "M" },
+            { text: "Excelente bitácora para asignar misiones adicionales a la tripulación. Muy intuitiva.", author: "Carlos R.", role: "Comandante (Profesor)", avatar: "C" },
+            { text: "Me encanta alinear constelaciones y ganar estrellas cada vez que completo misiones de ciencias.", author: "Sofi (10 años)", role: "Luminauta", avatar: "S" }
           ].map((test, i) => (
             <div key={i} className="stack-card ep-stack-card">
               <div className="flex flex-col gap-6">
@@ -498,19 +498,19 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
       </section>
 
       {/* Parents/Teachers CTA */}
-      <section className="py-36 md:py-48 bg-zinc-950 px-6 lg:px-8 text-center overflow-hidden relative">
+      <section className="py-36 md:py-48 bg-[#141923] px-6 lg:px-8 text-center overflow-hidden relative">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[160px] pointer-events-none"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#6B8BB4]/10 rounded-full blur-[160px] pointer-events-none"></div>
         
         <div className="max-w-3xl mx-auto relative z-10 text-white">
-          <Shield size={64} className="mx-auto mb-8 text-blue-400 filter drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
-          <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-white">¿Eres padre o profesor?</h2>
+          <Shield size={64} className="mx-auto mb-8 text-[#8DA9C4] filter drop-shadow-[0_0_15px_rgba(141,169,196,0.3)]" />
+          <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-white">¿Eres un Comandante de Misión?</h2>
           <p className="text-xl text-zinc-350 mb-10 leading-relaxed font-medium">
-            Descubre nuestro panel de control. Haz seguimiento del progreso, detecta áreas de mejora y asigna retos personalizados en tiempo real.
+            Descubre el Control de Misión. Supervisa el progreso orbital de tus cadetes, detecta desvíos de rumbo y asigna misiones personalizadas en tiempo real.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <ShineButton onClick={() => onNavigate('parents')} className="bg-blue-650 hover:bg-blue-600 border-blue-500 text-white py-4 px-8 rounded-full">
-              Ir al Panel de Control
+            <ShineButton onClick={() => onNavigate('parents')} className="bg-[#6B8BB4] hover:bg-[#8DA9C4] border-white/20 text-white py-4 px-8 rounded-full">
+              Ingresar al Control de Misión
             </ShineButton>
           </div>
         </div>
@@ -522,29 +522,29 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center gap-2 mb-6 text-white">
-                <Gamepad2 size={28} className="text-blue-400"/> <span className="font-extrabold text-2xl tracking-tight">EduPlay</span>
+                <Rocket size={28} className="text-[#8DA9C4]"/> <span className="font-extrabold text-2xl tracking-tight">LumiNauts</span>
               </div>
-              <p className="text-zinc-400 text-lg max-w-sm mb-6">El portal donde la educación y la diversión convergen para crear la mejor experiencia de aprendizaje.</p>
+              <p className="text-zinc-400 text-lg max-w-sm mb-6">La estación estelar donde el conocimiento y la aventura espacial convergen para inspirar a los Luminautas.</p>
             </div>
             <div>
               <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Plataforma</h4>
               <ul className="space-y-4 text-zinc-400 font-medium flex flex-col items-start">
-                <li><button onClick={() => onNavigate('catalog')} className="hover:text-blue-400 transition-colors text-left">Juegos</button></li>
-                <li><button onClick={() => onNavigate('parents')} className="hover:text-blue-400 transition-colors text-left">Padres</button></li>
-                <li><button onClick={() => onNavigate('pricing')} className="hover:text-blue-400 transition-colors text-left">Precios</button></li>
+                <li><button onClick={() => onNavigate('catalog')} className="hover:text-[#8DA9C4] transition-colors text-left">Mapa Estelar</button></li>
+                <li><button onClick={() => onNavigate('parents')} className="hover:text-[#8DA9C4] transition-colors text-left">Comandantes</button></li>
+                <li><button onClick={() => onNavigate('pricing')} className="hover:text-[#8DA9C4] transition-colors text-left">Suscripciones</button></li>
               </ul>
             </div>
             <div>
               <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Legal</h4>
               <ul className="space-y-4 text-zinc-400 font-medium">
-                <li><a href="#" className="hover:text-blue-400 transition-colors">Privacidad</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors">Términos</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors">Contacto</a></li>
+                <li><a href="#" className="hover:text-[#8DA9C4] transition-colors">Privacidad</a></li>
+                <li><a href="#" className="hover:text-[#8DA9C4] transition-colors">Términos</a></li>
+                <li><a href="#" className="hover:text-[#8DA9C4] transition-colors">Contacto</a></li>
               </ul>
             </div>
           </div>
           <div className="border-t border-zinc-850 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-zinc-550 font-medium">
-            <p>© 2026 EduPlay Inc. Todos los derechos reservados.</p>
+            <p>© 2026 LumiNauts. Todos los derechos reservados.</p>
             <div className="flex items-center gap-4">
               <GitHubStarButton />
               <div className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-850 flex items-center justify-center hover:bg-blue-500/10 hover:text-blue-400 transition-colors cursor-pointer text-zinc-400"><Globe size={18}/></div>

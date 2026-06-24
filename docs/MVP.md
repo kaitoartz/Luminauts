@@ -1,2 +1,58 @@
-\# EduPlay: Documento de Producto Mínimo Viable (MVP) ## 1. MVP (Propuesta de Valor) Las plataformas educativas actuales sufren de dos males críticos: son visualmente monótonas para el estudiante y técnicamente pesadas para el hardware escolar promedio. \*\*EduPlay\*\* resuelve esta brecha mediante un "Lobby de Juegos" de alto rendimiento que fusiona la emoción de un portal de videojuegos con el rigor pedagógico. Nuestra solución garantiza una experiencia fluida a 60fps en navegadores básicos, eliminando la fricción técnica y transformando el aprendizaje en una actividad voluntaria y altamente motivadora. ## 2. Personas (User Personas) ### Perfil 1: El Supervisor (Profesor/Apoderado) \* \*\*Perfil:\*\* Profesional de la educación o padre de familia preocupado por el tiempo frente a la pantalla. \* \*\*Objetivos:\*\* Validar el tiempo invertido en la plataforma mediante métricas de aprendizaje claras y asegurar un entorno digital seguro y controlado. \* \*\*Patrones de comportamiento:\*\* Prefiere dashboards limpios que resuman el progreso semanal; toma decisiones basadas en datos de desempeño y seguridad. ### Perfil 2: El Explorador (Estudiante) \* \*\*Perfil:\*\* Nativo digital de entre 6 y 14 años acostumbrado a interfaces de consumo rápido (tipo Roblox o YouTube). \* \*\*Objetivos:\*\* Divertirse de inmediato, superar desafíos y recibir feedback visual gratificante (estrellas, niveles, logros). \* \*\*Patrones de comportamiento:\*\* Abandona la plataforma si el juego tarda más de 5 segundos en cargar; busca controles intuitivos y una estética visual moderna y "tech". ## 3. Benchmark \* \*\*EdTech Tradicionales:\*\* Se centran en la gestión de archivos y texto, con interfaces corporativas rígidas y un rendimiento WebGL deficiente que suele frustrar al usuario final. \* \*\*Ventaja EduPlay:\*\* Optimizamos la carga de activos para navegadores escolares modestos, ofreciendo una calidad visual de nivel gaming profesional y una arquitectura orientada a la recompensa inmediata, superando la retención de cualquier LMS estándar. ## 4. Arquitectura de la Información (Sitemap) 1. \*\*Home / Landing:\*\* Introducción a la plataforma y llamada a la acción (CTA). 2. \*\*Login / Auth:\*\* Acceso rápido para perfiles guardados o entrada como invitado. 3. \*\*Dashboard de Progreso:\*\* Visualización de métricas, estrellas acumuladas y logros del estudiante. 4. \*\*Catálogo de Juegos (Lobby):\*\* Grilla responsiva de tarjetas con filtros por materia o habilidad. 5. \*\*Pantalla de Juego (Game View):\*\* Contenedor optimizado para Unity WebGL con controles de sesión y retorno al lobby. ## 5. Userflow (Estudiante) 1. \*\*Ingreso:\*\* El estudiante accede a la URL y selecciona su perfil (o entra como invitado). 2. \*\*Navegación:\*\* Explora el catálogo visual de juegos en el Lobby. 3. \*\*Selección:\*\* Elige un título (ej: "Crehabitat") y visualiza el objetivo pedagógico rápido. 4. \*\*Sesión:\*\* Juega el módulo educativo optimizado a 60fps. 5. \*\*Finalización:\*\* Al terminar el nivel, el sistema sincroniza automáticamente el puntaje con el backend. 6. \*\*Recompensa:\*\* El estudiante es redirigido a su Dashboard para ver sus nuevas estrellas y el profesor recibe la métrica en tiempo real. ## 6. Guión (Elevator Pitch) "EduPlay convierte el aula en un centro de alto rendimiento educativo. Imagina un portal de juegos estilo Steam, diseñado específicamente para hardware escolar, donde cada minuto de juego se traduce en datos de aprendizaje accionables. No solo estamos optimizando código para que corra fluido en cualquier PC, estamos optimizando la motivación del estudiante para que aprender sea tan adictivo como jugar." ## 7. Kit UI (Propuesta Visual) \* \*\*Paleta de Colores (EduPlay Lumina):\*\* \* \*\*Primario (Cian Tech):\*\* `#00B4D8` - Confianza, tecnología y claridad. \* \*\*Secundario (Naranja Energía):\*\* `#FF9F1C` - Botones de acción, logros y vitalidad. \* \*\*Fondo (Luz Limpia):\*\* `#F8F9FA` - Minimiza la fatiga visual. \* \*\*Acentos (Éxito):\*\* `#2ECC71` (Verde) y `#F1C40F` (Amarillo Estrella). \* \*\*Tipografía:\*\* \* \*\*Principal:\*\* \*Plus Jakarta Sans\* o \*Inter\* (Alternativas a Product Sans). Estilo sans-serif geométrico, legible en tamaños pequeños y con un aire moderno. \* \*\*Iconografía:\*\* \* \*\*Estilo:\*\* "Flat \& Friendly". Bordes suavizados (rounding), líneas consistentes y colores sólidos. Iconos que comuniquen acciones claras (Jugar, Aprender, Medir). \* \*\*Componentes:\*\* \* Cards con `border-radius: 16px` y `soft shadows` para una estética táctil y moderna. 
+# LumiNauts: Documento de Producto Mínimo Viable (MVP)
 
+## 1. MVP (Propuesta de Valor)
+
+Plataformas actuales aburren y pesan. **LumiNauts** soluciona esto con "Estación Espacial" de juegos. Fusiona universo y pedagogía. 60fps fluidos en navegadores básicos. Aprendizaje = aventura espacial voluntaria.
+
+## 2. Personas (User Personas)
+
+### Perfil 1: El Comandante (Profesor/Apoderado)
+
+- **Perfil:** Educador o padre.
+- **Objetivos:** Validar tiempo con métricas en entorno seguro.
+- **Patrones:** Prefiere paneles limpios, resúmenes rápidos de progreso de cadetes.
+
+### Perfil 2: El Luminauta (Ludonáutico / Estudiante)
+
+- **Perfil:** Explorador (6-14 años).
+- **Objetivos:** Divertirse, explorar planetas, ganar estrellas y rangos espaciales.
+- **Patrones:** Busca naves, estética suave, controles fáciles. Sin esperas.
+
+## 3. Benchmark
+
+- **EdTech Tradicional:** Archivos aburridos, UI rígida, carga lenta.
+- **Ventaja LumiNauts:** Carga rápida en PC modesto. Visuales gaming, tema espacio suave, alta retención.
+
+## 4. Arquitectura de la Información (Sitemap)
+
+1. **Puerto Espacial (Landing):** Introducción LumiNauts.
+2. **Abordaje (Auth):** Acceso cadetes o invitados.
+3. **Bitácora (Dashboard):** Métricas, constelaciones, estrellas.
+4. **Mapa Estelar (Lobby):** Planetas (juegos) filtrables.
+5. **Simulador (Game View):** Contenedor WebGL con controles de nave.
+
+## 5. Userflow (Luminauta)
+
+1. **Ingreso:** Elige traje espacial.
+2. **Navegación:** Explora Mapa Estelar.
+3. **Selección:** Elige planeta (ej: "Kepler-Mat").
+4. **Misión:** Juega módulo.
+5. **Finalización:** Sincroniza datos con Control de Misión.
+6. **Recompensa:** Vuelve a Bitácora, ve estrellas.
+
+## 6. Guión (Elevator Pitch)
+
+"LumiNauts hace del aula academia espacial. Mapa estelar fluido en PC escolar. Cada minuto jugado = salto hiperespacial en aprendizaje. Motivación optimizada. Aprender fascina igual que descubrir planetas."
+
+## 7. Kit UI (Propuesta Visual)
+
+- **Paleta de Colores (Lumina Space - Suave):**
+  - **Primario (Azul Polvo Espacial):** `#6B8BB4` - Calma, vastedad.
+  - **Secundario (Crema Lunar):** `#FDF9E2` - Contraste suave.
+  - **Fondo (Cielo Nocturno Suave):** `#1A202C` a `#2D3748` - Profundidad amigable.
+  - **Acentos:** `#8DA9C4` (Celeste) y `#E0B0FF` (Lavanda). Cero neón.
+- **Tipografía:**
+  - **Principal:** _Quicksand_ o _Nunito_. Redondeada, suave, legible.
+- **Iconografía & Formas:**
+  - **Estilo:** "Soft Space". Naves curvas, planetas sin bordes duros.
+  - **Componentes:** Cards `border-radius: 24px`. Sombras `soft ambient` tipo nebulosa.
