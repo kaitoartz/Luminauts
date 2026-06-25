@@ -14,10 +14,11 @@ import PremiumGameCard from '../components/ui/PremiumGameCard';
 import GitHubStarButton from '../components/ui/GitHubStarButton';
 import StarsBg from '../components/ui/StarsBg';
 import PageSkeleton from '../components/ui/PageSkeleton';
+import { BlurReveal } from '../components/ui/blur-reveal';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
+const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSplashActive }) => {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState(() => {
     const saved = localStorage.getItem('eduplay_subscribed_email');
@@ -97,10 +98,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
       tl.fromTo(".ep-orbit-wrapper", 
         { scale: 0.25, y: "20%", opacity: 0.5 }, 
         { scale: 0.8, y: "0%", opacity: 1, duration: 2.2, ease: "power2.out" }
-      );
-
-      // Stagger reveal character entries in Hero Scroll trigger
-      tl.to(".panel-1 h1 .split-char", { y: "0%", opacity: 1, stagger: 0.03, ease: "power2.out", duration: 1.5 })
+      )
 
         .to(".panel-1", { opacity: 0, scale: 0.9, duration: 1.2 })
         
@@ -214,11 +212,17 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
               <Sparkles size={16} className="text-yellow-400"/> Nueva forma de aprender
             </span>
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.1] max-w-5xl mb-6 text-white">
-              Descubre un <span className="gradient-text bg-gradient-to-r from-blue-400 to-purple-400 inline-block"><SplitText text="universo" /></span> de conocimiento.
+              <BlurReveal trigger={!isSplashActive} delay={0.15}>Descubre&nbsp;</BlurReveal>
+              <BlurReveal trigger={!isSplashActive} delay={0.25}>un&nbsp;</BlurReveal>
+              <BlurReveal trigger={!isSplashActive} className="gradient-text bg-gradient-to-r from-blue-400 to-purple-400" delay={0.35}>universo&nbsp;</BlurReveal>
+              <BlurReveal trigger={!isSplashActive} delay={0.45}>de&nbsp;</BlurReveal>
+              <BlurReveal trigger={!isSplashActive} delay={0.55}>conocimiento.</BlurReveal>
             </h1>
-            <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl font-medium leading-relaxed">
-              Plataforma premium de aprendizaje gamificado. Retos diarios, medallas y un catálogo infinito para entrenar tu mente de forma interactiva.
-            </p>
+            <BlurReveal trigger={!isSplashActive} delay={0.7} duration={1.2}>
+              <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl font-medium leading-relaxed">
+                Plataforma premium de aprendizaje gamificado. Retos diarios, medallas y un catálogo infinito para entrenar tu mente de forma interactiva.
+              </p>
+            </BlurReveal>
           </div>
 
           {/* Panel 2: Showcase Cards */}

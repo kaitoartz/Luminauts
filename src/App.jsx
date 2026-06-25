@@ -252,7 +252,7 @@ const App = () => {
   };
 
   const views = {
-    landing: <Landing onNavigate={navigate} onLockClick={setLockedGame} games={games} theme={theme} isLoading={isTostadora && pageLoading && view === 'landing'} />,
+    landing: <Landing onNavigate={navigate} onLockClick={setLockedGame} games={games} theme={theme} isLoading={isTostadora && pageLoading && view === 'landing'} isSplashActive={showSplash} />,
     catalog: <Catalog onNavigate={navigate} onLockClick={setLockedGame} games={games} theme={theme} isLoading={isTostadora && pageLoading && view === 'catalog'} />,
     dashboard: <Dashboard onNavigate={navigate} user={user} onAddXp={addXp} isLoading={isTostadora && pageLoading && view === 'dashboard'} />,
     game: <QuizGame onNavigate={navigate} onAddXp={addXp} gameId={params.gameId} games={games} apiUrl={apiUrl} />,
@@ -262,7 +262,7 @@ const App = () => {
   };
 
   if (appLoading) {
-    return <AstronautLoader text="Iniciando Sistemas de Navegación..." />;
+    return <AstronautLoader />;
   }
 
   return (
@@ -460,7 +460,8 @@ const App = () => {
               opacity: 0,
               transition: { duration: 0.5, ease: [0.32, 0.72, 0, 1] } 
             }}
-            className="fixed inset-0 z-[999] flex items-center justify-center bg-zinc-950/70 backdrop-blur-3xl"
+            className="fixed inset-0 z-[999] flex items-center justify-center bg-zinc-950/70"
+            style={{ backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}

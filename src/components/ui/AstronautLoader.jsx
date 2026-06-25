@@ -1,7 +1,7 @@
 import React from 'react';
 import StarsBg from './StarsBg';
 
-const AstronautLoader = ({ text = 'Cargando', className = '' }) => {
+const AstronautLoader = ({ text = '', className = '' }) => {
   return (
     <div className={`ep-astro-container ${className}`}>
       <StarsBg showBg={true} />
