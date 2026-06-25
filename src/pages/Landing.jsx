@@ -39,18 +39,27 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
   };
 
   useEffect(() => {
-    // Initialize Lenis smooth scroll
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    });
+    // Detect touch-only device (like mobile/tablet, not hybrid touchscreen PC)
+    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
-    // Update ScrollTrigger on Lenis scroll events
-    lenis.on('scroll', ScrollTrigger.update);
+    let lenis = null;
+
+    if (!isTouchDevice) {
+      // Initialize Lenis smooth scroll only on non-touch devices
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      });
+
+      // Update ScrollTrigger on Lenis scroll events
+      lenis.on('scroll', ScrollTrigger.update);
+    }
 
     // Sync Lenis RAF with GSAP Ticker
     const tickerCallback = (time) => {
-      lenis.raf(time * 1000);
+      if (lenis) {
+        lenis.raf(time * 1000);
+      }
     };
     gsap.ticker.add(tickerCallback);
     gsap.ticker.lagSmoothing(0);
@@ -163,7 +172,9 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading }) => {
     return () => {
       ctx.revert();
       gsap.ticker.remove(tickerCallback);
-      lenis.destroy();
+      if (lenis) {
+        lenis.destroy();
+      }
     };
   }, [games]);
 
