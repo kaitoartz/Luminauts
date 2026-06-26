@@ -1,10 +1,67 @@
 
 
 :root {
-  --bg: #f8fafc;
+  /* --- PALETA DE COLORES LUMINAUTS (MODO CLARO) --- */
+  --bg: #F4F7FB; /* Soft light cosmic blue-gray */
+  
+  /* Zinc overrides for Tailwind */
+  --zinc-50: #F4F7FB;
+  --zinc-100: #E9F0F8;
+  --zinc-150: #DFE9F3;
+  --zinc-200: #D4E2F0;
+  --zinc-300: #BCCEDF;
+  --zinc-350: #A3BCD4;
+  --zinc-400: #8DA9C4;
+  --zinc-500: #6B8BB4;
+  --zinc-550: #5D7CA5;
+  --zinc-600: #51759C;
+  --zinc-650: #3B6290;
+  --zinc-700: #2C4A75;
+  --zinc-750: #243C5F;
+  --zinc-800: #1F324E;
+  --zinc-850: #1A283F;
+  --zinc-900: #141D2D;
+  --zinc-950: #FFFFFF; /* Panels elevate to white in light mode */
+
+  /* Semantic Theme Variables */
+  --color-primary: #3B6290;
+  --color-primary-hover: #2C4A75;
+  --color-secondary: #51759C;
+  --color-tertiary: #9059C8;
+  --color-accent: #D48D08;
+  --color-border: #D4E2F0;
 }
+
 .dark {
-  --bg: #09090b;
+  /* --- PALETA DE COLORES LUMINAUTS (MODO OSCURO) --- */
+  --bg: #141923; /* Cielo Nocturno - Base general */
+  
+  /* Zinc overrides for Tailwind */
+  --zinc-50: #1A202C; /* Carbón Orbital */
+  --zinc-100: #252D3C;
+  --zinc-150: #2A3446;
+  --zinc-200: #2D3748; /* Border / elevated */
+  --zinc-300: #3E4E68;
+  --zinc-350: #4A5A77;
+  --zinc-400: #6B8BB4; /* Azul Polvo Espacial */
+  --zinc-500: #6B8BB4;
+  --zinc-550: #8DA9C4; /* Celeste Suave */
+  --zinc-600: #8DA9C4;
+  --zinc-650: #A0AEC0;
+  --zinc-700: #CBD5E1;
+  --zinc-750: #D8E2ED;
+  --zinc-800: #E2E8F0;
+  --zinc-850: #ECF0F4;
+  --zinc-900: #F7FAFC;
+  --zinc-950: #141923; /* Cielo Nocturno */
+
+  /* Semantic Theme Variables */
+  --color-primary: #6B8BB4;
+  --color-primary-hover: #85A3C7;
+  --color-secondary: #8DA9C4;
+  --color-tertiary: #E0B0FF;
+  --color-accent: #FDF9E2;
+  --color-border: rgba(255, 255, 255, 0.08);
 }
 body {
   background-color: var(--bg);
@@ -28,6 +85,9 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+.dark .gradient-text {
+  background: linear-gradient(135deg, #8da9c4, #e0b0ff, #8da9c4);
 }
 
 /* Spotlight mask overlay styling */

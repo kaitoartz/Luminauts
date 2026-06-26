@@ -81,7 +81,7 @@ const PricingPanel = ({ onNavigate, isLoading }) => {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-20 px-6 lg:px-8 bg-gradient-to-b from-zinc-55 via-white to-zinc-55 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 text-zinc-900 dark:text-white transition-colors duration-300 relative overflow-hidden">
+    <div className="min-h-screen pt-32 pb-20 px-6 lg:px-8 bg-gradient-to-b from-zinc-50 via-white to-zinc-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 text-zinc-900 dark:text-white transition-colors duration-300 relative overflow-hidden">
       {/* Decorative background blobs */}
       <div className="absolute top-20 left-1/4 w-[500px] h-[500px] bg-gradient-to-tr from-blue-300/15 to-purple-300/15 dark:from-blue-900/10 dark:to-purple-900/10 rounded-full blur-[120px] -z-10" />
       <div className="absolute bottom-20 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-cyan-300/10 to-indigo-300/15 dark:from-cyan-900/10 dark:to-indigo-900/10 rounded-full blur-[140px] -z-10" />
@@ -92,7 +92,7 @@ const PricingPanel = ({ onNavigate, isLoading }) => {
         </span>
 
         <h1 className="text-5xl md:text-6xl font-black text-zinc-900 dark:text-white tracking-tight mb-6">
-          Invierte en su <span className="gradient-text">futuro digital</span>
+          Invierte en su <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-400">futuro digital</span>
         </h1>
         <p className="text-xl text-zinc-555 dark:text-zinc-400 font-medium max-w-2xl mb-12">
           Elige el plan ideal para expandir la mente de tus hijos y profesores. Cancela en cualquier momento con un solo clic.

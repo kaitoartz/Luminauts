@@ -177,11 +177,11 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
   }, [games]);
 
   return (
-    <div className={`min-h-screen pt-20 bg-zinc-950 text-white transition-all duration-700 ${isLoading ? 'blur-md opacity-40 pointer-events-none' : 'blur-none opacity-100'}`}>
+    <div className={`min-h-screen pt-20 bg-zinc-950 text-zinc-900 dark:text-white transition-all duration-700 ${isLoading ? 'blur-md opacity-40 pointer-events-none' : 'blur-none opacity-100'}`}>
       {/* Scroll Container wrapper (400vh height to trigger scroll timeline) */}
       <div className="relative h-[400vh] w-full hero-scroll-container">
         {/* Sticky Stage (pinned container) */}
-        <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex flex-col justify-center items-center bg-zinc-950 text-white z-10 transition-colors duration-300">
+        <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex flex-col justify-center items-center bg-zinc-950 text-zinc-900 dark:text-white z-10 transition-colors duration-300">
           {/* Background Glow */}
           <div className="absolute inset-0 bg-gradient-to-tr from-blue-950/20 via-zinc-950 to-purple-950/20 z-0 pointer-events-none overflow-hidden">
             <StarsBg className="opacity-100" />
@@ -208,18 +208,18 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
           
           {/* Panel 1: Title & Eyebrow */}
           <div className="panel-1 absolute inset-0 flex flex-col justify-center items-center text-center p-6 z-10">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-zinc-350 font-bold text-sm shadow-sm mb-6 uppercase tracking-wider">
-              <Sparkles size={16} className="text-yellow-400"/> Nueva forma de aprender
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 dark:bg-zinc-800/40 border border-zinc-200 dark:border-white/10 text-zinc-650 dark:text-zinc-350 font-bold text-sm shadow-sm mb-6 uppercase tracking-wider">
+              <Sparkles size={16} className="text-yellow-500"/> Nueva forma de aprender
             </span>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.1] max-w-5xl mb-6 text-white">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.1] max-w-5xl mb-6 text-zinc-900 dark:text-white">
               <BlurReveal trigger={!isSplashActive} delay={0.15}>Descubre&nbsp;</BlurReveal>
               <BlurReveal trigger={!isSplashActive} delay={0.25}>un&nbsp;</BlurReveal>
-              <BlurReveal trigger={!isSplashActive} className="gradient-text bg-gradient-to-r from-blue-400 to-purple-400" delay={0.35}>universo&nbsp;</BlurReveal>
+              <BlurReveal trigger={!isSplashActive} className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500 dark:from-blue-400 dark:to-purple-400" delay={0.35}>universo&nbsp;</BlurReveal>
               <BlurReveal trigger={!isSplashActive} delay={0.45}>de&nbsp;</BlurReveal>
               <BlurReveal trigger={!isSplashActive} delay={0.55}>conocimiento.</BlurReveal>
             </h1>
             <BlurReveal trigger={!isSplashActive} delay={0.7} duration={1.2}>
-              <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl font-medium leading-relaxed">
+              <p className="text-lg sm:text-xl text-zinc-650 dark:text-zinc-400 max-w-2xl font-medium leading-relaxed">
                 Plataforma premium de aprendizaje gamificado. Retos diarios, medallas y un catálogo infinito para entrenar tu mente de forma interactiva.
               </p>
             </BlurReveal>
@@ -277,56 +277,56 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
 
           {/* Panel 3: Stats */}
           <div className="panel-3 absolute inset-0 flex flex-col justify-center items-center text-center p-6 z-10 opacity-0 pointer-events-none">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-16 text-white">
-              Aprendizaje que <span className="gradient-text bg-gradient-to-r from-blue-400 to-cyan-400">engancha.</span>
+            <h2 className="text-4xl lg:text-5xl font-bold mb-16 text-zinc-900 dark:text-white">
+              Aprendizaje que <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-400">engancha.</span>
             </h2>
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl w-full">
-              <div className="hero-stat-card bg-zinc-900/50 border border-zinc-800/60 p-8 rounded-3xl backdrop-blur-sm">
-                <div className="text-5xl font-black text-blue-400 mb-2">+10k</div>
-                <div className="font-bold text-white text-lg mb-1">Estudiantes Activos</div>
-                <div className="text-zinc-400 text-sm">Entrenando su mente a diario en todo el mundo.</div>
+              <div className="hero-stat-card bg-white/50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800/60 p-8 rounded-3xl backdrop-blur-sm shadow-sm dark:shadow-none">
+                <div className="text-5xl font-black text-blue-600 dark:text-blue-400 mb-2">+10k</div>
+                <div className="font-bold text-zinc-900 dark:text-white text-lg mb-1">Estudiantes Activos</div>
+                <div className="text-zinc-650 dark:text-zinc-300 text-sm">Entrenando su mente a diario en todo el mundo.</div>
               </div>
-              <div className="hero-stat-card bg-zinc-900/50 border border-zinc-800/60 p-8 rounded-3xl backdrop-blur-sm">
-                <div className="text-5xl font-black text-purple-400 mb-2">98%</div>
-                <div className="font-bold text-white text-lg mb-1">Retención Escolar</div>
-                <div className="text-zinc-400 text-sm">Altamente motivados con rachas y medallas.</div>
+              <div className="hero-stat-card bg-white/50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800/60 p-8 rounded-3xl backdrop-blur-sm shadow-sm dark:shadow-none">
+                <div className="text-5xl font-black text-tertiary mb-2">98%</div>
+                <div className="font-bold text-zinc-900 dark:text-white text-lg mb-1">Retención Escolar</div>
+                <div className="text-zinc-650 dark:text-zinc-300 text-sm">Altamente motivados con rachas y medallas.</div>
               </div>
-              <div className="hero-stat-card bg-zinc-900/50 border border-zinc-800/60 p-8 rounded-3xl backdrop-blur-sm">
-                <div className="text-5xl font-black text-cyan-400 mb-2">+50</div>
-                <div className="font-bold text-white text-lg mb-1">Juegos Premium</div>
-                <div className="text-zinc-400 text-sm">Desarrollados por pedagogos y diseñadores.</div>
+              <div className="hero-stat-card bg-white/50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800/60 p-8 rounded-3xl backdrop-blur-sm shadow-sm dark:shadow-none">
+                <div className="text-5xl font-black text-cyan-600 dark:text-cyan-400 mb-2">+50</div>
+                <div className="font-bold text-zinc-900 dark:text-white text-lg mb-1">Juegos Premium</div>
+                <div className="text-zinc-650 dark:text-zinc-300 text-sm">Desarrollados por pedagogos y diseñadores.</div>
               </div>
             </div>
           </div>
 
           {/* Panel 4: Final CTA */}
           <div className="panel-4 absolute inset-0 flex flex-col justify-center items-center text-center p-6 z-10 opacity-0 pointer-events-none">
-            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-white">¿Listo para la aventura?</h2>
-            <p className="text-lg md:text-xl text-zinc-400 mb-8 max-w-2xl">
+            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-zinc-900 dark:text-white">¿Listo para la aventura?</h2>
+            <p className="text-lg md:text-xl text-zinc-650 dark:text-zinc-400 mb-8 max-w-2xl">
               Únete hoy a la comunidad educativa líder. Demostrativo disponible o regístrate para obtener novedades.
             </p>
             <div className="flex-container w-full max-w-lg z-20 pointer-events-auto">
               {status === 'success' ? (
                 <motion.div 
-                  className="bg-green-950/40 border border-green-800/50 text-green-200 p-6 rounded-3xl w-full shadow-lg text-center"
+                  className="bg-green-100/80 dark:bg-green-950/40 border border-green-200 dark:border-green-800/50 text-green-800 dark:text-green-200 p-6 rounded-3xl w-full shadow-lg text-center"
                 >
-                  <CheckCircle2 className="mx-auto text-green-400 mb-3" size={32} />
+                  <CheckCircle2 className="mx-auto text-green-600 dark:text-green-400 mb-3" size={32} />
                   <h3 className="font-extrabold text-xl mb-1">¡Suscrito con éxito!</h3>
-                  <p className="text-sm font-medium text-green-300 mb-4">Te enviaremos actualizaciones cuando lancemos más contenido.</p>
+                  <p className="text-sm font-medium text-green-700 dark:text-green-300 mb-4">Te enviaremos actualizaciones cuando lancemos más contenido.</p>
                   <div className="flex gap-3">
                     <Button size="md" onClick={() => onNavigate('catalog')} className="flex-1 shadow-green-500/10">Probar Juegos Demo <Play size={16} className="ml-1"/></Button>
-                    <Button variant="secondary" size="md" onClick={() => onNavigate('dashboard')} className="bg-zinc-850 text-white border-zinc-800 hover:bg-zinc-800 flex-1">Dashboard</Button>
+                    <Button variant="secondary" size="md" onClick={() => onNavigate('dashboard')} className="bg-zinc-100 dark:bg-zinc-850 text-zinc-800 dark:text-white border-zinc-200 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-800 flex-1">Dashboard</Button>
                   </div>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full bg-zinc-900/80 backdrop-blur-md p-2 rounded-[22px] border border-zinc-800 shadow-md">
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md p-2 rounded-[22px] border border-zinc-200 dark:border-zinc-800 shadow-md">
                   <input 
                     type="email" 
                     required 
                     placeholder="Correo de papá, mamá o profesor..." 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="flex-1 bg-transparent px-5 py-3 text-white placeholder-zinc-500 font-semibold focus:outline-none text-sm sm:text-base"
+                    className="flex-1 bg-transparent px-5 py-3 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 font-semibold focus:outline-none text-sm sm:text-base"
                     disabled={loading}
                   />
                   <Button type="submit" disabled={loading} className="py-3 px-6 shadow-blue-500/10 whitespace-nowrap text-sm sm:text-base rounded-2xl">
@@ -345,31 +345,31 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
       </div>
 
       {/* Benefits Section */}
-      <section className="py-36 md:py-48 bg-[#141923] text-white px-6 lg:px-8 relative overflow-hidden transition-colors duration-300">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+      <section className="py-36 md:py-48 bg-zinc-950 text-zinc-900 dark:text-white px-6 lg:px-8 relative overflow-hidden transition-colors duration-300">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
         {/* Ambient gradients */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#6B8BB4]/10 rounded-full blur-[120px] pointer-events-none"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#E0B0FF]/10 rounded-full blur-[120px] pointer-events-none"></div>
         
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-4xl lg:text-5xl font-black mb-6 text-white">
+            <h2 className="text-4xl lg:text-5xl font-black mb-6 text-zinc-900 dark:text-white">
               Exploración que <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8DA9C4] to-[#E0B0FF]">fascina.</span>
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto text-xl font-medium">Tematizado para alimentar la curiosidad innata de los Luminautas y asegurar la retención activa.</p>
+            <p className="text-zinc-650 dark:text-zinc-400 max-w-2xl mx-auto text-xl font-medium">Tematizado para alimentar la curiosidad innata de los Luminautas y asegurar la retención activa.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: "Navegación Lúdica", desc: "Combustible de XP, insignias de tripulación y constelaciones completadas que marcan tu rango.", icon: Rocket, color: "text-[#E0B0FF]" },
-              { title: "Control de Misión", desc: "Panel detallado para Comandantes (padres/profesores) con métricas de precisión orbital y vuelo cognitivo.", icon: Shield, color: "text-[#8DA9C4]" },
-              { title: "Órbita Alta", desc: "Misiones construidas bajo rigurosos estándares pedagógicos, cubriendo desde cálculo hasta lógica cuántica.", icon: BookOpen, color: "text-[#6B8BB4]" }
+              { title: "Navegación Lúdica", desc: "Combustible de XP, insignias de tripulación y constelaciones completadas que marcan tu rango.", icon: Rocket, color: "text-[#E0B0FF] dark:text-[#E0B0FF]" },
+              { title: "Control de Misión", desc: "Panel detallado para Comandantes (padres/profesores) con métricas de precisión orbital y vuelo cognitivo.", icon: Shield, color: "text-[#51759C] dark:text-[#8DA9C4]" },
+              { title: "Órbita Alta", desc: "Misiones construidas bajo rigurosos estándares pedagógicos, cubriendo desde cálculo hasta lógica cuántica.", icon: BookOpen, color: "text-[#3B6290] dark:text-[#6B8BB4]" }
             ].map((b, i) => (
               <div key={i} className="generic-card rounded-[24px]">
                 <div className="title-1 flex items-center gap-3">
                   <b.icon size={24} className={b.color} />
                   <span>{b.title}</span>
                 </div>
-                <div className="content mt-8 text-zinc-300">
+                <div className="content mt-8 text-zinc-700 dark:text-zinc-300">
                   {b.desc}
                 </div>
                 <button className="btn" onClick={() => onNavigate('catalog')}>Explorar</button>
@@ -384,11 +384,11 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
       </section>
 
       {/* Categories Section */}
-      <section className="px-6 lg:px-8 py-36 md:py-48 bg-zinc-950 text-white relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+      <section className="px-6 lg:px-8 py-36 md:py-48 bg-zinc-950 text-zinc-900 dark:text-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
         <div className="max-w-7xl mx-auto mb-16 text-center">
-          <h2 className="text-4xl font-black text-white mb-4">Explora por Categorías</h2>
-          <p className="text-xl text-zinc-400 font-medium">Aprende lo que más te apasiona en nuestro universo.</p>
+          <h2 className="text-4xl font-black text-zinc-900 dark:text-white mb-4">Explora por Categorías</h2>
+          <p className="text-xl text-zinc-650 dark:text-zinc-400 font-medium">Aprende lo que más te apasiona en nuestro universo.</p>
         </div>
 
         {/* Marquee Wrapper */}
@@ -444,16 +444,16 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
       </section>
 
       {/* Featured Games */}
-      <section className="featured-games-section py-36 md:py-48 relative">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
-        <div className="absolute inset-0 bg-radial-gradient from-blue-950/10 via-transparent to-transparent pointer-events-none"></div>
+      <section className="featured-games-section py-36 md:py-48 relative bg-zinc-950 text-zinc-900 dark:text-white">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
+        <div className="absolute inset-0 bg-radial-gradient from-blue-500/5 dark:from-blue-950/10 via-transparent to-transparent pointer-events-none"></div>
         
         <div className="max-w-7xl mx-auto px-6 lg:px-8 mb-16 w-full flex flex-col md:flex-row justify-between items-center md:items-end gap-6 z-10">
           <div>
-            <h2 className="text-4xl font-bold text-white mb-4">Misiones Destacadas</h2>
-            <p className="text-xl text-zinc-400 font-medium">Inicia el viaje con las misiones más aclamadas de la tripulación.</p>
+            <h2 className="text-4xl font-bold text-zinc-900 dark:text-white mb-4">Misiones Destacadas</h2>
+            <p className="text-xl text-zinc-650 dark:text-zinc-400 font-medium">Inicia el viaje con las misiones más aclamadas de la tripulación.</p>
           </div>
-          <Button variant="secondary" onClick={() => onNavigate('catalog')} className="gap-2 bg-zinc-900 border-zinc-850 hover:bg-zinc-800 text-white rounded-2xl">
+          <Button variant="secondary" onClick={() => onNavigate('catalog')} className="gap-2 bg-zinc-100 dark:bg-zinc-900 border-zinc-250 dark:border-zinc-850 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-900 dark:text-white rounded-2xl">
             Ver Mapa Estelar <ArrowRight size={18}/>
           </Button>
         </div>
@@ -465,7 +465,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
               <div key={game.id} className="featured-game-item w-full">
                 <PremiumGameCard 
                   {...game} 
-                  isDark={true} 
+                  isDark={theme === 'dark'} 
                   onClick={() => game.locked ? onLockClick(game) : onNavigate('game', { gameId: game.id })} 
                 />
               </div>
@@ -475,11 +475,11 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
       </section>
 
       {/* Testimonials */}
-      <section className="py-36 md:py-48 bg-zinc-950 text-white px-6 lg:px-8 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+      <section className="py-36 md:py-48 bg-zinc-950 text-zinc-900 dark:text-white px-6 lg:px-8 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
         <div className="max-w-7xl mx-auto mb-20 text-center">
-          <h2 className="text-4xl font-black text-white mb-4">Señales del Control de Misiones</h2>
-          <p className="text-xl text-zinc-400 font-medium">Comentarios de las tripulaciones y comandantes de LumiNauts.</p>
+          <h2 className="text-4xl font-black text-zinc-900 dark:text-white mb-4">Señales del Control de Misiones</h2>
+          <p className="text-xl text-zinc-650 dark:text-zinc-400 font-medium">Comentarios de las tripulaciones y comandantes de LumiNauts.</p>
         </div>
 
         {/* Sticky Stack Cards Container */}
@@ -489,22 +489,22 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
             { text: "Excelente bitácora para asignar misiones adicionales a la tripulación. Muy intuitiva.", author: "Carlos R.", role: "Comandante (Profesor)", avatar: "C" },
             { text: "Me encanta alinear constelaciones y ganar estrellas cada vez que completo misiones de ciencias.", author: "Sofi (10 años)", role: "Luminauta", avatar: "S" }
           ].map((test, i) => (
-            <div key={i} className="stack-card ep-stack-card">
+            <div key={i} className="stack-card ep-stack-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-md dark:shadow-none">
               <div className="flex flex-col gap-6">
-                <div className="flex text-yellow-400">
+                <div className="flex text-yellow-500 dark:text-yellow-400">
                   {[1,2,3,4,5].map(star => <Star key={star} size={24} fill="currentColor" className="filter drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]" />)}
                 </div>
-                <p className="text-white text-2xl md:text-3xl font-medium italic leading-relaxed">
+                <p className="text-zinc-900 dark:text-white text-2xl md:text-3xl font-medium italic leading-relaxed">
                   "{test.text}"
                 </p>
               </div>
               <div className="flex items-center gap-4 mt-8">
-                <div className="w-14 h-14 bg-blue-500/10 border border-blue-500/20 rounded-full flex items-center justify-center font-bold text-blue-400 text-xl shadow-lg">
+                <div className="w-14 h-14 bg-blue-500/10 border border-blue-500/20 rounded-full flex items-center justify-center font-bold text-blue-600 dark:text-blue-400 text-xl shadow-lg">
                   {test.avatar}
                 </div>
                 <div>
-                  <div className="font-extrabold text-white text-lg">{test.author}</div>
-                  <div className="text-sm text-zinc-400 font-semibold">{test.role}</div>
+                  <div className="font-extrabold text-zinc-900 dark:text-white text-lg">{test.author}</div>
+                  <div className="text-sm text-zinc-555 dark:text-zinc-400 font-semibold">{test.role}</div>
                 </div>
               </div>
             </div>
@@ -513,18 +513,18 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
       </section>
 
       {/* Parents/Teachers CTA */}
-      <section className="py-36 md:py-48 bg-[#141923] px-6 lg:px-8 text-center overflow-hidden relative">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#6B8BB4]/10 rounded-full blur-[160px] pointer-events-none"></div>
+      <section className="py-36 md:py-48 bg-zinc-950 px-6 lg:px-8 text-center overflow-hidden relative text-zinc-900 dark:text-white">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#6B8BB4]/5 dark:bg-[#6B8BB4]/10 rounded-full blur-[160px] pointer-events-none"></div>
         
-        <div className="max-w-3xl mx-auto relative z-10 text-white">
-          <Shield size={64} className="mx-auto mb-8 text-[#8DA9C4] filter drop-shadow-[0_0_15px_rgba(141,169,196,0.3)]" />
-          <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-white">¿Eres un Comandante de Misión?</h2>
-          <p className="text-xl text-zinc-350 mb-10 leading-relaxed font-medium">
+        <div className="max-w-3xl mx-auto relative z-10 text-zinc-900 dark:text-white">
+          <Shield size={64} className="mx-auto mb-8 text-[#51759C] dark:text-[#8DA9C4] filter drop-shadow-[0_0_15px_rgba(141,169,196,0.3)]" />
+          <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-zinc-900 dark:text-white">¿Eres un Comandante de Misión?</h2>
+          <p className="text-xl text-zinc-650 dark:text-zinc-350 mb-10 leading-relaxed font-medium">
             Descubre el Control de Misión. Supervisa el progreso orbital de tus cadetes, detecta desvíos de rumbo y asigna misiones personalizadas en tiempo real.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <ShineButton onClick={() => onNavigate('parents')} className="bg-[#6B8BB4] hover:bg-[#8DA9C4] border-white/20 text-white py-4 px-8 rounded-full">
+            <ShineButton onClick={() => onNavigate('parents')} className="bg-[#3B6290] dark:bg-[#6B8BB4] hover:bg-[#2C4A75] dark:hover:bg-[#8DA9C4] border-white/20 text-white py-4 px-8 rounded-full">
               Ingresar al Control de Misión
             </ShineButton>
           </div>
@@ -532,7 +532,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
       </section>
 
       {/* Footer */}
-      <footer className="bg-zinc-950 border-t border-zinc-850 pt-20 pb-10 px-6 lg:px-8">
+      <footer className="bg-zinc-950 border-t border-zinc-200 dark:border-zinc-850 pt-20 pb-10 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             <div className="col-span-1 md:col-span-2">
