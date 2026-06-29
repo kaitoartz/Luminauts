@@ -129,15 +129,15 @@ export const FrostedGlassCard = ({ onEnter }) => {
     setParticles(createParticles(width, height, 32));
     setTimeout(() => setParticles([]), 1200);
     
-    // Trigger bounce animation & set state early
-    const nextFlipped = !flipped;
-    flippedRef.current = nextFlipped;
-    setFlipped(nextFlipped);
-    setAnimState(nextFlipped ? 'flipping' : 'unflipping');
+    // Trigger bounce animation
+    setAnimState(flipped ? 'unflipping' : 'flipping');
   };
 
   // ── Animation end → settle state ──────────────────────────────────────────
   const handleAnimEnd = () => {
+    const next = !flipped;
+    flippedRef.current  = next;
+    setFlipped(next);
     setAnimState('idle');
     animatingRef.current = false;
   };
