@@ -5,6 +5,7 @@ import { RobotFaceIcon } from './RobotFaceIcon';
 export const FrostedGlassCard = ({ onEnter }) => {
   const cardRef = useRef(null);
   const [flipped, setFlipped] = useState(false);
+  const flippedRef = useRef(false);
   const [backHovered, setBackHovered] = useState(false);
   const [ageInput, setAgeInput] = useState('');
 
@@ -13,8 +14,7 @@ export const FrostedGlassCard = ({ onEnter }) => {
     if (!card) return;
 
     const handleMouseMove = (e) => {
-      // If flipped, let the CSS flip animation take control completely
-      if (card.classList.contains('flipped')) return;
+      if (flippedRef.current) return;
 
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -38,7 +38,7 @@ export const FrostedGlassCard = ({ onEnter }) => {
     };
 
     const handleMouseLeave = () => {
-      if (card.classList.contains('flipped')) return;
+      if (flippedRef.current) return;
       card.style.transform = '';
     };
 
@@ -53,6 +53,7 @@ export const FrostedGlassCard = ({ onEnter }) => {
 
   const handleCardClick = () => {
     const nextFlipped = !flipped;
+    flippedRef.current = nextFlipped;
     setFlipped(nextFlipped);
     if (cardRef.current) {
       cardRef.current.style.transform = '';
@@ -68,23 +69,35 @@ export const FrostedGlassCard = ({ onEnter }) => {
       <div
         ref={cardRef}
         onClick={handleCardClick}
-        className={`ludi-rainbow-wrap group w-full max-w-md cursor-pointer select-none ${flipped ? 'flipped' : ''}`}
-        style={{ transformStyle: 'preserve-3d' }}
+        className={`ludi-rainbow-wrap group w-full max-w-md cursor-pointer select-none`}
+        style={{
+          transformStyle: 'preserve-3d',
+          transition: 'transform 0.8s cubic-bezier(0.32, 0.72, 0, 1)',
+          transform: flipped ? 'rotateY(180deg)' : undefined,
+        }}
       >
         {/* Soft Rainbow Glow Shadow */}
         <div className="ludi-rainbow-glow" />
 
-        <div className="flip-card-inner" style={{ transformStyle: 'preserve-3d' }}>
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            transformStyle: 'preserve-3d',
+          }}
+        >
           {/* FRONT */}
           <div
-            className="flip-card-front card-ludi relative w-full h-full rounded-[2.45rem] p-10 text-white"
+            className="card-ludi rounded-[2.45rem] p-10 text-white"
             style={{
-              background: 'rgba(9, 9, 11, 0.85)', // Darker backing to contrast with the rainbow border
+              position: 'relative',
+              width: '100%',
+              background: 'rgba(9, 9, 11, 0.85)',
               backdropFilter: 'blur(25px)',
               WebkitBackdropFilter: 'blur(25px)',
               transformStyle: 'preserve-3d',
               transition: 'background-color 0.3s ease',
-              border: 'none', // Removed border since the rainbow wrapper acts as the border
+              border: 'none',
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
             }}
@@ -149,10 +162,14 @@ export const FrostedGlassCard = ({ onEnter }) => {
 
           {/* BACK */}
           <div
-            className="flip-card-back card-ludi relative w-full h-full rounded-[2.45rem] p-10 text-white flex flex-col items-center justify-center text-center"
+            className="card-ludi rounded-[2.45rem] p-10 text-white flex flex-col items-center justify-center text-center"
             onMouseEnter={() => setBackHovered(true)}
             onMouseLeave={() => setBackHovered(false)}
             style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
               background: 'rgba(9, 9, 11, 0.9)',
               backdropFilter: 'blur(25px)',
               WebkitBackdropFilter: 'blur(25px)',
@@ -160,6 +177,7 @@ export const FrostedGlassCard = ({ onEnter }) => {
               border: 'none',
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
+              transform: 'rotateY(180deg)',
             }}
           >
             {/* Back Content Box with staggered 3D TranslateZ */}

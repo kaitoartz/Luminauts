@@ -54,6 +54,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       });
       lenisRef.current = lenis;
+      if (isSplashActive) lenis.stop();
 
       // Update ScrollTrigger on Lenis scroll events
       lenis.on('scroll', ScrollTrigger.update);
