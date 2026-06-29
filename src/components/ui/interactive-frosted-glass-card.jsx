@@ -65,46 +65,16 @@ export const FrostedGlassCard = ({ onEnter }) => {
       cardRef.current.style.transform = '';
     }
 
-    // Spawn Balatro premium particles from the card boundaries
-    const particleCount = 32;
-    const cardWidth = 448; // max-w-md is 448px
-    const cardHeight = 560; // Approximate card height
-
+    // Spawn Balatro premium particles from center, flying outwards
+    const particleCount = 36;
     const newParticles = Array.from({ length: particleCount }).map((_, idx) => {
-      // Determine which edge to spawn on: 0=top, 1=right, 2=bottom, 3=left
-      const edge = idx % 4;
-      let startX = 0;
-      let startY = 0;
-      let angle = 0;
-
-      if (edge === 0) {
-        // Top edge
-        startX = (Math.random() - 0.5) * cardWidth;
-        startY = -cardHeight / 2;
-        angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.5; // Upwards
-      } else if (edge === 1) {
-        // Right edge
-        startX = cardWidth / 2;
-        startY = (Math.random() - 0.5) * cardHeight;
-        angle = (Math.random() - 0.5) * 1.5; // Rightwards
-      } else if (edge === 2) {
-        // Bottom edge
-        startX = (Math.random() - 0.5) * cardWidth;
-        startY = cardHeight / 2;
-        angle = Math.PI / 2 + (Math.random() - 0.5) * 1.5; // Downwards
-      } else {
-        // Left edge
-        startX = -cardWidth / 2;
-        startY = (Math.random() - 0.5) * cardHeight;
-        angle = Math.PI + (Math.random() - 0.5) * 1.5; // Leftwards
-      }
-
-      const speed = 60 + Math.random() * 90;
-      const tx = startX + Math.cos(angle) * speed;
-      const ty = startY + Math.sin(angle) * speed + 30; // some gravity downward shift
-      const size = 10 + Math.random() * 12;
+      const angle = (idx / particleCount) * 2 * Math.PI + (Math.random() - 0.5) * 0.15;
+      const speed = 180 + Math.random() * 220; // Faster expansion to overshoot the card boundaries
+      const tx = Math.cos(angle) * speed;
+      const ty = Math.sin(angle) * speed + 30; // slight gravity pull downwards
+      const size = 12 + Math.random() * 16;
       const rot = (Math.random() - 0.5) * 720;
-      const duration = 0.7 + Math.random() * 0.4;
+      const duration = 0.6 + Math.random() * 0.4;
       const delay = Math.random() * 0.05;
       
       // Balatro / premium theme colors
@@ -113,8 +83,8 @@ export const FrostedGlassCard = ({ onEnter }) => {
 
       return {
         id: `p-${idx}-${Math.random()}`,
-        startX,
-        startY,
+        startX: 0,
+        startY: 0,
         tx,
         ty,
         size,
@@ -138,8 +108,8 @@ export const FrostedGlassCard = ({ onEnter }) => {
       className="card-container flex items-center justify-center p-4 relative"
       style={{ perspective: '1000px' }} // Critical for enabling highly noticeable 3D depth
     >
-      {/* Particle Emitter Container (Balatro style) */}
-      <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-visible z-50">
+      {/* Particle Emitter Container (Balatro style, behind the card) */}
+      <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-visible z-0">
         {particles.map((p) => (
           <div
             key={p.id}
