@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, BookOpen, FlaskConical, Shield, Globe, XCircle, Lock } from 'lucide-react';
 import './styles/main.css';
@@ -15,14 +15,14 @@ import { FrostedGlassCard } from './components/ui/interactive-frosted-glass-card
 import Navbar from './components/Navbar';
 import ModalWaitlistForm from './components/ModalWaitlistForm';
 
-// Page Views
-import Landing from './pages/Landing';
-import Catalog from './pages/Catalog';
-import Dashboard from './pages/Dashboard';
-import QuizGame from './pages/QuizGame';
-import ParentsPanel from './pages/ParentsPanel';
-import ProfilePanel from './pages/ProfilePanel';
-import PricingPanel from './pages/PricingPanel';
+// Page Views (Lazy Loaded)
+const Landing = lazy(() => import('./pages/Landing'));
+const Catalog = lazy(() => import('./pages/Catalog'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const QuizGame = lazy(() => import('./pages/QuizGame'));
+const ParentsPanel = lazy(() => import('./pages/ParentsPanel'));
+const ProfilePanel = lazy(() => import('./pages/ProfilePanel'));
+const PricingPanel = lazy(() => import('./pages/PricingPanel'));
 
 const App = () => {
   const [view, setView] = useState('landing');
@@ -299,7 +299,9 @@ const App = () => {
           exit={{ opacity: 0, filter: 'blur(10px)' }} 
           transition={{ duration: 0.4 }}
         >
-          {views[view]}
+          <Suspense fallback={<AstronautLoader />}>
+            {views[view]}
+          </Suspense>
         </motion.div>
       </AnimatePresence>
 

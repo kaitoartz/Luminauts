@@ -191,6 +191,16 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
     }
   }, [isSplashActive]);
 
+  useEffect(() => {
+    if (isSplashActive) return;
+    if (document.querySelector('script[src*="model-viewer"]')) return;
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = 'https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js';
+    script.async = true;
+    document.head.appendChild(script);
+  }, [isSplashActive]);
+
   return (
     <div className={`min-h-screen bg-zinc-950 text-zinc-900 dark:text-white transition-all duration-700 ${isLoading ? 'blur-md opacity-40 pointer-events-none' : 'blur-none opacity-100'}`}>
       {/* Scroll Container wrapper (400vh height to trigger scroll timeline) */}
@@ -460,7 +470,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
               <p className="text-zinc-400 text-lg max-w-sm mb-6">La estación estelar donde el conocimiento y la aventura espacial convergen para inspirar a los Luminautas.</p>
             </div>
             <div>
-              <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Plataforma</h4>
+              <h3 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Plataforma</h3>
               <ul className="space-y-4 text-zinc-400 font-medium flex flex-col items-start">
                 <li><button onClick={() => onNavigate('catalog')} className="hover:text-[#8DA9C4] transition-colors text-left">Mapa Estelar</button></li>
                 <li><button onClick={() => onNavigate('parents')} className="hover:text-[#8DA9C4] transition-colors text-left">Comandantes</button></li>
@@ -468,7 +478,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Legal</h4>
+              <h3 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Legal</h3>
               <ul className="space-y-4 text-zinc-400 font-medium">
                 <li><a href="#" className="hover:text-[#8DA9C4] transition-colors">Privacidad</a></li>
                 <li><a href="#" className="hover:text-[#8DA9C4] transition-colors">Términos</a></li>

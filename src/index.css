@@ -1,1 +1,54 @@
-/* Tailwind is loaded via CDN in index.html */
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Nunito", "system-ui", "sans-serif";
+  --font-display: "Quicksand", "system-ui", "sans-serif";
+
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-secondary: var(--color-secondary);
+  --color-tertiary: var(--color-tertiary);
+  --color-accent: var(--color-accent);
+  --color-border: var(--color-border);
+
+  --color-zinc-50: var(--zinc-50);
+  --color-zinc-100: var(--zinc-100);
+  --color-zinc-150: var(--zinc-150);
+  --color-zinc-200: var(--zinc-200);
+  --color-zinc-300: var(--zinc-300);
+  --color-zinc-350: var(--zinc-350);
+  --color-zinc-400: var(--zinc-400);
+  --color-zinc-500: var(--zinc-500);
+  --color-zinc-550: var(--zinc-550);
+  --color-zinc-600: var(--zinc-600);
+  --color-zinc-650: var(--zinc-650);
+  --color-zinc-700: var(--zinc-700);
+  --color-zinc-750: var(--zinc-750);
+  --color-zinc-800: var(--zinc-800);
+  --color-zinc-850: var(--zinc-850);
+  --color-zinc-900: var(--zinc-900);
+  --color-zinc-950: var(--zinc-950);
+
+  --animate-appear: appear 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-appear-zoom: appear-zoom 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-shimmer: shimmer 1.5s infinite linear;
+
+  @keyframes appear {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes appear-zoom {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+}

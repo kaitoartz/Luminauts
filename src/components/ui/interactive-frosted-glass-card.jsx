@@ -10,6 +10,14 @@ export const FrostedGlassCard = ({ onEnter }) => {
   const [ageInput, setAgeInput] = useState('');
   const [hasClicked, setHasClicked] = useState(false);
   const [particles, setParticles] = useState([]);
+  const [sparkleUrl, setSparkleUrl] = useState('');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSparkleUrl("https://s3-us-west-2.amazonaws.com/s.cdpn.io/13471/sparkles.gif");
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const card = cardRef.current;
@@ -189,7 +197,7 @@ export const FrostedGlassCard = ({ onEnter }) => {
             <div 
               className="pointer-events-none absolute inset-0 opacity-30 group-hover:opacity-60 transition-opacity duration-300 rounded-[2.45rem]"
               style={{
-                backgroundImage: 'url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/13471/sparkles.gif")',
+                backgroundImage: sparkleUrl ? `url("${sparkleUrl}")` : 'none',
                 backgroundPosition: 'center',
                 backgroundSize: '180%',
                 mixBlendMode: 'color-dodge',
