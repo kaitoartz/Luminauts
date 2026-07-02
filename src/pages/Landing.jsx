@@ -44,9 +44,15 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
 
   useEffect(() => {
     // Detect touch-only device (like mobile/tablet, not hybrid touchscreen PC)
-    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    const isTouchDevice = 
+      window.matchMedia('(pointer: coarse)').matches || 
+      ('ontouchstart' in window) || 
+      (navigator.maxTouchPoints > 0);
 
     let lenis = null;
+    let handleMouseDown = null;
+    let handleMouseMove = null;
+    let handleMouseUp = null;
 
     if (!isTouchDevice) {
       // Initialize Lenis smooth scroll only on non-touch devices
@@ -59,6 +65,40 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
 
       // Update ScrollTrigger on Lenis scroll events
       lenis.on('scroll', ScrollTrigger.update);
+
+      let isMiddleDragging = false;
+      let startY = 0;
+
+      // Allow middle-click autoscroll in PC by pausing Lenis
+      handleMouseDown = (e) => {
+        if (e.button === 1) {
+          e.preventDefault();
+          isMiddleDragging = true;
+          startY = e.clientY;
+        }
+      };
+
+      handleMouseMove = (e) => {
+        if (isMiddleDragging && lenisRef.current) {
+          const deltaY = e.clientY - startY;
+          if (Math.abs(deltaY) > 5) {
+            const scrollSpeed = deltaY * 0.15;
+            lenisRef.current.scrollTo(window.scrollY + scrollSpeed, {
+              immediate: false,
+            });
+          }
+        }
+      };
+
+      handleMouseUp = (e) => {
+        if (e.button === 1) {
+          isMiddleDragging = false;
+        }
+      };
+
+      window.addEventListener('mousedown', handleMouseDown);
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
     }
 
     // Sync Lenis RAF with GSAP Ticker
@@ -175,6 +215,11 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
     return () => {
       ctx.revert();
       gsap.ticker.remove(tickerCallback);
+      if (handleMouseDown) {
+        window.removeEventListener('mousedown', handleMouseDown);
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+      }
       if (lenis) {
         lenisRef.current = null;
         lenis.destroy();

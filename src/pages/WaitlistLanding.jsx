@@ -68,8 +68,14 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
   };
 
   useEffect(() => {
-    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    const isTouchDevice = 
+      window.matchMedia('(pointer: coarse)').matches || 
+      ('ontouchstart' in window) || 
+      (navigator.maxTouchPoints > 0);
     let lenis = null;
+    let handleMouseDown = null;
+    let handleMouseMove = null;
+    let handleMouseUp = null;
 
     if (!isTouchDevice) {
       lenis = new Lenis({
@@ -79,6 +85,39 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       lenisRef.current = lenis;
       if (isSplashActive) lenis.stop();
       lenis.on('scroll', ScrollTrigger.update);
+
+      let isMiddleDragging = false;
+      let startY = 0;
+
+      handleMouseDown = (e) => {
+        if (e.button === 1) {
+          e.preventDefault();
+          isMiddleDragging = true;
+          startY = e.clientY;
+        }
+      };
+
+      handleMouseMove = (e) => {
+        if (isMiddleDragging && lenisRef.current) {
+          const deltaY = e.clientY - startY;
+          if (Math.abs(deltaY) > 5) {
+            const scrollSpeed = deltaY * 0.15;
+            lenisRef.current.scrollTo(window.scrollY + scrollSpeed, {
+              immediate: false,
+            });
+          }
+        }
+      };
+
+      handleMouseUp = (e) => {
+        if (e.button === 1) {
+          isMiddleDragging = false;
+        }
+      };
+
+      window.addEventListener('mousedown', handleMouseDown);
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
     }
 
     const tickerCallback = (time) => {
@@ -156,6 +195,11 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
     return () => {
       ctx.revert();
       gsap.ticker.remove(tickerCallback);
+      if (handleMouseDown) {
+        window.removeEventListener('mousedown', handleMouseDown);
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+      }
       if (lenis) {
         lenisRef.current = null;
         lenis.destroy();
