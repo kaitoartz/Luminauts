@@ -14,6 +14,8 @@ import GitHubStarButton from '../components/ui/GitHubStarButton';
 import StarsBg from '../components/ui/StarsBg';
 import PageSkeleton from '../components/ui/PageSkeleton';
 import { BlurReveal } from '../components/ui/blur-reveal';
+import ScrollReveal from '../components/ui/ScrollReveal';
+import FeatureSection from '../components/ui/stack-feature-section';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -406,14 +408,14 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-black mb-4">
-              <BlurReveal trigger={!isSplashActive} delay={0.1}>Exploración&nbsp;</BlurReveal>
-              <BlurReveal trigger={!isSplashActive} delay={0.2}>que&nbsp;</BlurReveal>
-              <BlurReveal trigger={!isSplashActive} className="text-transparent bg-clip-text bg-gradient-to-r from-[#8DA9C4] to-[#E0B0FF]" delay={0.3}>fascina.</BlurReveal>
-            </h2>
-            <BlurReveal trigger={!isSplashActive} delay={0.4}>
+            <ScrollReveal origin="bottom" reset={true}>
+              <h2 className="text-3xl lg:text-4xl font-black mb-4">
+                Exploración que <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8DA9C4] to-[#E0B0FF]">fascina.</span>
+              </h2>
+            </ScrollReveal>
+            <ScrollReveal origin="bottom" delay={0.15} reset={true}>
               <p className="text-zinc-400 max-w-2xl mx-auto text-base">Un entorno gamificado para despertar el ingenio natural de los Luminautas.</p>
-            </BlurReveal>
+            </ScrollReveal>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -421,99 +423,123 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
               { title: "Control de Misión", desc: "Reportes automáticos para padres/profesores. Mapeo de áreas pedagógicas en tiempo real.", icon: Shield, color: "text-[#8DA9C4]" },
               { title: "Plan pedagógico", desc: "Misiones estructuradas basadas en currículos académicos internacionales de lógica y cálculo.", icon: BookOpen, color: "text-[#6B8BB4]" }
             ].map((b, i) => (
-              <div key={i} className="bg-zinc-900/40 border border-zinc-800/30 p-8 rounded-3xl relative overflow-hidden flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-3 text-lg font-bold mb-4">
-                    <b.icon size={22} className={b.color} />
-                    <span>{b.title}</span>
+              <ScrollReveal key={i} origin="bottom" distance={30} delay={i * 0.15} reset={true}>
+                <div className="bg-zinc-900/40 border border-zinc-800/30 p-8 rounded-3xl relative overflow-hidden flex flex-col justify-between h-full">
+                  <div>
+                    <div className="flex items-center gap-3 text-lg font-bold mb-4">
+                      <b.icon size={22} className={b.color} />
+                      <span>{b.title}</span>
+                    </div>
+                    <p className="text-zinc-400 text-sm leading-relaxed mb-6">{b.desc}</p>
                   </div>
-                  <p className="text-zinc-400 text-sm leading-relaxed mb-6">{b.desc}</p>
+                  <button onClick={() => setShowDemoModal(true)} className="text-xs font-semibold text-blue-400 hover:text-blue-300 flex items-center gap-1 mt-2 text-left self-start">
+                    Probar demo <ArrowRight size={12}/>
+                  </button>
                 </div>
-                <button onClick={() => setShowDemoModal(true)} className="text-xs font-semibold text-blue-400 hover:text-blue-300 flex items-center gap-1 mt-2 text-left self-start">
-                  Probar demo <ArrowRight size={12}/>
-                </button>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Categories / Feature Section */}
+      <div className="feature-section-wrapper bg-zinc-950 text-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+        <ScrollReveal origin="bottom" distance={30} reset={true}>
+          <FeatureSection onNavigate={(view) => { if (onNavigate && import.meta.env.VITE_WAITLIST_ONLY !== 'true') { onNavigate(view); } else { setShowDemoModal(true); } }} />
+        </ScrollReveal>
+      </div>
 
       {/* Misiones de Muestra (Catalog Highlight) */}
       <section className="py-20 md:py-36 relative bg-zinc-950 text-white">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <div>
-            <h2 className="text-3xl font-black mb-2">
-              <BlurReveal trigger={!isSplashActive} delay={0.1}>Misiones en Desarrollo</BlurReveal>
-            </h2>
-            <BlurReveal trigger={!isSplashActive} delay={0.25}>
+          <ScrollReveal origin="left" distance={30} reset={true} className="flex-1">
+            <div>
+              <h2 className="text-3xl font-black mb-2">Misiones en Desarrollo</h2>
               <p className="text-sm text-zinc-400">Una vista previa del mapa de aprendizaje que estamos armando.</p>
-            </BlurReveal>
-          </div>
-          <Button variant="secondary" onClick={() => setShowDemoModal(true)} className="gap-1.5 bg-zinc-900 border-zinc-850 text-white rounded-xl text-xs py-2 px-4">
-            Probar Demo Interactiva <ArrowRight size={12}/>
-          </Button>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal origin="right" distance={30} delay={0.1} reset={true}>
+            <Button variant="secondary" onClick={() => setShowDemoModal(true)} className="gap-1.5 bg-zinc-900 border-zinc-850 text-white rounded-xl text-xs py-2 px-4">
+              Probar Demo Interactiva <ArrowRight size={12}/>
+            </Button>
+          </ScrollReveal>
         </div>
 
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {sampleGames.map((game) => (
-              <div key={game.id} className="relative group cursor-pointer" onClick={() => setShowDemoModal(true)}>
-                <PremiumGameCard 
-                  {...game} 
-                  isDark={true}
-                  onClick={() => setShowDemoModal(true)} 
-                />
-                <div className="absolute inset-0 bg-zinc-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-3xl backdrop-blur-[2px]">
-                  <span className="bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5">
-                    <Zap size={12} fill="currentColor"/> Probar Demo
-                  </span>
+            {sampleGames.map((game, i) => (
+              <ScrollReveal key={game.id} origin="bottom" distance={40} delay={i * 0.15} reset={true}>
+                <div className="relative group cursor-pointer" onClick={() => setShowDemoModal(true)}>
+                  <PremiumGameCard 
+                    {...game} 
+                    isDark={true}
+                    onClick={() => setShowDemoModal(true)} 
+                  />
+                  <div className="absolute inset-0 bg-zinc-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-3xl backdrop-blur-[2px]">
+                    <span className="bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5">
+                      <Zap size={12} fill="currentColor"/> Probar Demo
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Categories / Feature Section */}
+      <div className="feature-section-wrapper bg-zinc-950 text-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+        <ScrollReveal origin="bottom" distance={30} reset={true}>
+          <FeatureSection onNavigate={onNavigate} />
+        </ScrollReveal>
+      </div>
+
       {/* Pricing Teaser section - Zeigarnik / Commitment */}
       <section className="py-20 bg-zinc-950 text-white text-center relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-3xl font-black mb-4">
-            <BlurReveal trigger={!isSplashActive} delay={0.1}>Membresías Estelares</BlurReveal>
-          </h2>
-          <BlurReveal trigger={!isSplashActive} delay={0.25}>
+          <ScrollReveal origin="bottom" distance={30} reset={true}>
+            <h2 className="text-3xl font-black mb-4">Membresías Estelares</h2>
+          </ScrollReveal>
+          <ScrollReveal origin="bottom" distance={30} delay={0.1} reset={true}>
             <p className="text-sm text-zinc-400 mb-12">Acceso completo para toda la tripulación escolar o familiar.</p>
-          </BlurReveal>
+          </ScrollReveal>
           
           <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            <div className="bg-zinc-900/40 border border-zinc-850/40 p-6 rounded-3xl text-left flex flex-col justify-between opacity-80">
-              <div>
-                <h3 className="text-lg font-bold text-zinc-400">Plan Cadete (Mensual)</h3>
-                <div className="text-3xl font-black my-3 text-white">$9<span className="text-xs text-zinc-500 font-normal"> / mes</span></div>
-                <ul className="text-xs text-zinc-400 space-y-2 mb-6">
-                  <li>• Acceso a todas las misiones (+50)</li>
-                  <li>• 1 cuenta de Luminauta</li>
-                  <li>• Reporte básico mensual</li>
-                </ul>
+            <ScrollReveal origin="left" distance={40} reset={true} className="h-full">
+              <div className="bg-zinc-900/40 border border-zinc-850/40 p-6 rounded-3xl text-left flex flex-col justify-between opacity-80 h-full">
+                <div>
+                  <h3 className="text-lg font-bold text-zinc-400">Plan Cadete (Mensual)</h3>
+                  <div className="text-3xl font-black my-3 text-white">$9<span className="text-xs text-zinc-500 font-normal"> / mes</span></div>
+                  <ul className="text-xs text-zinc-400 space-y-2 mb-6">
+                    <li>• Acceso a todas las misiones (+50)</li>
+                    <li>• 1 cuenta de Luminauta</li>
+                    <li>• Reporte básico mensual</li>
+                  </ul>
+                </div>
+                <Button onClick={() => setShowDemoModal(true)} variant="secondary" className="w-full text-xs">Reservar en Lanzamiento</Button>
               </div>
-              <Button onClick={() => setShowDemoModal(true)} variant="secondary" className="w-full text-xs">Reservar en Lanzamiento</Button>
-            </div>
+            </ScrollReveal>
             
-            <div className="bg-zinc-900/60 border border-blue-500/30 p-6 rounded-3xl text-left relative flex flex-col justify-between ring-1 ring-blue-500/20">
-              <span className="absolute -top-3 right-4 bg-blue-600 text-[10px] font-black text-white px-2.5 py-0.5 rounded-full uppercase tracking-wider">Fundador</span>
-              <div>
-                <h3 className="text-lg font-bold text-blue-400">Pase Estelar (Anual)</h3>
-                <div className="text-3xl font-black my-3 text-white">$69<span className="text-xs text-zinc-500 font-normal"> / año</span></div>
-                <ul className="text-xs text-zinc-400 space-y-2 mb-6">
-                  <li>• Todo el contenido de por vida</li>
-                  <li>• Hasta 3 cuentas de cadetes</li>
-                  <li>• Reporte estelar diario en tiempo real</li>
-                  <li>• Insignias exclusivas de fundador</li>
-                </ul>
+            <ScrollReveal origin="right" distance={40} delay={0.15} reset={true} className="h-full">
+              <div className="bg-zinc-900/60 border border-blue-500/30 p-6 rounded-3xl text-left relative flex flex-col justify-between ring-1 ring-blue-500/20 h-full">
+                <span className="absolute -top-3 right-4 bg-blue-600 text-[10px] font-black text-white px-2.5 py-0.5 rounded-full uppercase tracking-wider">Fundador</span>
+                <div>
+                  <h3 className="text-lg font-bold text-blue-400">Pase Estelar (Anual)</h3>
+                  <div className="text-3xl font-black my-3 text-white">$69<span className="text-xs text-zinc-500 font-normal"> / año</span></div>
+                  <ul className="text-xs text-zinc-400 space-y-2 mb-6">
+                    <li>• Todo el contenido de por vida</li>
+                    <li>• Hasta 3 cuentas de cadetes</li>
+                    <li>• Reporte estelar diario en tiempo real</li>
+                    <li>• Insignias exclusivas de fundador</li>
+                  </ul>
+                </div>
+                <Button onClick={() => setShowDemoModal(true)} className="w-full text-xs bg-blue-600 hover:bg-blue-500 text-white">Reservar Oferta Lanzamiento</Button>
               </div>
-              <Button onClick={() => setShowDemoModal(true)} className="w-full text-xs bg-blue-600 hover:bg-blue-500 text-white">Reservar Oferta Lanzamiento</Button>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -522,12 +548,12 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       <section className="py-20 md:py-36 bg-zinc-950 text-white px-6 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="max-w-7xl mx-auto mb-16 text-center">
-          <h2 className="text-3xl font-black text-white mb-2">
-            <BlurReveal trigger={!isSplashActive} delay={0.1}>Comentarios de Comandantes</BlurReveal>
-          </h2>
-          <BlurReveal trigger={!isSplashActive} delay={0.25}>
+          <ScrollReveal origin="bottom" distance={30} reset={true}>
+            <h2 className="text-3xl font-black text-white mb-2">Comentarios de Comandantes</h2>
+          </ScrollReveal>
+          <ScrollReveal origin="bottom" distance={30} delay={0.1} reset={true}>
             <p className="text-sm text-zinc-400">Padres y profesores que ya han probado nuestros builds de prueba.</p>
-          </BlurReveal>
+          </ScrollReveal>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -536,14 +562,43 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
             { text: "El panel de control me permite ver exactamente dónde tienen dificultades en lógica. Útil para el aula.", author: "Prof. Carlos R.", role: "Docente de Primaria" },
             { text: "Los acertijos del laboratorio químico tienen una estética increíble y son muy fáciles de comprender.", author: "Sofi P.", role: "Cadete (10 años)" }
           ].map((test, i) => (
-            <div key={i} className="bg-zinc-900/30 border border-zinc-850 p-6 rounded-2xl flex flex-col justify-between">
-              <p className="text-zinc-300 text-sm italic leading-relaxed mb-6">"{test.text}"</p>
-              <div>
-                <div className="font-bold text-sm text-white">{test.author}</div>
-                <div className="text-[11px] text-zinc-550 font-semibold">{test.role}</div>
+            <ScrollReveal key={i} origin="bottom" distance={30} delay={i * 0.15} reset={true}>
+              <div className="bg-zinc-900/30 border border-zinc-850 p-6 rounded-2xl flex flex-col justify-between h-full">
+                <p className="text-zinc-300 text-sm italic leading-relaxed mb-6">"{test.text}"</p>
+                <div>
+                  <div className="font-bold text-sm text-white">{test.author}</div>
+                  <div className="text-[11px] text-zinc-550 font-semibold">{test.role}</div>
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
+        </div>
+      </section>
+
+      {/* Parents/Teachers CTA */}
+      <section className="py-36 md:py-48 bg-zinc-950 px-6 lg:px-8 text-center overflow-hidden relative text-zinc-900 dark:text-white">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#6B8BB4]/5 dark:bg-[#6B8BB4]/10 rounded-full blur-[160px] pointer-events-none"></div>
+        
+        <div className="max-w-3xl mx-auto relative z-10 text-zinc-900 dark:text-white">
+          <ScrollReveal origin="top" distance={30} reset={true}>
+            <Shield size={64} className="mx-auto mb-8 text-[#51759C] dark:text-[#8DA9C4] filter drop-shadow-[0_0_15px_rgba(141,169,196,0.3)]" />
+          </ScrollReveal>
+          <ScrollReveal origin="bottom" distance={30} delay={0.1} reset={true}>
+            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-zinc-900 dark:text-white">¿Eres un Comandante de Misión?</h2>
+          </ScrollReveal>
+          <ScrollReveal origin="bottom" distance={30} delay={0.2} reset={true}>
+            <p className="text-xl text-zinc-650 dark:text-zinc-350 mb-10 leading-relaxed font-medium">
+              Descubre el Control de Misión. Supervisa el progreso orbital de tus cadetes, detecta desvíos de rumbo y asigna misiones personalizadas en tiempo real.
+            </p>
+          </ScrollReveal>
+          <ScrollReveal origin="bottom" distance={30} delay={0.3} reset={true}>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <ShineButton onClick={() => setShowDemoModal(true)} className="bg-[#3B6290] dark:bg-[#6B8BB4] hover:bg-[#2C4A75] dark:hover:bg-[#8DA9C4] border-white/20 text-white py-4 px-8 rounded-full">
+                Reservar Acceso al Control de Misión
+              </ShineButton>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 

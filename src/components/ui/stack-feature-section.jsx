@@ -99,7 +99,7 @@ export default function FeatureSection({ onNavigate }) {
                     return (
                       <div
                         key={iconIdx}
-                        className="absolute bg-white dark:bg-zinc-900 rounded-full p-2 border border-zinc-150 dark:border-zinc-800 shadow-lg cursor-pointer hover:scale-110 transition-transform"
+                        className="absolute bg-white dark:bg-zinc-900 rounded-full p-2 border border-zinc-150 dark:border-zinc-800 shadow-lg cursor-pointer hover:scale-110 group transition-all duration-300"
                         style={{
                           left: `${x}%`,
                           top: `${y}%`,
@@ -107,7 +107,17 @@ export default function FeatureSection({ onNavigate }) {
                         }}
                       >
                         {cfg.Icon && (
-                          <cfg.Icon className="w-6 h-6 md:w-7 md:h-7" style={{ color: cfg.color }} />
+                          <div
+                            className="flex items-center justify-center relative"
+                            style={{
+                              animation: `spin-reverse ${15 + orbitIdx * 8}s linear infinite`,
+                            }}
+                          >
+                            <cfg.Icon className="w-6 h-6 md:w-7 md:h-7" style={{ color: cfg.color }} />
+                            <span className="absolute bottom-full mb-2 bg-zinc-900 dark:bg-zinc-800 text-white text-[10px] font-bold px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow pointer-events-none whitespace-nowrap z-30">
+                              {cfg.label}
+                            </span>
+                          </div>
                         )}
                       </div>
                     );
@@ -120,20 +130,15 @@ export default function FeatureSection({ onNavigate }) {
 
       {/* Animation keyframes */}
       <style>{`
-        @keyframes spin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          [style*="animation"] {
-            animation: none !important;
-          }
-        }
-      `}</style>
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes spin-reverse {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+  }
+`}</style>
     </section>
   );
 }

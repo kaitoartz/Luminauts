@@ -15,7 +15,8 @@ import GitHubStarButton from '../components/ui/GitHubStarButton';
 import StarsBg from '../components/ui/StarsBg';
 import PageSkeleton from '../components/ui/PageSkeleton';
 import { BlurReveal } from '../components/ui/blur-reveal';
-import FeatureSection from '../components/ui/stack-feature-section';
+import FeatureSection from '../components/ui/a';
+import ScrollReveal from '../components/ui/ScrollReveal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -332,10 +333,14 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
         
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-4xl lg:text-5xl font-black mb-6 text-zinc-900 dark:text-white">
-              Exploración que <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8DA9C4] to-[#E0B0FF]">fascina.</span>
-            </h2>
-            <p className="text-zinc-650 dark:text-zinc-550 max-w-2xl mx-auto text-xl font-medium">Tematizado para alimentar la curiosidad innata de los Luminautas y asegurar la retención activa.</p>
+            <ScrollReveal origin="bottom" reset={true}>
+              <h2 className="text-4xl lg:text-5xl font-black mb-6 text-zinc-900 dark:text-white">
+                Exploración que <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8DA9C4] to-[#E0B0FF]">fascina.</span>
+              </h2>
+            </ScrollReveal>
+            <ScrollReveal origin="bottom" delay={0.15} reset={true}>
+              <p className="text-zinc-650 dark:text-zinc-550 max-w-2xl mx-auto text-xl font-medium">Tematizado para alimentar la curiosidad innata de los Luminautas y asegurar la retención activa.</p>
+            </ScrollReveal>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -343,20 +348,22 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
               { title: "Control de Misión", desc: "Panel detallado para Comandantes (padres/profesores) con métricas de precisión orbital y vuelo cognitivo.", icon: Shield, color: "text-[#51759C] dark:text-[#8DA9C4]" },
               { title: "Órbita Alta", desc: "Misiones construidas bajo rigurosos estándares pedagógicos, cubriendo desde cálculo hasta lógica cuántica.", icon: BookOpen, color: "text-[#3B6290] dark:text-[#6B8BB4]" }
             ].map((b, i) => (
-              <div key={i} className="generic-card rounded-[24px]">
-                <div className="title-1 flex items-center gap-3">
-                  <b.icon size={24} className={b.color} />
-                  <span>{b.title}</span>
+              <ScrollReveal key={i} origin="bottom" distance={30} delay={i * 0.15} reset={true}>
+                <div className="generic-card rounded-[24px]">
+                  <div className="title-1 flex items-center gap-3">
+                    <b.icon size={24} className={b.color} />
+                    <span>{b.title}</span>
+                  </div>
+                  <div className="content mt-8 text-zinc-700 dark:text-zinc-300">
+                    {b.desc}
+                  </div>
+                  <button className="btn" onClick={() => onNavigate('catalog')}>Explorar</button>
+                  <div className="bar">
+                    <div className="emptybar" />
+                    <div className="filledbar" />
+                  </div>
                 </div>
-                <div className="content mt-8 text-zinc-700 dark:text-zinc-300">
-                  {b.desc}
-                </div>
-                <button className="btn" onClick={() => onNavigate('catalog')}>Explorar</button>
-                <div className="bar">
-                  <div className="emptybar" />
-                  <div className="filledbar" />
-                </div>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -365,7 +372,9 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
       {/* Categories / Feature Section */}
       <div className="feature-section-wrapper bg-zinc-950 text-zinc-900 dark:text-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
-        <FeatureSection onNavigate={onNavigate} />
+        <ScrollReveal origin="bottom" distance={30} reset={true}>
+          <FeatureSection onNavigate={onNavigate} />
+        </ScrollReveal>
       </div>
 
       {/* Featured Games */}
@@ -374,26 +383,30 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
         <div className="absolute inset-0 bg-radial-gradient from-blue-500/5 dark:from-blue-950/10 via-transparent to-transparent pointer-events-none"></div>
         
         <div className="max-w-7xl mx-auto px-6 lg:px-8 mb-16 w-full flex flex-col md:flex-row justify-between items-center md:items-end gap-6 z-10">
-          <div>
-            <h2 className="text-4xl font-bold text-zinc-900 dark:text-white mb-4">Misiones Destacadas</h2>
-            <p className="text-xl text-zinc-650 dark:text-zinc-550 font-medium">Inicia el viaje con las misiones más aclamadas de la tripulación.</p>
-          </div>
-          <Button variant="secondary" onClick={() => onNavigate('catalog')} className="gap-2 bg-zinc-100 dark:bg-zinc-900 border-zinc-250 dark:border-zinc-850 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-900 dark:text-white rounded-2xl">
-            Ver Mapa Estelar <ArrowRight size={18}/>
-          </Button>
+          <ScrollReveal origin="left" distance={30} reset={true} className="flex-1">
+            <div>
+              <h2 className="text-4xl font-bold text-zinc-900 dark:text-white mb-4">Misiones Destacadas</h2>
+              <p className="text-xl text-zinc-650 dark:text-zinc-550 font-medium">Inicia el viaje con las misiones más aclamadas de la tripulación.</p>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal origin="right" distance={30} delay={0.1} reset={true}>
+            <Button variant="secondary" onClick={() => onNavigate('catalog')} className="gap-2 bg-zinc-100 dark:bg-zinc-900 border-zinc-250 dark:border-zinc-850 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-900 dark:text-white rounded-2xl">
+              Ver Mapa Estelar <ArrowRight size={18}/>
+            </Button>
+          </ScrollReveal>
         </div>
 
         {/* Games Grid layout */}
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {games.slice(0, 3).map((game) => (
-              <div key={game.id} className="featured-game-item w-full">
+            {games.slice(0, 3).map((game, i) => (
+              <ScrollReveal key={game.id} origin="bottom" distance={40} delay={i * 0.15} reset={true} className="featured-game-item w-full">
                 <PremiumGameCard 
                   {...game} 
                   isDark={theme === 'dark'} 
                   onClick={() => game.locked ? onLockClick(game) : onNavigate('game', { gameId: game.id })} 
                 />
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -403,8 +416,12 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
       <section className="py-36 md:py-48 bg-zinc-950 text-zinc-900 dark:text-white px-6 lg:px-8 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
         <div className="max-w-7xl mx-auto mb-20 text-center">
-          <h2 className="text-4xl font-black text-zinc-900 dark:text-white mb-4">Señales del Control de Misiones</h2>
-          <p className="text-xl text-zinc-650 dark:text-zinc-550 font-medium">Comentarios de las tripulaciones y comandantes de LumiNauts.</p>
+          <ScrollReveal origin="bottom" distance={30} reset={true}>
+            <h2 className="text-4xl font-black text-zinc-900 dark:text-white mb-4">Señales del Control de Misiones</h2>
+          </ScrollReveal>
+          <ScrollReveal origin="bottom" distance={30} delay={0.1} reset={true}>
+            <p className="text-xl text-zinc-650 dark:text-zinc-550 font-medium">Comentarios de las tripulaciones y comandantes de LumiNauts.</p>
+          </ScrollReveal>
         </div>
 
         {/* Sticky Stack Cards Container */}
@@ -414,25 +431,27 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
             { text: "Excelente bitácora para asignar misiones adicionales a la tripulación. Muy intuitiva.", author: "Carlos R.", role: "Comandante (Profesor)", avatar: "C" },
             { text: "Me encanta alinear constelaciones y ganar estrellas cada vez que completo misiones de ciencias.", author: "Sofi (10 años)", role: "Luminauta", avatar: "S" }
           ].map((test, i) => (
-            <div key={i} className="stack-card ep-stack-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-md dark:shadow-none">
-              <div className="flex flex-col gap-6">
-                <div className="flex text-yellow-500 dark:text-yellow-400">
-                  {[1,2,3,4,5].map(star => <Star key={star} size={24} fill="currentColor" className="filter drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]" />)}
+            <ScrollReveal key={i} origin={i % 2 === 0 ? 'left' : 'right'} distance={40} delay={i * 0.1} reset={true} className="stack-card ep-stack-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-md dark:shadow-none">
+              <div>
+                <div className="flex flex-col gap-6">
+                  <div className="flex text-yellow-500 dark:text-yellow-400">
+                    {[1,2,3,4,5].map(star => <Star key={star} size={24} fill="currentColor" className="filter drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]" />)}
+                  </div>
+                  <p className="text-zinc-900 dark:text-white text-2xl md:text-3xl font-medium italic leading-relaxed">
+                    "{test.text}"
+                  </p>
                 </div>
-                <p className="text-zinc-900 dark:text-white text-2xl md:text-3xl font-medium italic leading-relaxed">
-                  "{test.text}"
-                </p>
+                <div className="flex items-center gap-4 mt-8">
+                  <div className="w-14 h-14 bg-blue-500/10 border border-blue-500/20 rounded-full flex items-center justify-center font-bold text-blue-600 dark:text-blue-400 text-xl shadow-lg">
+                    {test.avatar}
+                  </div>
+                  <div>
+                    <div className="font-extrabold text-zinc-900 dark:text-white text-lg">{test.author}</div>
+                    <div className="text-sm text-zinc-500 dark:text-zinc-550 font-semibold">{test.role}</div>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-4 mt-8">
-                <div className="w-14 h-14 bg-blue-500/10 border border-blue-500/20 rounded-full flex items-center justify-center font-bold text-blue-600 dark:text-blue-400 text-xl shadow-lg">
-                  {test.avatar}
-                </div>
-                <div>
-                  <div className="font-extrabold text-zinc-900 dark:text-white text-lg">{test.author}</div>
-                  <div className="text-sm text-zinc-500 dark:text-zinc-550 font-semibold">{test.role}</div>
-                </div>
-              </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </section>
@@ -443,16 +462,24 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#6B8BB4]/5 dark:bg-[#6B8BB4]/10 rounded-full blur-[160px] pointer-events-none"></div>
         
         <div className="max-w-3xl mx-auto relative z-10 text-zinc-900 dark:text-white">
-          <Shield size={64} className="mx-auto mb-8 text-[#51759C] dark:text-[#8DA9C4] filter drop-shadow-[0_0_15px_rgba(141,169,196,0.3)]" />
-          <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-zinc-900 dark:text-white">¿Eres un Comandante de Misión?</h2>
-          <p className="text-xl text-zinc-650 dark:text-zinc-350 mb-10 leading-relaxed font-medium">
-            Descubre el Control de Misión. Supervisa el progreso orbital de tus cadetes, detecta desvíos de rumbo y asigna misiones personalizadas en tiempo real.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <ShineButton onClick={() => onNavigate('parents')} className="bg-[#3B6290] dark:bg-[#6B8BB4] hover:bg-[#2C4A75] dark:hover:bg-[#8DA9C4] border-white/20 text-white py-4 px-8 rounded-full">
-              Ingresar al Control de Misión
-            </ShineButton>
-          </div>
+          <ScrollReveal origin="top" distance={30} reset={true}>
+            <Shield size={64} className="mx-auto mb-8 text-[#51759C] dark:text-[#8DA9C4] filter drop-shadow-[0_0_15px_rgba(141,169,196,0.3)]" />
+          </ScrollReveal>
+          <ScrollReveal origin="bottom" distance={30} delay={0.1} reset={true}>
+            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-zinc-900 dark:text-white">¿Eres un Comandante de Misión?</h2>
+          </ScrollReveal>
+          <ScrollReveal origin="bottom" distance={30} delay={0.2} reset={true}>
+            <p className="text-xl text-zinc-650 dark:text-zinc-350 mb-10 leading-relaxed font-medium">
+              Descubre el Control de Misión. Supervisa el progreso orbital de tus cadetes, detecta desvíos de rumbo y asigna misiones personalizadas en tiempo real.
+            </p>
+          </ScrollReveal>
+          <ScrollReveal origin="bottom" distance={30} delay={0.3} reset={true}>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <ShineButton onClick={() => onNavigate('parents')} className="bg-[#3B6290] dark:bg-[#6B8BB4] hover:bg-[#2C4A75] dark:hover:bg-[#8DA9C4] border-white/20 text-white py-4 px-8 rounded-full">
+                Ingresar al Control de Misión
+              </ShineButton>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
