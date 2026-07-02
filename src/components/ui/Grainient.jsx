@@ -144,11 +144,15 @@ const Grainient = ({
     const container = containerRef.current;
     if (!container) return;
 
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || (navigator.deviceMemory && navigator.deviceMemory <= 4);
+    const shouldOptimize = isMobile || isLowEnd;
+
     const renderer = new Renderer({
       webgl: 2,
       alpha: true,
       antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
+      dpr: shouldOptimize ? 0.75 : Math.min(window.devicePixelRatio || 1, 2)
     });
 
     const gl = renderer.gl;
@@ -219,6 +223,11 @@ const Grainient = ({
     };
 
     const tryStart = () => {
+      if (shouldOptimize) {
+        program.uniforms.iTime.value = 1.0;
+        renderer.render({ scene: mesh });
+        return;
+      }
       if (isVisible && isPageVisible && raf === 0) raf = requestAnimationFrame(loop);
     };
     const tryStop = () => {
@@ -247,6 +256,10 @@ const Grainient = ({
       const res = program.uniforms.uCenterOffset.value;
       res[0] = centerXRef.current;
       res[1] = centerYRef.current - progress * speed;
+
+      if (shouldOptimize) {
+        renderer.render({ scene: mesh });
+      }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();

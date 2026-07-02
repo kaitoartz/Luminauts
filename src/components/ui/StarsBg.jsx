@@ -12,8 +12,11 @@ const StarsBg = ({ className = '', showBg = false }) => {
     const container = containerRef.current;
     if (!container) return;
 
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || (navigator.deviceMemory && navigator.deviceMemory <= 4);
+
     // 1. Generate Stars (Adjust count to control star density across the page)
-    const count = 180;
+    const count = isMobile || isLowEnd ? 45 : 180;
     const starsData = [];
     container.innerHTML = '';
 
@@ -51,28 +54,31 @@ const StarsBg = ({ className = '', showBg = false }) => {
       starsData.push({ el: wrapper, initialY: y, speed });
     }
 
-    // 2. Animate on Scroll via GSAP ScrollTrigger (No velocity stretching, stars maintain circle shape)
-    const trigger = ScrollTrigger.create({
-      trigger: document.body,
-      start: "top top",
-      end: "bottom bottom",
-      onUpdate: (self) => {
-        const scroll = self.scroll();
+    // 2. Animate on Scroll via GSAP ScrollTrigger (Only on high-end/desktop)
+    let trigger = null;
+    if (!isMobile && !isLowEnd) {
+      trigger = ScrollTrigger.create({
+        trigger: document.body,
+        start: "top top",
+        end: "bottom bottom",
+        onUpdate: (self) => {
+          const scroll = self.scroll();
 
-        starsData.forEach((star) => {
-          if (star.speed === 0) return;
+          starsData.forEach((star) => {
+            if (star.speed === 0) return;
 
-          // Calculate wrapped position with infinite pooling (0.05 speed factor)
-          let pos = (star.initialY - (scroll * star.speed * 0.05)) % 100;
-          if (pos < 0) pos += 100;
+            // Calculate wrapped position with infinite pooling (0.05 speed factor)
+            let pos = (star.initialY - (scroll * star.speed * 0.05)) % 100;
+            if (pos < 0) pos += 100;
 
-          star.el.style.top = `${pos}%`;
-        });
-      }
-    });
+            star.el.style.top = `${pos}%`;
+          });
+        }
+      });
+    }
 
     return () => {
-      trigger.kill();
+      if (trigger) trigger.kill();
     };
   }, []);
 
