@@ -13,6 +13,7 @@ import PremiumGameCard from '../components/ui/PremiumGameCard';
 import GitHubStarButton from '../components/ui/GitHubStarButton';
 import StarsBg from '../components/ui/StarsBg';
 import PageSkeleton from '../components/ui/PageSkeleton';
+import Grainient from '../components/ui/Grainient';
 import { BlurReveal } from '../components/ui/blur-reveal';
 import ScrollReveal from '../components/ui/ScrollReveal';
 import FeatureSection from '../components/ui/stack-feature-section';
@@ -114,8 +115,8 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       });
 
       tl.fromTo(".ep-orbit-wrapper", 
-        { scale: 0.25, y: "20%", opacity: 0.5 }, 
-        { scale: 0.8, y: "0%", opacity: 1, duration: 2.2, ease: "power2.out" }
+        { scale: 0.15, y: "20%", opacity: 0.5 }, 
+        { scale: 0.6, y: "0%", opacity: 1, duration: 2.2, ease: "power2.out" }
       )
         .to(".panel-1", { opacity: 0, scale: 0.9, duration: 1.2 })
         .to(".panel-2", { opacity: 1, pointerEvents: "auto", duration: 1.2 }, "<")
@@ -123,13 +124,13 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
         .from(".hero-img-right", { x: "100vw", rotation: 45, ease: "power2.out", duration: 1.5 }, "<")
         .from(".hero-img-center", { y: "100vh", rotation: 0, ease: "power2.out", duration: 1.5 }, "<")
         .to(".panel-2", { opacity: 0, pointerEvents: "none", duration: 1, delay: 0.5 })
-        .to(".ep-orbit-wrapper", { scale: 1.2, duration: 1.5 }, "<")
+        .to(".ep-orbit-wrapper", { scale: 1, duration: 1.5 }, "<")
         .to(".panel-3", { opacity: 1, pointerEvents: "auto", duration: 1.2 }, "<")
         .from(".hero-stat-card", { y: 60, opacity: 0, stagger: 0.2, ease: "back.out(1.7)", duration: 1.2 }, "<")
         .to(".panel-3", { opacity: 0, pointerEvents: "none", duration: 1, delay: 0.5 })
         .to(".panel-4", { opacity: 1, pointerEvents: "auto", duration: 1.2 }, "<")
         .from(".panel-4 h2, .panel-4 p, .panel-4 .flex-container", { y: 40, opacity: 0, stagger: 0.15, ease: "power3.out", duration: 1.2 }, "<")
-        .to(".ep-orbit-wrapper", { scale: 2.2, opacity: 1, duration: 1.5, ease: "power1.inOut" }, "<");
+        .to(".ep-orbit-wrapper", { scale: 1.6, opacity: 1, duration: 1.5, ease: "power1.inOut" }, "<");
 
       const hasReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -221,18 +222,21 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
   ];
 
   return (
-    <div className={`min-h-screen bg-zinc-950 text-white transition-all duration-700 ${isLoading ? 'blur-md opacity-40 pointer-events-none' : 'blur-none opacity-100'}`}>
+    <div className={`min-h-screen bg-zinc-950 text-white transition-all duration-700 relative ${isLoading ? 'blur-md opacity-40 pointer-events-none' : 'blur-none opacity-100'}`}>
       
+      {/* Global Background Layer */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <Grainient
+          scrollSpeed={0.3}
+        />
+        <StarsBg className="opacity-100" />
+      </div>
+
       {/* Pinned Scroll Hero Section */}
       <div className="relative h-[400vh] w-full hero-scroll-container">
         
         {/* Sticky Stage */}
-        <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex flex-col justify-center items-center bg-zinc-950 text-white z-10 transition-colors duration-300">
-          
-          {/* Background Glow */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-blue-950/20 via-zinc-950 to-purple-950/20 z-0 pointer-events-none overflow-hidden">
-            <StarsBg className="opacity-100" />
-          </div>
+        <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex flex-col justify-center items-center bg-transparent text-white z-10 transition-colors duration-300">
 
           {/* 3D Line Globe Container */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-[5]">
@@ -247,7 +251,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
                   disable-zoom
                   disable-pan
                   shadow-intensity="0"
-                  exposure="1.2"
+                  exposure="0.5"
                 ></model-viewer>
               </div>
             </div>
@@ -404,7 +408,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       </div>
 
       {/* Feature / Category Highlights */}
-      <section className="py-20 md:py-36 bg-zinc-950 text-white px-6 relative overflow-hidden">
+      <section className="py-20 md:py-36 bg-transparent text-white px-6 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -443,7 +447,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       </section>
 
       {/* Categories / Feature Section */}
-      <div className="feature-section-wrapper bg-zinc-950 text-white relative overflow-hidden">
+      <div className="feature-section-wrapper bg-transparent text-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
         <ScrollReveal origin="bottom" distance={30} reset={true}>
           <FeatureSection onNavigate={(view) => { if (onNavigate && import.meta.env.VITE_WAITLIST_ONLY !== 'true') { onNavigate(view); } else { setShowDemoModal(true); } }} />
@@ -451,7 +455,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       </div>
 
       {/* Misiones de Muestra (Catalog Highlight) */}
-      <section className="py-20 md:py-36 relative bg-zinc-950 text-white">
+      <section className="py-20 md:py-36 relative bg-transparent text-white">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col sm:flex-row justify-between items-center gap-4">
           <ScrollReveal origin="left" distance={30} reset={true} className="flex-1">
@@ -489,16 +493,9 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
         </div>
       </section>
 
-      {/* Categories / Feature Section */}
-      <div className="feature-section-wrapper bg-zinc-950 text-white relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
-        <ScrollReveal origin="bottom" distance={30} reset={true}>
-          <FeatureSection onNavigate={onNavigate} />
-        </ScrollReveal>
-      </div>
 
       {/* Pricing Teaser section - Zeigarnik / Commitment */}
-      <section className="py-20 bg-zinc-950 text-white text-center relative overflow-hidden">
+      <section className="py-20 bg-transparent text-white text-center relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="max-w-4xl mx-auto px-6">
           <ScrollReveal origin="bottom" distance={30} reset={true}>
@@ -545,7 +542,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 md:py-36 bg-zinc-950 text-white px-6 relative overflow-hidden">
+      <section className="py-20 md:py-36 bg-transparent text-white px-6 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="max-w-7xl mx-auto mb-16 text-center">
           <ScrollReveal origin="bottom" distance={30} reset={true}>
@@ -576,7 +573,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       </section>
 
       {/* Parents/Teachers CTA */}
-      <section className="py-36 md:py-48 bg-zinc-950 px-6 lg:px-8 text-center overflow-hidden relative text-zinc-900 dark:text-white">
+      <section className="py-36 md:py-48 bg-transparent px-6 lg:px-8 text-center overflow-hidden relative text-zinc-900 dark:text-white">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#6B8BB4]/5 dark:bg-[#6B8BB4]/10 rounded-full blur-[160px] pointer-events-none"></div>
         
@@ -603,7 +600,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       </section>
 
       {/* Footer */}
-      <footer className="bg-zinc-950 border-t border-zinc-900 pt-20 pb-10 px-6 lg:px-8 text-zinc-400 text-xs">
+      <footer className="relative z-10 bg-transparent border-t border-zinc-900 pt-20 pb-10 px-6 lg:px-8 text-zinc-400 text-xs">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             <div className="col-span-1 md:col-span-2">

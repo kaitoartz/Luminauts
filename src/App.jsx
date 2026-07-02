@@ -328,7 +328,7 @@ const App = () => {
 
   const activeView = isWaitlistMode ? 'landing' : view;
 
-  if (appLoading) {
+  if (appLoading && !isWaitlistMode) {
     return <AstronautLoader />;
   }
 
@@ -384,7 +384,7 @@ const App = () => {
           exit={{ opacity: 0, filter: 'blur(10px)' }} 
           transition={{ duration: 0.4 }}
         >
-          <Suspense fallback={<AstronautLoader />}>
+          <Suspense fallback={isWaitlistMode ? null : <AstronautLoader />}>
             {views[activeView]}
           </Suspense>
         </motion.div>
