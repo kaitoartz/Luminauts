@@ -17,6 +17,7 @@ import Grainient from '../components/ui/Grainient';
 import { BlurReveal } from '../components/ui/blur-reveal';
 import ScrollReveal from '../components/ui/ScrollReveal';
 import FeatureSection from '../components/ui/stack-feature-section';
+import CommanderPassport from '../components/ui/CommanderPassport';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,6 +29,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
   });
   const [loading, setLoading] = useState(false);
   const [showDemoModal, setShowDemoModal] = useState(false);
+  const [showPassport, setShowPassport] = useState(false);
   
   // Demo Game States
   const [demoStep, setDemoStep] = useState(1); // 1: Welcome, 2: Trivia, 3: Success
@@ -64,6 +66,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       setLoading(false);
       setStatus('success');
       localStorage.setItem('eduplay_subscribed_email', email);
+      setShowPassport(true);
     }, 1200);
   };
 
@@ -209,12 +212,16 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
   useEffect(() => {
     const lenis = lenisRef.current;
     if (!lenis) return;
-    if (isSplashActive) {
+    if (isSplashActive || showPassport) {
       lenis.stop();
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
     } else {
       lenis.start();
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     }
-  }, [isSplashActive]);
+  }, [isSplashActive, showPassport]);
 
   useEffect(() => {
     if (isSplashActive) return;
@@ -336,9 +343,12 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
                 <motion.div 
                   initial={{ scale: 0.95, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  className="bg-green-950/20 border border-green-800/30 text-green-200 p-4 rounded-2xl w-full text-center"
+                  className="bg-[#141923]/60 backdrop-blur-md border border-zinc-800/60 p-5 rounded-2xl w-full text-center flex flex-col items-center gap-3"
                 >
-                  <p className="text-sm font-bold">🚀 ¡Registrado con éxito! Te mantendremos informado.</p>
+                  <p className="text-sm font-bold text-green-400">🚀 ¡Eres un Comandante Registrado!</p>
+                  <Button onClick={() => setShowPassport(true)} className="py-2 px-5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-xs w-full sm:w-auto">
+                    Ver mi Pasaporte de Comandante
+                  </Button>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 w-full bg-[#141923]/60 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-800/60 shadow-md">
@@ -420,14 +430,19 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
             <div className="flex-container w-full max-w-lg z-20 pointer-events-auto px-2">
               {status === 'success' ? (
                 <motion.div 
-                  className="bg-green-950/30 border border-green-800/40 text-green-200 p-6 rounded-2xl w-full text-center"
+                  className="bg-green-950/30 border border-green-800/40 text-green-200 p-6 rounded-2xl w-full text-center flex flex-col items-center gap-3"
                 >
                   <CheckCircle2 className="mx-auto text-green-400 mb-2" size={32} />
-                  <h3 className="font-bold text-lg mb-1">¡Suscrito con éxito!</h3>
-                  <p className="text-xs text-green-300 mb-4">Te enviaremos actualizaciones a medida que el lanzamiento se acerque.</p>
-                  <Button size="md" onClick={() => setShowDemoModal(true)} className="w-full">
-                    Probar Demo Gratuita <Play size={12} className="ml-1"/>
-                  </Button>
+                  <h3 className="font-bold text-lg text-white mb-1">¡Suscrito con éxito!</h3>
+                  <p className="text-xs text-green-300">Te mantendremos informado sobre el lanzamiento.</p>
+                  <div className="flex flex-col sm:flex-row gap-2.5 w-full mt-2">
+                    <Button size="md" onClick={() => setShowPassport(true)} className="flex-1 text-xs py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold">
+                      Ver Pasaporte <Award size={12} className="ml-1"/>
+                    </Button>
+                    <Button size="md" onClick={() => setShowDemoModal(true)} variant="secondary" className="flex-1 text-xs py-2.5">
+                      Probar Demo <Play size={12} className="ml-1"/>
+                    </Button>
+                  </div>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 w-full bg-white/5 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200/20 shadow-md">
@@ -839,6 +854,15 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
               )}
             </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showPassport && (
+          <CommanderPassport
+            email={email || localStorage.getItem('eduplay_subscribed_email')}
+            onClose={() => setShowPassport(false)}
+          />
         )}
       </AnimatePresence>
 
