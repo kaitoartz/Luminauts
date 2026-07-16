@@ -19,6 +19,7 @@ import ScrollReveal from '../components/ui/ScrollReveal';
 import FeatureSection from '../components/ui/stack-feature-section';
 import CommanderPassport from '../components/ui/CommanderPassport';
 import HoloCard from '../components/ui/HoloCard';
+import PackOpening from '../components/ui/PackOpening';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -570,79 +571,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
             {/* Contenedor para @pokemon-cads-holo-effect-v2 */}
             <div className="w-full flex items-center justify-center p-4">
               <div id="pokemon-cards-holo-effect-v2-container" className="w-full flex flex-wrap justify-center gap-6 xl:gap-8 py-8">
-                  
-                  {/* Tier 1: Nauta (Clásica, sin efectos) */}
-                  <div className="flex flex-col items-center gap-4">
-                    <HoloCard 
-                      rarity="common" 
-                      subtypes="basic" 
-                      supertype="pokémon"
-                      frontImage="https://images.pokemontcg.io/swsh35/56_hires.png"
-                    />
-                    <div className="text-center mt-2">
-                      <h4 className="font-bold text-zinc-300 text-lg">Nauta</h4>
-                      <p className="text-xs text-zinc-500 font-medium">Carta Básica</p>
-                    </div>
-                  </div>
-
-                  {/* Tier 2: Estelar (Trainer Gallery Holofoil) */}
-                  <div className="flex flex-col items-center gap-4">
-                    <HoloCard 
-                      rarity="rare holo" 
-                      gallery={true}
-                      subtypes="stage 1" 
-                      supertype="pokémon"
-                      frontImage="https://images.pokemontcg.io/swsh9/171_hires.png"
-                    />
-                    <div className="text-center mt-2">
-                      <h4 className="font-bold text-[#8DA9C4] text-lg drop-shadow-[0_0_8px_rgba(141,169,196,0.5)]">Estelar</h4>
-                      <p className="text-xs text-[#8DA9C4]/70 font-medium">Efecto Metálico / Trainer Gallery</p>
-                    </div>
-                  </div>
-
-                  {/* Tier 3: SuperEstelar (Trainer Holo - Full Art / Trainer Gallery V) */}
-                  <div className="flex flex-col items-center gap-4">
-                    <HoloCard 
-                      rarity="rare holo v" 
-                      gallery={true}
-                      subtypes="stage 2" 
-                      supertype="pokémon"
-                      frontImage="https://images.pokemontcg.io/swsh9/171_hires.png"
-                    />
-                    <div className="text-center mt-2">
-                      <h4 className="font-bold text-blue-400 text-lg drop-shadow-[0_0_8px_rgba(96,165,250,0.6)]">SuperEstelar</h4>
-                      <p className="text-xs text-blue-400/70 font-medium">Full Art / Shimmer V</p>
-                    </div>
-                  </div>
-
-                  {/* Tier 4: Cosmos (Radiant/Amazing effect) */}
-                  <div className="flex flex-col items-center gap-4">
-                    <HoloCard 
-                      rarity="radiant rare" 
-                      subtypes="basic" 
-                      supertype="pokémon"
-                      frontImage="https://images.pokemontcg.io/swsh10/27_hires.png"
-                    />
-                    <div className="text-center mt-2">
-                      <h4 className="font-bold text-purple-400 text-lg drop-shadow-[0_0_8px_rgba(192,132,252,0.6)]">Cosmos</h4>
-                      <p className="text-xs text-purple-400/70 font-medium">Resplandor Radiante</p>
-                    </div>
-                  </div>
-
-                  {/* Tier 5: SuperNova (Secret/Gold effect) */}
-                  <div className="flex flex-col items-center gap-4">
-                    <HoloCard 
-                      rarity="rare secret" 
-                      subtypes="secret" 
-                      supertype="pokémon"
-                      frontImage="https://images.pokemontcg.io/swsh9/186_hires.png"
-                    />
-                    <div className="text-center mt-2">
-                      <h4 className="font-bold text-yellow-400 text-lg drop-shadow-[0_0_12px_rgba(250,204,21,0.8)]">SuperNova</h4>
-                      <p className="text-xs text-yellow-400/70 font-medium">Edición Secreta / Fundador</p>
-                    </div>
-                  </div>
-
+                  <PackOpening />
               </div>
             </div>
           </ScrollReveal>

@@ -16,25 +16,26 @@ const HoloCard = ({
   seedY = 0.6665155683907131,
   cosmosBg = '437px 853px',
   className = '',
-  style = {}
+  style = {},
+  initialFlipped = false
 }) => {
   const cardRef = useRef(null);
   const [isInteracting, setIsInteracting] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(initialFlipped);
   const [dynamicVars, setDynamicVars] = useState({
     '--mx': '50%',
     '--my': '50%',
     '--posx': '50%',
     '--posy': '50%',
     '--pos': '50% 50%',
-    '--rx': '0deg',
+    '--rx': initialFlipped ? '180deg' : '0deg',
     '--ry': '0deg',
     '--hyp': '0',
     '--o': '0',
     '--s': '1'
   });
 
-  const [isFlipped, setIsFlipped] = useState(false);
-  const currentValues = useRef({ rx: 0, ry: 0, mx: 50, my: 50, hyp: 0, o: 0, s: 1 });
+  const currentValues = useRef({ rx: initialFlipped ? 180 : 0, ry: 0, mx: 50, my: 50, hyp: 0, o: 0, s: 1 });
   const leaveTimeoutRef = useRef(null);
   const gsapAnimRef = useRef(null);
 
