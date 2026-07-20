@@ -183,13 +183,13 @@ export const FrostedGlassCard = ({ onEnter }) => {
             <div 
               className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[2.45rem]"
               style={{
-                backgroundImage: 'linear-gradient(115deg, transparent 0%, rgba(107, 139, 180, 0.8) 30%, rgba(224, 176, 255, 0.8) 70%, transparent 100%)',
+                backgroundImage: 'linear-linear(115deg, transparent 0%, rgba(107, 139, 180, 0.8) 30%, rgba(224, 176, 255, 0.8) 70%, transparent 100%)',
                 backgroundPosition: 'var(--holo-x, 50%) var(--holo-y, 50%)',
                 backgroundSize: '250% 250%',
                 mixBlendMode: 'color-dodge',
                 zIndex: 1,
-                maskImage: 'radial-gradient(180px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 20%, transparent 100%)',
-                WebkitMaskImage: 'radial-gradient(180px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 20%, transparent 100%)',
+                maskImage: 'radial-linear(180px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 20%, transparent 100%)',
+                WebkitMaskImage: 'radial-linear(180px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 20%, transparent 100%)',
               }}
             />
 
@@ -212,7 +212,7 @@ export const FrostedGlassCard = ({ onEnter }) => {
             >
               {/* Astronaut Badge / Icon - Staggered at 30px */}
               <div 
-                className="w-20 h-20 bg-gradient-to-tr from-[#6B8BB4] to-[#E0B0FF] rounded-full flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(224,176,255,0.4)] transition-transform duration-700 ease-out group-hover:scale-110"
+                className="w-20 h-20 bg-linear-to-tr from-[#6B8BB4] to-[#E0B0FF] rounded-full flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(224,176,255,0.4)] transition-transform duration-700 ease-out group-hover:scale-110"
                 style={{ transform: 'translateZ(30px)' }}
               >
                 <Sparkles className="w-10 h-10 text-white animate-pulse" />
@@ -220,7 +220,7 @@ export const FrostedGlassCard = ({ onEnter }) => {
 
               {/* H2 Title - Staggered at 45px */}
               <h2 
-                className="text-3xl font-display font-black tracking-tight mb-4 bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-[#E0B0FF]"
+                className="text-3xl font-display font-black tracking-tight mb-4 bg-clip-text bg-linear-to-r from-white via-zinc-200 to-[#E0B0FF]"
                 style={{ transform: 'translateZ(45px)' }}
               >
                 ¡Bienvenido Luminauta!
@@ -228,7 +228,7 @@ export const FrostedGlassCard = ({ onEnter }) => {
 
               {/* Interactive Button CTA - Staggered at 60px */}
               <div 
-                className="ep-shine-btn w-full max-w-xs py-4 px-6 bg-gradient-to-r from-[#6B8BB4] to-[#91aed4] hover:from-[#E0B0FF] hover:to-[#dfc8ef] border-2 border-white/30 text-white rounded-full font-bold shadow-[0_10px_25px_rgba(107,139,180,0.3)] active:scale-95 transition-all duration-300 flex items-center justify-center gap-3"
+                className="ep-shine-btn w-full max-w-xs py-4 px-6 bg-linear-to-r from-[#6B8BB4] to-[#91aed4] hover:from-[#E0B0FF] hover:to-[#dfc8ef] border-2 border-white/30 text-white rounded-full font-bold shadow-[0_10px_25px_rgba(107,139,180,0.3)] active:scale-95 transition-all duration-300 flex items-center justify-center gap-3"
                 style={{ transform: 'translateZ(60px)' }}
               >
                 <Pointer size={18} className="text-white animate-bounce" />
@@ -285,7 +285,7 @@ export const FrostedGlassCard = ({ onEnter }) => {
               </div>
               
               <h2 
-                className="text-3xl font-display font-black tracking-tight mb-4 bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-[#E0B0FF]"
+                className="text-3xl font-display font-black tracking-tight mb-4 bg-clip-text bg-linear-to-r from-white via-zinc-200 to-[#E0B0FF]"
                 style={{ transform: 'translateZ(45px)' }}
               >
                 ¿Cuál es tu edad?
@@ -306,7 +306,7 @@ export const FrostedGlassCard = ({ onEnter }) => {
                 />
                 <button 
                   onClick={onEnter}
-                  className="py-3 px-6 bg-gradient-to-r from-[#6B8BB4] to-[#E0B0FF] text-white rounded-full font-bold shadow-lg hover:opacity-90 active:scale-95 transition-all duration-200"
+                  className="py-3 px-6 bg-linear-to-r from-[#6B8BB4] to-[#E0B0FF] text-white rounded-full font-bold shadow-lg hover:opacity-90 active:scale-95 transition-all duration-200"
                 >
                   Enter
                 </button>

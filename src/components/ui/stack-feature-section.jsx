@@ -1,3 +1,4 @@
+import { useRef, useEffect } from "react";
 import Button from "./Button";
 import { 
   Zap, FlaskConical, BookOpen, Brain, Code, Globe, Star, 
@@ -30,11 +31,74 @@ export default function FeatureSection({ onNavigate }) {
   const orbitGap = 7; // spacing in rem
   const iconsPerOrbit = Math.ceil(iconConfigs.length / orbitCount);
 
+  const orbitRefs = useRef([]);
+  const hoverCounts = useRef({});
+  const activeTransitions = useRef({});
+
+  useEffect(() => {
+    return () => {
+      // Clean up requestAnimationFrame loops on unmount
+      Object.values(activeTransitions.current).forEach(id => cancelAnimationFrame(id));
+    };
+  }, []);
+
+  const animatePlaybackRate = (orbitIdx, targetRate) => {
+    const orbitEl = orbitRefs.current[orbitIdx];
+    if (!orbitEl) return;
+
+    if (activeTransitions.current[orbitIdx]) {
+      cancelAnimationFrame(activeTransitions.current[orbitIdx]);
+    }
+
+    const animations = orbitEl.getAnimations({ subtree: true }).filter(
+      anim => anim.animationName === "spin" || anim.animationName === "spin-reverse"
+    );
+    if (animations.length === 0) return;
+
+    let currentRate = animations[0].playbackRate;
+    if (currentRate === null || isNaN(currentRate)) currentRate = 1.0;
+
+    const duration = 300; // ms
+    const startTime = performance.now();
+    const startRate = currentRate;
+
+    const step = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = progress * (2 - progress); // easeOutQuad
+      const newRate = startRate + (targetRate - startRate) * ease;
+
+      animations.forEach(anim => {
+        anim.playbackRate = newRate;
+      });
+
+      if (progress < 1) {
+        activeTransitions.current[orbitIdx] = requestAnimationFrame(step);
+      } else {
+        delete activeTransitions.current[orbitIdx];
+      }
+    };
+
+    activeTransitions.current[orbitIdx] = requestAnimationFrame(step);
+  };
+
+  const handleMouseEnter = (orbitIdx) => {
+    hoverCounts.current[orbitIdx] = (hoverCounts.current[orbitIdx] || 0) + 1;
+    animatePlaybackRate(orbitIdx, 0.25);
+  };
+
+  const handleMouseLeave = (orbitIdx) => {
+    hoverCounts.current[orbitIdx] = Math.max(0, (hoverCounts.current[orbitIdx] || 0) - 1);
+    if (hoverCounts.current[orbitIdx] === 0) {
+      animatePlaybackRate(orbitIdx, 1.0);
+    }
+  };
+
   return (
     <section className="feature-section-container relative w-full max-w-7xl mx-auto px-6 lg:px-8 py-16 my-0 flex flex-col md:flex-row items-center justify-between min-h-[30rem] bg-transparent shadow-none border-none dark:border-none backdrop-blur-none rounded-none">
       
       {/* Background gradients for premium feel */}
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-full from-blue-500/5 via-transparent to-purple-500/5 pointer-events-none" />
       
       {/* Left side: Heading and Text */}
       <div className="w-full md:w-1/2 z-10 flex flex-col items-center md:items-start text-center md:text-left mb-8 md:mb-0">
@@ -82,6 +146,7 @@ export default function FeatureSection({ onNavigate }) {
             return (
               <div
                 key={orbitIdx}
+                ref={(el) => (orbitRefs.current[orbitIdx] = el)}
                 className="absolute rounded-full border border-dashed border-zinc-250 dark:border-zinc-800"
                 style={{
                   width: size,
@@ -105,6 +170,8 @@ export default function FeatureSection({ onNavigate }) {
                           top: `${y}%`,
                           transform: "translate(-50%, -50%)",
                         }}
+                        onMouseEnter={() => handleMouseEnter(orbitIdx)}
+                        onMouseLeave={() => handleMouseLeave(orbitIdx)}
                       >
                         {cfg.Icon && (
                           <div

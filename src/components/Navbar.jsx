@@ -44,10 +44,10 @@ const Navbar = ({ currentView, onNavigate, apiStatus, onOpenSettings, theme, onT
           
           {/* Logo */}
           <div className="flex items-center gap-3 cursor-pointer group" onClick={() => !isWaitlistMode && onNavigate('landing')}>
-            <div className="w-12 h-12 bg-gradient-to-tr from-[#6B8BB4] to-[#E0B0FF] rounded-[18px] flex items-center justify-center text-white shadow-lg shadow-indigo-500/10 group-hover:scale-105 group-hover:rotate-3 transition-transform">
+            <div className="w-12 h-12 bg-linear-to-tr from-[#6B8BB4] to-[#E0B0FF] rounded-[18px] flex items-center justify-center text-white shadow-lg shadow-indigo-500/10 group-hover:scale-105 group-hover:rotate-3 transition-transform">
               <Rocket size={24} />
             </div>
-            <span className="font-black text-2xl tracking-tight text-zinc-900 dark:text-white hidden sm:block">LumiNauts</span>
+            <span className="font-black text-2xl tracking-tight text-zinc-900 dark:text-white hidden sm:block">Luminauts</span>
           </div>
           
           {/* Desktop Navigation Menu (hidden on mobile/tablet) */}
@@ -140,10 +140,10 @@ const Navbar = ({ currentView, onNavigate, apiStatus, onOpenSettings, theme, onT
                 {/* Header inside drawer */}
                 <div className="flex items-center justify-between pb-6 border-b border-zinc-100 dark:border-zinc-200">
                   <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 bg-gradient-to-tr from-[#6B8BB4] to-[#E0B0FF] rounded-[14px] flex items-center justify-center text-white">
+                    <div className="w-10 h-10 bg-linear-to-tr from-[#6B8BB4] to-[#E0B0FF] rounded-[14px] flex items-center justify-center text-white">
                       <Rocket size={20} />
                     </div>
-                    <span className="font-black text-xl tracking-tight text-zinc-900 dark:text-white">LumiNauts</span>
+                    <span className="font-black text-xl tracking-tight text-zinc-900 dark:text-white">Luminauts</span>
                   </div>
                   
                   <button 

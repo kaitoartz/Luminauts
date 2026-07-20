@@ -251,14 +251,14 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
       {/* Scroll Container wrapper (400vh height to trigger scroll timeline) */}
       <div className="relative h-[400vh] w-full hero-scroll-container">
         {/* Sticky Stage (pinned container) */}
-        <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex flex-col justify-center items-center bg-zinc-950 text-zinc-900 dark:text-white z-10 transition-colors duration-300">
+        <div className="sticky top-0 h-100dvh w-full overflow-hidden flex flex-col justify-center items-center bg-zinc-950 text-zinc-900 dark:text-white z-10 transition-colors duration-300">
           {/* Background Glow */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-blue-950/20 via-zinc-950 to-purple-950/20 z-0 pointer-events-none overflow-hidden">
+          <div className="absolute inset-0 bg-linear-to-tr from-blue-950/20 via-zinc-950 to-purple-950/20 z-0 pointer-events-none overflow-hidden">
             <StarsBg className="opacity-100" />
           </div>
 
           {/* 3D Line Globe Container */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-[5]">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-5">
             <div className="ep-orbit-wrapper">
               <div className="ep-model-container">
                 <model-viewer
@@ -281,7 +281,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.1] max-w-5xl mb-6 text-zinc-900 dark:text-white">
               <BlurReveal trigger={!isSplashActive} delay={0.15}>Descubre&nbsp;</BlurReveal>
               <BlurReveal trigger={!isSplashActive} delay={0.25}>un&nbsp;</BlurReveal>
-              <BlurReveal trigger={!isSplashActive} className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500 dark:from-blue-400 dark:to-purple-400" delay={0.35}>universo&nbsp;</BlurReveal>
+              <BlurReveal trigger={!isSplashActive} className="bg-clip-text text-transparent bg-linear-to-r from-blue-500 to-purple-500 dark:from-blue-400 dark:to-purple-400" delay={0.35}>universo&nbsp;</BlurReveal>
               <BlurReveal trigger={!isSplashActive} delay={0.45}>de&nbsp;</BlurReveal>
               <BlurReveal trigger={!isSplashActive} delay={0.55}>conocimiento.</BlurReveal>
             </h1>
@@ -302,7 +302,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
           {/* Panel 3: Stats */}
           <div className="panel-3 absolute inset-0 flex flex-col justify-center items-center text-center p-4 md:p-6 z-10 opacity-0 pointer-events-none overflow-y-auto max-h-[85dvh] md:max-h-none py-12 md:py-0">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 md:mb-16 text-zinc-900 dark:text-white">
-              Aprendizaje que <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-400">engancha.</span>
+              Aprendizaje que <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-400">engancha.</span>
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-5xl w-full">
               <div className="hero-stat-card bg-white/50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800/30 p-6 md:p-8 rounded-3xl backdrop-blur-sm shadow-sm dark:shadow-none">
@@ -326,7 +326,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
           {/* Panel 4: Final CTA */}
           <div className="panel-4 absolute inset-0 flex flex-col justify-center items-center text-center p-4 md:p-6 z-10 opacity-0 pointer-events-none max-h-[85dvh] overflow-y-auto py-12">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-4 md:mb-6 tracking-tight text-zinc-900 dark:text-white">¿Listo para la aventura?</h2>
-            <p className="text-base md:text-lg lg:text-xl text-zinc-650 text-zinc-550 mb-6 md:mb-8 max-w-2xl px-2">
+            <p className="text-base md:text-lg lg:text-xl text-zinc-550 mb-6 md:mb-8 max-w-2xl px-2">
               Únete hoy a la comunidad educativa líder. Demostrativo disponible o regístrate para obtener novedades.
             </p>
             <div className="flex-container w-full max-w-lg z-20 pointer-events-auto px-2">
@@ -370,8 +370,8 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
 
       {/* Benefits Section */}
       <section className="py-20 md:py-36 lg:py-48 bg-zinc-950 text-zinc-900 dark:text-white px-6 lg:px-8 relative overflow-hidden transition-colors duration-300">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
-        {/* Ambient gradients */}
+        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
+        {/* Ambient linears */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#6B8BB4]/10 rounded-full blur-[120px] pointer-events-none"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#E0B0FF]/10 rounded-full blur-[120px] pointer-events-none"></div>
         
@@ -379,7 +379,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
           <div className="text-center mb-20">
             <ScrollReveal origin="bottom" reset={true}>
               <h2 className="text-4xl lg:text-5xl font-black mb-6 text-zinc-900 dark:text-white">
-                Exploración que <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8DA9C4] to-[#E0B0FF]">fascina.</span>
+                Exploración que <span className="text-transparent bg-clip-text bg-linear-to-r from-[#8DA9C4] to-[#E0B0FF]">fascina.</span>
               </h2>
             </ScrollReveal>
             <ScrollReveal origin="bottom" delay={0.15} reset={true}>
@@ -415,7 +415,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
 
       {/* Categories / Feature Section */}
       <div className="feature-section-wrapper bg-zinc-950 text-zinc-900 dark:text-white relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
         <ScrollReveal origin="bottom" distance={30} reset={true}>
           <FeatureSection onNavigate={onNavigate} />
         </ScrollReveal>
@@ -423,8 +423,8 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
 
       {/* Featured Games */}
       <section className="featured-games-section py-36 md:py-48 relative bg-zinc-950 text-zinc-900 dark:text-white">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
-        <div className="absolute inset-0 bg-radial-gradient from-blue-500/5 dark:from-blue-950/10 via-transparent to-transparent pointer-events-none"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
+        <div className="absolute inset-0 bg-radial-linear from-blue-500/5 dark:from-blue-950/10 via-transparent to-transparent pointer-events-none"></div>
         
         <div className="max-w-7xl mx-auto px-6 lg:px-8 mb-16 w-full flex flex-col md:flex-row justify-between items-center md:items-end gap-6 z-10">
           <ScrollReveal origin="left" distance={30} reset={true} className="flex-1">
@@ -458,7 +458,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
 
       {/* Testimonials */}
       <section className="py-36 md:py-48 bg-zinc-950 text-zinc-900 dark:text-white px-6 lg:px-8 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
         <div className="max-w-7xl mx-auto mb-20 text-center">
           <ScrollReveal origin="bottom" distance={30} reset={true}>
             <h2 className="text-4xl font-black text-zinc-900 dark:text-white mb-4">Señales del Control de Misiones</h2>
@@ -502,7 +502,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
 
       {/* Parents/Teachers CTA */}
       <section className="py-36 md:py-48 bg-zinc-950 px-6 lg:px-8 text-center overflow-hidden relative text-zinc-900 dark:text-white">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#6B8BB4]/5 dark:bg-[#6B8BB4]/10 rounded-full blur-[160px] pointer-events-none"></div>
         
         <div className="max-w-3xl mx-auto relative z-10 text-zinc-900 dark:text-white">

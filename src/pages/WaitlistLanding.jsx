@@ -288,10 +288,10 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       <div className="relative h-[400vh] w-full hero-scroll-container">
         
         {/* Sticky Stage */}
-        <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex flex-col justify-center items-center bg-transparent text-white z-10 transition-colors duration-300">
+        <div className="sticky top-0 h-100dvh w-full overflow-hidden flex flex-col justify-center items-center bg-transparent text-white z-10 transition-colors duration-300">
 
           {/* 3D Line Globe Container */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-[5]">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-5">
             <div className="ep-orbit-wrapper">
               <div className="ep-model-container">
                 <model-viewer
@@ -328,7 +328,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.1] max-w-5xl mb-6 text-white">
               <BlurReveal trigger={!isSplashActive} delay={0.15}>La&nbsp;</BlurReveal>
               <BlurReveal trigger={!isSplashActive} delay={0.25}>estación&nbsp;</BlurReveal>
-              <BlurReveal trigger={!isSplashActive} className="bg-clip-text text-transparent bg-gradient-to-r from-[#6B8BB4] to-[#E0B0FF]" delay={0.35}>educativa&nbsp;</BlurReveal>
+              <BlurReveal trigger={!isSplashActive} className="bg-clip-text text-transparent bg-linear-to-r from-[#6B8BB4] to-[#E0B0FF]" delay={0.35}>educativa&nbsp;</BlurReveal>
               <BlurReveal trigger={!isSplashActive} delay={0.45}>del&nbsp;</BlurReveal>
               <BlurReveal trigger={!isSplashActive} delay={0.55}>futuro.</BlurReveal>
             </h1>
@@ -385,7 +385,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
                 <div className="w-full aspect-video bg-zinc-950 border border-zinc-800/50 rounded-2xl flex items-center justify-center relative overflow-hidden group shadow-lg">
                   {/* Falsa interfaz de juego como video */}
                   <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnBub3J5MTV1dTA2c3kzeHJ6azIwYXdoaXRlMjNjZmdpMnpiaGU3diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/71fMwwGrFRszyoHhUy/giphy.gif" alt="Demo gameplay" className="absolute inset-0 w-full h-full object-cover opacity-60" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent"></div>
+                  <div className="absolute inset-0 bg-linear-to-t from-zinc-950 via-transparent to-transparent"></div>
                   <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-zinc-400 z-10 bg-zinc-900/80 px-3 py-2 rounded-xl border border-zinc-800">
                     <span className="flex items-center gap-1.5"><Zap size={12} className="text-yellow-400"/> Misión: Ecuaciones Planetarias</span>
                     <span className="font-mono text-[#8DA9C4]">FPS: 60/60</span>
@@ -398,7 +398,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
           {/* Panel 3: Premium Features & Stats */}
           <div className="panel-3 absolute inset-0 flex flex-col justify-center items-center text-center p-4 md:p-6 z-10 opacity-0 pointer-events-none">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-12 text-white">
-              Aprendizaje que <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#8DA9C4] to-[#FDF9E2]">engancha de verdad.</span>
+              Aprendizaje que <span className="bg-clip-text text-transparent bg-linear-to-r from-[#8DA9C4] to-[#FDF9E2]">engancha de verdad.</span>
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl w-full">
               <div className="hero-stat-card bg-zinc-900/40 border border-zinc-800/30 p-6 rounded-2xl backdrop-blur-sm">
@@ -461,12 +461,12 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
 
       {/* Feature / Category Highlights */}
       <section className="py-20 md:py-36 bg-transparent text-white px-6 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <ScrollReveal origin="bottom" reset={true}>
               <h2 className="text-3xl lg:text-4xl font-black mb-4">
-                Exploración que <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8DA9C4] to-[#E0B0FF]">fascina.</span>
+                Exploración que <span className="text-transparent bg-clip-text bg-linear-to-r from-[#8DA9C4] to-[#E0B0FF]">fascina.</span>
               </h2>
             </ScrollReveal>
             <ScrollReveal origin="bottom" delay={0.15} reset={true}>
@@ -500,7 +500,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
 
       {/* Categories / Feature Section */}
       <div className="feature-section-wrapper bg-transparent text-white relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent"></div>
         <ScrollReveal origin="bottom" distance={30} reset={true}>
           <FeatureSection onNavigate={(view) => { if (onNavigate && import.meta.env.VITE_WAITLIST_ONLY !== 'true') { onNavigate(view); } else { setShowDemoModal(true); } }} />
         </ScrollReveal>
@@ -508,7 +508,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
 
       {/* Misiones de Muestra (Catalog Highlight) */}
       <section className="py-20 md:py-36 relative bg-transparent text-white">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col sm:flex-row justify-between items-center gap-4">
           <ScrollReveal origin="left" distance={30} reset={true} className="flex-1">
             <div>
@@ -549,12 +549,12 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       
       {/* Cartas de Colección Section */}
       <section className="py-20 md:py-36 relative bg-transparent text-white overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="max-w-[1400px] mx-auto px-6">
           <div className="text-center mb-16">
             <ScrollReveal origin="bottom" reset={true}>
               <h2 className="text-4xl lg:text-5xl font-black mb-6">
-                ¡Desbloquea y colecciona <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8DA9C4] to-[#E0B0FF]">cartas exclusivas!</span>
+                ¡Desbloquea y colecciona <br/><span className="text-transparent bg-clip-text bg-linear-to-r from-[#8DA9C4] to-[#E0B0FF]">cartas exclusivas!</span>
               </h2>
             </ScrollReveal>
             <ScrollReveal origin="bottom" delay={0.15} reset={true}>
@@ -580,7 +580,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       
       {/* Pricing Teaser section - Zeigarnik / Commitment */}
       <section className="py-20 bg-transparent text-white text-center relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="max-w-4xl mx-auto px-6">
           <ScrollReveal origin="bottom" distance={30} reset={true}>
             <h2 className="text-3xl font-black mb-4">Membresías Estelares</h2>
@@ -627,7 +627,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
 
       {/* Testimonials */}
       <section className="py-20 md:py-36 bg-transparent text-white px-6 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="max-w-7xl mx-auto mb-16 text-center">
           <ScrollReveal origin="bottom" distance={30} reset={true}>
             <h2 className="text-3xl font-black text-white mb-2">Comentarios de Comandantes</h2>
@@ -658,7 +658,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
 
       {/* Final CTA Section */}
       <section className="py-36 md:py-48 bg-transparent px-6 lg:px-8 text-center overflow-hidden relative text-zinc-900 dark:text-white">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent"></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#6B8BB4]/5 dark:bg-[#6B8BB4]/10 rounded-full blur-[160px] pointer-events-none"></div>
         
         <div className="max-w-3xl mx-auto relative z-10 text-zinc-900 dark:text-white">
@@ -868,7 +868,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
                         initial={{ width: 0 }}
                         animate={{ width: "35%" }}
                         transition={{ duration: 1 }}
-                        className="bg-gradient-to-r from-blue-500 to-green-400 h-full rounded-full"
+                        className="bg-linear-to-r from-blue-500 to-green-400 h-full rounded-full"
                       />
                       <span className="absolute right-2 top-0 text-[8px] font-mono text-zinc-500 leading-none">Nivel 1 (35%)</span>
                     </div>
