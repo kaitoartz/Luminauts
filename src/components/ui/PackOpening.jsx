@@ -302,7 +302,7 @@ const PackOpening = ({ boosterArtUrl = '/src/assets/genetic-apex-mewtwo.png' }) 
               return containerCenter - cardCenter + 100;
             },
             rotationX: 45, 
-            rotationY: 180, 
+            rotationY: 0, 
             opacity: 0 
           },
           {
@@ -310,7 +310,7 @@ const PackOpening = ({ boosterArtUrl = '/src/assets/genetic-apex-mewtwo.png' }) 
             x: 0,
             y: 0,
             rotationX: 0,
-            rotationY: 180,
+            rotationY: 0,
             opacity: 1,
             duration: 1.2,
             stagger: 0.12,
@@ -416,16 +416,6 @@ const PackOpening = ({ boosterArtUrl = '/src/assets/genetic-apex-mewtwo.png' }) 
             <div
               key={card.id}
               className="card-wrapper select-none"
-              style={{
-                filter: `drop-shadow(0 0 0px transparent)`,
-                transition: 'filter 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.filter = `drop-shadow(0 0 25px ${card.glowColor})`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.filter = `drop-shadow(0 0 0px transparent)`;
-              }}
               onClick={() => handleCardClick(card.id, card.rarity)}
             >
               <HoloCard
@@ -435,6 +425,11 @@ const PackOpening = ({ boosterArtUrl = '/src/assets/genetic-apex-mewtwo.png' }) 
                 supertype={card.supertype}
                 frontImage={card.frontImage}
                 initialFlipped={true}
+                name={card.name}
+                desc={card.desc}
+                style={{
+                  '--glow': card.glowColor
+                }}
               />
             </div>
           ))}

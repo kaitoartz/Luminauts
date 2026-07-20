@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-20T11:45:00Z",
+  "title": "Design System: Luminauts",
+  "extensions": {
+    "colorMeta": {
+      "primary": { "role": "primary", "displayName": "Cosmic Blue", "canonical": "#3B6290", "tonalRamp": ["#1A283F", "#1F324E", "#243C5F", "#2C4A75", "#3B6290", "#51759C", "#6B8BB4", "#8DA9C4"] },
+      "secondary": { "role": "secondary", "displayName": "Nebula Blue", "canonical": "#51759C", "tonalRamp": ["#1A283F", "#2C4A75", "#3B6290", "#51759C", "#6B8BB4", "#8DA9C4", "#A3BCD4", "#BCCEDF"] },
+      "neutral-bg": { "role": "neutral", "displayName": "Soft Cosmos", "canonical": "#F4F7FB", "tonalRamp": ["#D4E2F0", "#DFE9F3", "#E9F0F8", "#F4F7FB", "#FFFFFF"] }
+    },
+    "shadows": [
+      { "name": "Nebula Ambient", "value": "0 4px 30px rgba(0, 0, 0, 0.05)", "purpose": "Paneles de cristal" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Cosmic Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Botón brillante con interacción estelar",
+      "html": "<button class=\"ds-ep-shine-btn\">Empezar Misión <svg class=\"ds-ep-shine-icon\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M5 12h14M12 5l7 7-7 7\"/></svg></button>",
+      "css": ".ds-ep-shine-btn { position: relative; transition: all 0.3s ease-in-out; box-shadow: 0px 10px 20px rgba(0,0,0,0.2); padding-block: 0.5rem; padding-inline: 1.25rem; background-color: #3B6290; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center; color: #fff; gap: 10px; font-weight: bold; border: 3px solid #ffffff4d; outline: none; overflow: hidden; font-size: 15px; cursor: pointer; } .ds-ep-shine-btn:hover { transform: scale(1.05); border-color: #fff9; } .ds-ep-shine-icon { width: 24px; height: 24px; transition: all 0.3s ease-in-out; } .ds-ep-shine-btn:hover .ds-ep-shine-icon { transform: translate(4px); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "El Espacio Educativo Suave",
+    "overview": "Luminauts es una plataforma inmersiva que balancea la estética gamificada y espacial con la claridad educativa.",
+    "keyCharacteristics": [
+      "Gravedad cero y bordes redondeados.",
+      "Paleta cósmica suave.",
+      "Interfaces fluidas sin líneas duras o bordes de 1px con sombras pesadas."
+    ],
+    "rules": [
+      { "name": "The Soft Contrast Rule", "body": "Nunca uses negro puro o blanco puro a menos que sea sobre un fondo contrastante. Los fondos deben tener tintes cósmicos.", "section": "colors" },
+      { "name": "The Zero-Gravity Rule", "body": "Las tarjetas deben sentirse flotantes. Sombras amplias y difusas, nunca duras.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do usar bordes altamente redondeados y sombras de nebulosa.",
+      "Do integrar micro-interacciones espaciales y brillos mágicos en las recompensas."
+    ],
+    "donts": [
+      "Don't usar diseño SaaS monocromático con grises aburridos.",
+      "Don't crear interfaces infantiles ruidosas de colores primarios muy saturados de baja calidad.",
+      "Don't diseñar layouts rígidos con esquinas puntiagudas.",
+      "Don't mezclar bordes de 1px con sombras duras de 20px (ghost-card codex defect)."
+    ]
+  }
+}

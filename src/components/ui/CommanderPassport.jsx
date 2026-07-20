@@ -4,8 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Award, Copy, Download, Share2, X, Star, Sparkles, User, Check, RefreshCw
 } from 'lucide-react';
-import Lanyard from './Lanyard';
 import astronautCommander from '../../assets/lanyard/astronaut_commander.png';
+
+const Lanyard = React.lazy(() => import('./Lanyard'));
 
 export default function CommanderPassport({ 
   email, 
@@ -34,14 +35,23 @@ export default function CommanderPassport({
     return () => setMounted(false);
   }, []);
 
-  // Disable page scroll when passport overlay is open
+  // Disable page scroll and close on Escape when passport overlay is open
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
     return () => {
       document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [onClose]);
 
   // Save name when submitted
   const handleNameSubmit = (e) => {
@@ -244,6 +254,7 @@ export default function CommanderPassport({
         {/* Close Button */}
         <button 
           onClick={onClose}
+          aria-label="Cerrar credencial"
           className="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors bg-zinc-850 hover:bg-zinc-800 p-2 rounded-full border border-zinc-800"
         >
           <X size={18} />
@@ -272,14 +283,16 @@ export default function CommanderPassport({
                 </div>
                 <form onSubmit={handleNameSubmit} className="space-y-4">
                   <div className="space-y-1">
+                    <label htmlFor="commander-name-input" className="sr-only">Nombre del Comandante</label>
                     <input 
+                      id="commander-name-input"
                       type="text" 
                       required
                       maxLength={25}
                       placeholder="Tu nombre y apellido..." 
                       value={inputName}
                       onChange={(e) => setInputName(e.target.value)}
-                      className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 focus:border-blue-500 rounded-xl focus:outline-none text-sm text-center text-white placeholder-zinc-600 font-semibold"
+                      className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 focus:border-blue-500 rounded-xl focus:outline-none text-sm text-center text-white placeholder-zinc-500 font-semibold"
                     />
                   </div>
                   <button 
@@ -335,9 +348,6 @@ export default function CommanderPassport({
           
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <span className="bg-blue-500/15 text-blue-400 border border-blue-500/25 text-[10px] font-extrabold px-3 py-1 rounded-full tracking-widest uppercase">
-                ESTATUS: COMANDANTE
-              </span>
               {isNameSubmitted && (
                 <button 
                   onClick={handleEditName}
@@ -349,7 +359,7 @@ export default function CommanderPassport({
             </div>
             
             <h2 className="text-3xl md:text-4xl font-black tracking-tight leading-tight text-white">
-              ¡Ahora eres un <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-300">comandante!</span>
+              ¡Ahora eres un <span className="text-blue-400">comandante!</span>
             </h2>
 
             <p className="text-sm md:text-base text-zinc-400 leading-relaxed font-medium">

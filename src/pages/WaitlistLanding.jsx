@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Sparkles, Gamepad2, Brain, FlaskConical, Shield, BookOpen, Star, 
-  ArrowRight, Globe, Zap, CheckCircle2, Play, Music, Code, Compass, Heart, Palette, Rocket, X, Award
+  ArrowRight, Globe, Zap, CheckCircle2, Play, Music, Code, Compass, Heart, Palette, Rocket, X, Award, Users, Share2, Copy
 } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -17,11 +17,20 @@ import Grainient from '../components/ui/Grainient';
 import { BlurReveal } from '../components/ui/blur-reveal';
 import ScrollReveal from '../components/ui/ScrollReveal';
 import FeatureSection from '../components/ui/stack-feature-section';
-import CommanderPassport from '../components/ui/CommanderPassport';
+const CommanderPassport = React.lazy(() => import('../components/ui/CommanderPassport'));
 import HoloCard from '../components/ui/HoloCard';
 import PackOpening from '../components/ui/PackOpening';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const SIMULATED_NOTIFICATIONS = [
+  "El Comandante Mateo R. se ha unido a la tripulación.",
+  "La Comandante Sofía V. aseguró su Pase Estelar.",
+  "El Comandante Tomás G. completó su pasaporte de fundador.",
+  "La Comandante Laura S. se ha registrado desde CDMX.",
+  "El Comandante Alejandro P. activó su acceso anticipado.",
+  "La Comandante Valentina D. se unió al waitlist docente."
+];
 
 const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games = [] }) => {
   const [email, setEmail] = useState('');
@@ -32,7 +41,23 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
   const [loading, setLoading] = useState(false);
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [showPassport, setShowPassport] = useState(false);
+  const [isTeacher, setIsTeacher] = useState(false);
+  const [activeNotification, setActiveNotification] = useState('');
+  const [showNotification, setShowNotification] = useState(false);
   
+  const emailInputRef = useRef(null);
+
+  const scrollToWaitlist = () => {
+    if (emailInputRef.current) {
+      emailInputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => {
+        emailInputRef.current.focus();
+      }, 850);
+    } else {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+  };
+
   // Demo Game States
   const [demoStep, setDemoStep] = useState(1); // 1: Welcome, 2: Trivia, 3: Success
   const [selectedOption, setSelectedOption] = useState(null);
@@ -57,6 +82,39 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
     return () => clearInterval(interval);
   }, []);
 
+  // Social Proof Simulation Loop
+  useEffect(() => {
+    let index = 0;
+    const triggerNotification = () => {
+      setActiveNotification(SIMULATED_NOTIFICATIONS[index]);
+      setShowNotification(true);
+      
+      const hideTimeout = setTimeout(() => {
+        setShowNotification(false);
+      }, 5000);
+      
+      index = (index + 1) % SIMULATED_NOTIFICATIONS.length;
+      return hideTimeout;
+    };
+
+    const initialTimeout = setTimeout(() => {
+      let hideTimeout = triggerNotification();
+      
+      const interval = setInterval(() => {
+        hideTimeout = triggerNotification();
+      }, 15000);
+
+      return () => {
+        clearInterval(interval);
+        clearTimeout(hideTimeout);
+      };
+    }, 5000);
+
+    return () => {
+      clearTimeout(initialTimeout);
+    };
+  }, []);
+
   const modelViewerRef = useRef(null);
   const lenisRef = useRef(null);
 
@@ -68,6 +126,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       setLoading(false);
       setStatus('success');
       localStorage.setItem('eduplay_subscribed_email', email);
+      localStorage.setItem('eduplay_is_teacher', isTeacher ? 'true' : 'false');
       setShowPassport(true);
     }, 1200);
   };
@@ -268,9 +327,9 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
 
   // Mock catalog para visualización
   const sampleGames = games && games.length > 0 ? games.slice(0, 3) : [
-    { id: "g1", title: "Aventura Matemática", subject: "Matemáticas", level: "8-10", duration: "10 min", points: 150, color: "from-blue-500 to-cyan-400", bg: "bg-blue-900/10", icon: Zap, image: "g1", description: "Resuelve acertijos matemáticos y sube de nivel entrenando tu cerebro.", tag: "En Desarrollo" },
-    { id: "g2", title: "Memoria Espacial", subject: "Memoria", level: "5-7", duration: "5 min", points: 100, color: "from-purple-500 to-pink-400", bg: "bg-purple-900/10", icon: Brain, image: "g2", description: "Pon a prueba tu retención visual y memoriza los patrones en el espacio.", tag: "En Desarrollo" },
-    { id: "g3", title: "Laboratorio Químico", subject: "Ciencias", level: "11-13", duration: "15 min", points: 200, color: "from-green-500 to-emerald-400", bg: "bg-green-900/10", icon: FlaskConical, image: "g3", description: "Combina elementos y experimenta en nuestro laboratorio virtual interactivo.", locked: true }
+    { id: "g1", title: "Aventura Matemática", subject: "Matemáticas", level: "8-10", duration: "10 min", points: 150, color: "from-[#3B6290] to-[#6B8BB4]", bg: "bg-blue-900/10", icon: Zap, image: "g1", description: "Resuelve acertijos matemáticos y sube de nivel entrenando tu cerebro.", tag: "En Desarrollo" },
+    { id: "g2", title: "Memoria Espacial", subject: "Memoria", level: "5-7", duration: "5 min", points: 100, color: "from-[#9059C8] to-[#E0B0FF]", bg: "bg-purple-900/10", icon: Brain, image: "g2", description: "Pon a prueba tu retención visual y memoriza los patrones en el espacio.", tag: "En Desarrollo" },
+    { id: "g3", title: "Laboratorio Químico", subject: "Ciencias", level: "11-13", duration: "15 min", points: 200, color: "from-[#51759C] to-[#8DA9C4]", bg: "bg-green-900/10", icon: FlaskConical, image: "g3", description: "Combina elementos y experimenta en nuestro laboratorio virtual interactivo.", locked: true }
   ];
 
   return (
@@ -353,6 +412,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
                   <input 
                     type="email" 
                     required 
+                    aria-label="Correo electrónico"
                     placeholder="Correo de papá, mamá o profesor..." 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -443,6 +503,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
                   <input 
                     type="email" 
                     required 
+                    aria-label="Correo electrónico"
                     placeholder="Correo de papá, mamá o profesor..." 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -586,7 +647,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
             <h2 className="text-3xl font-black mb-4">Membresías Estelares</h2>
           </ScrollReveal>
           <ScrollReveal origin="bottom" distance={30} delay={0.1} reset={true}>
-            <p className="text-sm text-zinc-400 mb-12">Acceso completo para toda la tripulación escolar o familiar.</p>
+            <p className="text-sm text-zinc-400 mb-12">Acceso completo para toda la tripulación escolar o familiar (Precios informativos al lanzamiento).</p>
           </ScrollReveal>
           
           <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
@@ -601,7 +662,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
                     <li>• Reporte básico mensual</li>
                   </ul>
                 </div>
-                <Button onClick={() => setShowDemoModal(true)} variant="secondary" className="w-full text-xs">Reservar en Lanzamiento</Button>
+                <Button onClick={scrollToWaitlist} variant="secondary" className="w-full text-xs">Unirse al Waitlist</Button>
               </div>
             </ScrollReveal>
             
@@ -618,7 +679,98 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
                     <li>• Insignias exclusivas de fundador</li>
                   </ul>
                 </div>
-                <Button onClick={() => setShowDemoModal(true)} className="w-full text-xs bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white">Reservar Oferta Lanzamiento</Button>
+                <Button onClick={scrollToWaitlist} className="w-full text-xs bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white">Asegurar Pase de Fundador</Button>
+              </div>
+            </ScrollReveal>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Sección de Características Futuras: Reclutamiento & Lealtad */}
+      <section className="py-20 md:py-32 bg-transparent text-white text-center relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent"></div>
+        <div className="max-w-5xl mx-auto px-6">
+          <ScrollReveal origin="bottom" distance={30} reset={true}>
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-[#e0b0ff] text-[10px] font-bold uppercase tracking-wider mb-4">
+              <Sparkles size={12} className="text-yellow-400" /> Próximamente en el Lanzamiento
+            </span>
+          </ScrollReveal>
+          <ScrollReveal origin="bottom" distance={30} delay={0.1} reset={true}>
+            <h2 className="text-3xl md:text-4xl font-black mb-6 text-white tracking-tight">
+              Sistemas de Crecimiento & <span className="text-[#e0b0ff]">Fidelización Estelar</span>
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal origin="bottom" distance={30} delay={0.2} reset={true}>
+            <p className="text-sm text-zinc-400 max-w-2xl mx-auto mb-16 font-semibold">
+              Cuando despeguemos de forma oficial, los comandantes tendrán acceso a herramientas avanzadas para desbloquear juegos y reducir tarifas.
+            </p>
+          </ScrollReveal>
+
+          <div className="grid md:grid-cols-2 gap-8 text-left">
+            {/* Card 1: Reclutamiento Estelar */}
+            <ScrollReveal origin="bottom" distance={40} delay={0.25} reset={true} className="h-full">
+              <div className="bg-zinc-900/30 border border-zinc-850/40 p-8 rounded-[2.5rem] relative overflow-hidden backdrop-blur-md flex flex-col justify-between h-full group hover:border-[#6B8BB4]/30 transition-all duration-500">
+                <div className="absolute -right-16 -bottom-16 w-48 h-48 bg-[#6b8bb4]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#6b8bb4]/10 transition-colors duration-500" />
+                
+                <div className="space-y-4">
+                  <div className="w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-2xl flex items-center justify-center text-[#8da9c4]">
+                    <Users size={24} />
+                  </div>
+                  <h3 className="text-xl font-bold text-white">Reclutamiento Estelar (Referidos)</h3>
+                  <p className="text-sm text-zinc-400 leading-relaxed font-medium">
+                    Invita a otros Comandantes (padres o profesores) a unirse a la tripulación mediante tu enlace de recomendación oficial.
+                  </p>
+                  
+                  {/* Milestones */}
+                  <div className="space-y-3 pt-4 border-t border-zinc-850/60 text-xs font-semibold text-zinc-400">
+                    <div className="flex justify-between items-center pb-2 border-b border-zinc-900/50">
+                      <span className="flex items-center gap-2">👤 1 Cadete Invitado</span>
+                      <span className="text-zinc-300">Cofre de Avatares Exclusivos</span>
+                    </div>
+                    <div className="flex justify-between items-center pb-2 border-b border-zinc-900/50">
+                      <span className="flex items-center gap-2">👥 3 Cadetes Invitados</span>
+                      <span className="text-blue-400">1 Mes Gratis de Pase Estelar</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="flex items-center gap-2">🚀 5 Cadetes Invitados</span>
+                      <span className="text-[#e0b0ff]">2 Meses Gratis + Credencial Oro</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Card 2: Rangos de Lealtad */}
+            <ScrollReveal origin="bottom" distance={40} delay={0.35} reset={true} className="h-full">
+              <div className="bg-zinc-900/30 border border-zinc-850/40 p-8 rounded-[2.5rem] relative overflow-hidden backdrop-blur-md flex flex-col justify-between h-full group hover:border-[#E0B0FF]/30 transition-all duration-500">
+                <div className="absolute -right-16 -bottom-16 w-48 h-48 bg-[#e0b0ff]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#e0b0ff]/10 transition-colors duration-500" />
+                
+                <div className="space-y-4">
+                  <div className="w-12 h-12 bg-purple-500/10 border border-purple-500/20 rounded-2xl flex items-center justify-center text-[#e0b0ff]">
+                    <Award size={24} />
+                  </div>
+                  <h3 className="text-xl font-bold text-white">Rangos de Lealtad (Fidelidad)</h3>
+                  <p className="text-sm text-zinc-400 leading-relaxed font-medium">
+                    Premiaremos la constancia de tu viaje de aprendizaje. Cada mes que tu suscripción permanezca activa, tu rango aumentará.
+                  </p>
+                  
+                  {/* Loyalty perks list */}
+                  <div className="space-y-3 pt-4 border-t border-zinc-850/60 text-xs font-semibold text-zinc-400">
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-5 h-5 rounded-full bg-purple-500/10 text-purple-400 flex items-center justify-center text-[10px] font-bold">1</span>
+                      <span>Descuentos acumulativos de hasta el 30% mensual.</span>
+                    </div>
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-5 h-5 rounded-full bg-purple-500/10 text-purple-400 flex items-center justify-center text-[10px] font-bold">2</span>
+                      <span>Avatares y coleccionables legendarios de fundador.</span>
+                    </div>
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-5 h-5 rounded-full bg-purple-500/10 text-purple-400 flex items-center justify-center text-[10px] font-bold">3</span>
+                      <span>Acceso anticipado prioritario a nuevos portales de juegos.</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </ScrollReveal>
           </div>
@@ -676,30 +828,85 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
           <ScrollReveal origin="bottom" distance={30} delay={0.3} reset={true}>
             <div className="flex-container w-full max-w-lg mx-auto z-20 pointer-events-auto">
               {status === 'success' ? (
-                <Button 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setShowPassport(true);
-                  }}
-                  className="w-full max-w-md mx-auto py-3.5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-2xl font-bold text-sm shadow-lg shadow-blue-500/10 active:scale-[0.97]"
-                >
-                  Ver mi Pasaporte de Comandante 💳
-                </Button>
-              ) : (<form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 w-full bg-zinc-900/40 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200/20 shadow-md">
-                  <input 
-                    type="email" 
-                    required 
-                    placeholder="Correo de papá, mamá o profesor..." 
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="flex-1 bg-transparent px-4 py-2.5 text-white placeholder-zinc-500 font-semibold focus:outline-none text-sm"
-                    disabled={loading}
-                  />
-                  <Button type="submit" disabled={loading} className="py-2.5 px-5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-xl font-bold text-xs whitespace-nowrap">
-                    {loading ? 'Registrando...' : 'Unirse al Waitlist'}
+                <div className="w-full max-w-md mx-auto flex flex-col gap-6 text-left bg-zinc-900/40 border border-zinc-800 p-6 md:p-8 rounded-[2rem] backdrop-blur-md relative overflow-hidden">
+                  <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-[#6B8BB4]/10 rounded-full blur-[40px] pointer-events-none" />
+                  
+                  <div className="text-center space-y-2">
+                    <span className="bg-blue-500/15 text-blue-400 border border-blue-500/25 text-[10px] font-extrabold px-3 py-1 rounded-full tracking-widest uppercase">
+                      ESTATUS: REGISTRADO 🟢
+                    </span>
+                    <h3 className="text-xl font-black text-white">¡Misión de Registro Iniciada!</h3>
+                  </div>
+
+                  <Button 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setShowPassport(true);
+                    }}
+                    className="w-full py-3.5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-2xl font-bold text-sm shadow-lg shadow-blue-500/10 active:scale-[0.97] flex items-center justify-center gap-2"
+                  >
+                    <span>Ver mi Pasaporte de Comandante 💳</span>
                   </Button>
-                </form>
+
+                  <div className="w-full h-px bg-zinc-800 my-1" />
+
+                  {/* Share/Referral code block directly on page */}
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-black text-white flex items-center gap-1.5">
+                      <Share2 size={14} className="text-[#8DA9C4]" />
+                      Invita a otros Comandantes
+                    </h4>
+                    <p className="text-[11px] text-zinc-500 font-semibold leading-relaxed">
+                      Comparte tu invitación para desbloquear beneficios exclusivos de fundador cuando abramos la estación:
+                    </p>
+                    
+                    <button
+                      onClick={async () => {
+                        const shareText = `🚀 ¡Acabo de registrarme como Comandante en LumiNauts! Obtén tu credencial estelar para la estación educativa del futuro. Únete a la tripulación aquí: ${window.location.origin}`;
+                        try {
+                          await navigator.clipboard.writeText(shareText);
+                          alert('¡Enlace de invitación copiado al portapapeles!');
+                        } catch (err) {
+                          console.error(err);
+                        }
+                      }}
+                      className="w-full py-3 rounded-xl border border-zinc-850 bg-zinc-900/60 hover:bg-zinc-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 cursor-pointer"
+                    >
+                      <Copy size={14} />
+                      <span>Copiar Enlace de Invitación</span>
+                    </button>
+                  </div>
+
+                </div>
+              ) : (
+                <div className="w-full flex flex-col gap-3 items-center">
+                  <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 w-full bg-zinc-900/40 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200/20 shadow-md">
+                    <input 
+                      ref={emailInputRef}
+                      type="email" 
+                      required 
+                      aria-label="Correo electrónico"
+                      placeholder="Correo de papá, mamá o profesor..." 
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="flex-1 bg-transparent px-4 py-2.5 text-white placeholder-zinc-500 font-semibold focus:outline-none text-sm"
+                      disabled={loading}
+                    />
+                    <Button type="submit" disabled={loading} className="py-2.5 px-5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-xl font-bold text-xs whitespace-nowrap">
+                      {loading ? 'Registrando...' : 'Unirse al Waitlist'}
+                    </Button>
+                  </form>
+                  <label className="flex items-center gap-2 text-xs text-zinc-400 font-bold cursor-pointer select-none">
+                    <input 
+                      type="checkbox" 
+                      checked={isTeacher} 
+                      onChange={(e) => setIsTeacher(e.target.checked)}
+                      className="w-4 h-4 rounded border-zinc-800 bg-zinc-900 text-blue-500 accent-[#6B8BB4] focus:ring-0 focus:ring-offset-0"
+                    />
+                    <span>¿Eres docente? (Activar para pilotos de aula)</span>
+                  </label>
+                </div>
               )}
             </div>
           </ScrollReveal>
@@ -761,6 +968,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
               {/* Close button */}
               <button 
                 onClick={() => { setShowDemoModal(false); handleRestartDemo(); }}
+                aria-label="Cerrar demo"
                 className="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors p-1"
               >
                 <X size={18}/>
@@ -886,15 +1094,25 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
                 >
                   Ver mi Pasaporte de Comandante 💳
                 </Button>) : (
-                        <form onSubmit={handleSubmit} className="space-y-2">
+                        <form onSubmit={handleSubmit} className="space-y-3">
                           <input 
                             type="email" 
                             required
+                            aria-label="Correo electrónico"
                             placeholder="Email para guardar racha y notificar..." 
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 focus:outline-none focus:border-blue-500 text-xs text-white"
                           />
+                          <label className="flex items-center gap-2 text-[10px] text-zinc-400 font-bold cursor-pointer select-none">
+                            <input 
+                              type="checkbox" 
+                              checked={isTeacher} 
+                              onChange={(e) => setIsTeacher(e.target.checked)}
+                              className="w-3.5 h-3.5 rounded border-zinc-800 bg-zinc-900 text-blue-500 accent-[#6B8BB4] focus:ring-0 focus:ring-offset-0"
+                            />
+                            <span>¿Eres docente? (Activar para pilotos de aula)</span>
+                          </label>
                           <Button type="submit" disabled={loading} className="w-full py-2.5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-xl text-xs font-bold">
                             {loading ? 'Guardando...' : 'Guardar Racha y Notificarme'}
                           </Button>
@@ -911,10 +1129,33 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
 
       <AnimatePresence>
         {showPassport && (
-          <CommanderPassport
-            email={email || localStorage.getItem('eduplay_subscribed_email')}
-            onClose={() => setShowPassport(false)}
-          />
+          <Suspense fallback={null}>
+            <CommanderPassport
+              email={email || localStorage.getItem('eduplay_subscribed_email')}
+              onClose={() => setShowPassport(false)}
+            />
+          </Suspense>
+        )}
+      </AnimatePresence>
+      
+      {/* Floating Social Proof Notifications */}
+      <AnimatePresence>
+        {showNotification && (
+          <motion.div
+            initial={{ opacity: 0, x: -50, y: 50 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            exit={{ opacity: 0, x: -50, y: 50 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            className="fixed bottom-6 left-6 z-[99] max-w-xs bg-zinc-900/90 border border-zinc-800 p-4 rounded-2xl shadow-xl flex items-center gap-3 backdrop-blur-md text-left"
+          >
+            <div className="w-8 h-8 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
+              <Rocket size={14} />
+            </div>
+            <div className="text-[11px] font-semibold text-zinc-300">
+              <span className="text-[10px] font-extrabold text-[#8da9c4] uppercase tracking-wider block mb-0.5">Actividad Reciente</span>
+              {activeNotification}
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
 
