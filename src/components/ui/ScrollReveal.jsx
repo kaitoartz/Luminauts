@@ -51,13 +51,11 @@ export default function ScrollReveal({
       opacity: 0,
       x: transform.x,
       y: transform.y,
-      filter: shouldReduceMotion ? 'none' : 'blur(4px)',
     },
     visible: {
       opacity: 1,
       x: 0,
       y: 0,
-      filter: 'blur(0px)',
       transition: {
         duration: duration,
         delay: delay,

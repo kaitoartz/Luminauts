@@ -1,0 +1,119 @@
+import React from 'react';
+import { Rocket, Share2, Copy } from 'lucide-react';
+import ScrollReveal from '../ui/ScrollReveal';
+import Button from '../ui/Button';
+
+export default function WaitlistCTASection({
+  status,
+  setShowPassport,
+  handleSubmit,
+  emailInputRef,
+  email,
+  setEmail,
+  loading,
+  isTeacher,
+  setIsTeacher
+}) {
+  return (
+    <section id="section-waitlist-final-cta" className="py-36 md:py-48 bg-transparent px-6 lg:px-8 text-center overflow-hidden relative text-zinc-900 dark:text-white waitlist-section-final-cta">
+      <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#6B8BB4]/5 dark:bg-[#6B8BB4]/10 rounded-full blur-[160px] pointer-events-none"></div>
+      
+      <div className="max-w-3xl mx-auto relative z-10 text-zinc-900 dark:text-white">
+        <ScrollReveal origin="top" distance={30} reset={true}>
+          <Rocket size={64} className="mx-auto mb-8 text-[#51759C] dark:text-[#8DA9C4] filter drop-shadow-[0_0_15px_rgba(141,169,196,0.3)]" />
+        </ScrollReveal>
+        <ScrollReveal origin="bottom" distance={30} delay={0.1} reset={true}>
+          <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-zinc-900 dark:text-white">Asegura tu carta de Fundador</h2>
+        </ScrollReveal>
+        <ScrollReveal origin="bottom" distance={30} delay={0.2} reset={true}>
+          <p className="text-xl text-zinc-650 dark:text-zinc-350 mb-10 leading-relaxed font-medium">
+            Únete al waitlist oficial hoy. Obtén acceso prioritario al despegue y asegura tus beneficios exclusivos para la primera generación de cadetes.
+          </p>
+        </ScrollReveal>
+        <ScrollReveal origin="bottom" distance={30} delay={0.3} reset={true}>
+          <div className="flex-container w-full max-w-lg mx-auto z-20 pointer-events-auto">
+            {status === 'success' ? (
+              <div className="w-full max-w-md mx-auto flex flex-col gap-6 text-left bg-zinc-900/40 border border-zinc-800 p-6 md:p-8 rounded-[2rem] backdrop-blur-md relative overflow-hidden">
+                <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-[#6B8BB4]/10 rounded-full blur-[40px] pointer-events-none" />
+                
+                <div className="text-center space-y-2">
+                  <h3 className="text-xl font-black text-white">¡Misión de Registro Iniciada!</h3>
+                </div>
+
+                <Button 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowPassport(true);
+                  }}
+                  className="w-full py-3.5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-2xl font-bold text-sm shadow-lg shadow-blue-500/10 active:scale-[0.97] flex items-center justify-center gap-2"
+                >
+                  <span>Ver mi Pasaporte de Comandante 💳</span>
+                </Button>
+
+                <div className="w-full h-px bg-zinc-800 my-1" />
+
+                {/* Share/Referral code block directly on page */}
+                <div className="space-y-3">
+                  <h4 className="text-xs font-black text-white flex items-center gap-1.5">
+                    <Share2 size={14} className="text-[#8DA9C4]" />
+                    Invita a otros Comandantes
+                  </h4>
+                  <p className="text-[11px] text-zinc-500 font-semibold leading-relaxed">
+                    Comparte tu invitación para desbloquear beneficios exclusivos de fundador cuando abramos la estación:
+                  </p>
+                  
+                  <button
+                    onClick={async () => {
+                      const shareText = `🚀 ¡Acabo de registrarme como Comandante en LumiNauts! Obtén tu credencial estelar para la estación educativa del futuro. Únete a la tripulación aquí: ${window.location.origin}`;
+                      try {
+                        await navigator.clipboard.writeText(shareText);
+                        alert('¡Enlace de invitación copiado al portapapeles!');
+                      } catch (err) {
+                        console.error(err);
+                      }
+                    }}
+                    className="w-full py-3 rounded-xl border border-zinc-850 bg-zinc-900/60 hover:bg-zinc-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 cursor-pointer"
+                  >
+                    <Copy size={14} />
+                    <span>Copiar Enlace de Invitación</span>
+                  </button>
+                </div>
+
+              </div>
+            ) : (
+              <div className="w-full flex flex-col gap-3 items-center">
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 w-full bg-zinc-900/40 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200/20 shadow-md">
+                  <input 
+                    ref={emailInputRef}
+                    type="email" 
+                    required 
+                    aria-label="Correo electrónico"
+                    placeholder="Correo de papá, mamá o profesor..." 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="flex-1 bg-transparent px-4 py-2.5 text-white placeholder-zinc-500 font-semibold focus:outline-none text-sm"
+                    disabled={loading}
+                  />
+                  <Button type="submit" disabled={loading} className="py-2.5 px-5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-xl font-bold text-xs whitespace-nowrap">
+                    {loading ? 'Registrando...' : 'Unirse al Waitlist'}
+                  </Button>
+                </form>
+                <label className="flex items-center gap-2 text-xs text-zinc-400 font-bold cursor-pointer select-none">
+                  <input 
+                    type="checkbox" 
+                    checked={isTeacher} 
+                    onChange={(e) => setIsTeacher(e.target.checked)}
+                    className="w-4 h-4 rounded border-zinc-800 bg-zinc-900 text-blue-500 accent-[#6B8BB4] focus:ring-0 focus:ring-offset-0"
+                  />
+                  <span>¿Eres docente? (Activar para pilotos de aula)</span>
+                </label>
+              </div>
+            )}
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}

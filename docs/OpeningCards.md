@@ -319,6 +319,7 @@ const zigzagClipPathTop = "polygon(0% 0%, 100% 0%, 100% 59%, 85% 56%, 70% 61%, 5
 const zigzagClipPathBottom = "polygon(0% 56%, 10% 59%, 25% 56%, 40% 60%, 55% 57%, 70% 61%, 85% 56%, 100% 59%, 100% 100%, 0% 100%)";
 
 return (
+
 <div 
       ref={sceneContainerRef}
       className="relative flex items-center justify-center w-full h-screen bg-slate-950 overflow-hidden select-none"
@@ -360,8 +361,8 @@ return (
             className="w-full h-full object-cover pointer-events-none saturate-115 brightness-90"
           />
           {/* Sombras de oclusión ambiental localizadas para simular costuras físicas */}
-          <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-black/85 to-transparent pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-tr from-white/12 via-transparent to-black/45 pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-14 bg-linear-to-t from-black/85 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-linear-to-tr from-white/12 via-transparent to-black/45 pointer-events-none" />
         </div>
 
         {/* Mitad Inferior del Sobre */}
@@ -379,8 +380,8 @@ return (
             alt="Cubierta Inferior del Sobre"
             className="w-full h-full object-cover pointer-events-none saturate-115 brightness-90"
           />
-          <div className="absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-black/85 to-transparent pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-bl from-white/12 via-transparent to-black/45 pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-14 bg-linear-to-b from-black/85 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-linear-to-bl from-white/12 via-transparent to-black/45 pointer-events-none" />
         </div>
 
         {/* Indicador visual de gesto de arrastre */}

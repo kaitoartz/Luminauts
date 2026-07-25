@@ -14,9 +14,10 @@ const StarSVG = ({ fill = "currentColor" }) => (
 
 const CardContentLayout = ({ id, title, subject, level, duration, points, bg, icon: Icon, finalImageUrl, description, locked, isDarkTheme, tag, isAnimating }) => {
   return (
-    <div className={`relative p-6 h-full flex flex-col z-10 overflow-hidden ${isDarkTheme ? 'bg-transparent text-white' : 'bg-white text-zinc-900'}`}>
+
+    <div className={`relative p-6 h-full flex flex-col z-10 overflow-hidden group ${isDarkTheme ? 'bg-transparent text-white' : 'bg-white text-zinc-900'}`}>
       {!isDarkTheme && <div className={`absolute -right-10 -top-10 w-32 h-32 rounded-full ${bg} opacity-50 blur-2xl group-hover:blur-3xl transition-all duration-500`} />}
-      
+
       {/* Image Preview Banner */}
       {finalImageUrl && (
         <div className={`relative w-full h-44 rounded-2xl overflow-hidden mb-5 border shadow-inner z-20 ${isDarkTheme ? 'border-zinc-800' : 'border-zinc-100/80'}`} style={{ transform: "translateZ(30px)" }}>
@@ -29,9 +30,9 @@ const CardContentLayout = ({ id, title, subject, level, duration, points, bg, ic
               className="absolute top-3 left-3 z-30"
             >
               <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-xl text-xs font-black uppercase tracking-wider shadow-md ${
-                tag === 'Nuevo' ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white' :
-                tag === 'Trending' ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white' :
-                'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+                tag === 'Nuevo' ? 'bg-linear-to-r from-emerald-500 to-teal-500 text-white' :
+                tag === 'Trending' ? 'bg-linear-to-r from-amber-500 to-orange-500 text-white' :
+                'bg-linear-to-r from-purple-500 to-pink-500 text-white'
               }`}>
                 <Sparkles size={10} className="animate-pulse" /> {tag}
               </span>
@@ -40,8 +41,11 @@ const CardContentLayout = ({ id, title, subject, level, duration, points, bg, ic
           <img 
             src={finalImageUrl} 
             alt={title} 
-            className={`w-full h-full object-cover transition-transform duration-700 scale-100 group-hover:scale-105 ${locked ? 'filter grayscale contrast-125 opacity-70' : ''} ${isDarkTheme ? 'opacity-85' : ''}`}
+            width={400}
+            height={192}
             loading="lazy"
+            decoding="async"
+            className={`w-full h-full object-cover transition-transform duration-700 scale-100 group-hover:scale-105 ${locked ? 'filter grayscale contrast-125 opacity-70' : ''} ${isDarkTheme ? 'opacity-85' : ''}`}
           />
           {locked && (
             <div className="absolute inset-0 bg-zinc-900/60 backdrop-blur-[2px] flex items-center justify-center">
@@ -68,25 +72,25 @@ const CardContentLayout = ({ id, title, subject, level, duration, points, bg, ic
           </Badge>
         )}
       </div>
-      
+
       <div className="flex-grow relative z-20" style={{ transform: "translateZ(40px)" }}>
         <h3 className={`text-2xl font-bold mb-2 transition-colors ${isDarkTheme ? 'text-white group-hover:text-cyan-400' : 'text-zinc-900 group-hover:text-blue-600'}`}>{title}</h3>
-        
+
         {/* Expandable Footer Container using Grid dynamic row sizing */}
-        <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out opacity-80 group-hover:opacity-100">
+        <div className="card-description-collapse">
           <div className="overflow-hidden">
             {description && (
-              <p className={`text-sm mb-4 leading-relaxed ${isDarkTheme ? 'dark:text-zinc-550' : 'text-zinc-500'}`}>{description}</p>
+              <p className={`text-sm mb-4 leading-relaxed ${isDarkTheme ? 'text-zinc-400' : 'text-zinc-500'}`}>{description}</p>
             )}
           </div>
         </div>
 
-        <div className={`flex items-center gap-4 text-sm font-medium ${isDarkTheme ? 'dark:text-zinc-550' : 'text-zinc-500'}`}>
+        <div className={`flex items-center gap-4 text-sm font-medium ${isDarkTheme ? 'text-zinc-400' : 'text-zinc-500'}`}>
           <span className="flex items-center gap-1.5"><User size={16}/> Lvl {level}</span>
           <span className="flex items-center gap-1.5"><Play size={16}/> {duration}</span>
         </div>
       </div>
-      
+
       <div className="mt-6 flex items-center justify-between relative z-20" style={{ transform: "translateZ(20px)" }}>
         <div className="flex items-center gap-3">
           <div className="flex -space-x-3">
@@ -97,7 +101,7 @@ const CardContentLayout = ({ id, title, subject, level, duration, points, bg, ic
           {!locked && <FavouriteToggle id={id} />}
         </div>
         {locked ? (
-          <div className={`h-10 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-sm border ${isDarkTheme ? 'bg-zinc-800 text-zinc-500 border-zinc-700/50' : 'bg-zinc-100 dark:text-zinc-550 border-zinc-200/50'}`}>
+          <div className={`h-10 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-sm border ${isDarkTheme ? 'bg-zinc-800 text-zinc-500 border-zinc-700/50' : 'bg-zinc-100 text-zinc-400 border-zinc-200/50'}`}>
             <Lock size={16}/>
             <span className="text-xs font-bold uppercase tracking-wider">Bloqueado</span>
           </div>
@@ -117,6 +121,7 @@ const CardContentLayout = ({ id, title, subject, level, duration, points, bg, ic
         )}
       </div>
     </div>
+
   );
 };
 
