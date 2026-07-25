@@ -232,7 +232,7 @@ export default function CommanderPassport({
   if (!mounted) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-[9999] bg-zinc-950/95 backdrop-blur-s flex flex-col items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-md flex flex-col items-center justify-center p-4 overflow-y-auto">
       
       {/* Toast Notification */}
       <AnimatePresence>
@@ -241,7 +241,7 @@ export default function CommanderPassport({
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
-            className="fixed top-6 z-[60] bg-blue-600 border border-blue-400 text-white px-5 py-3 rounded-2xl shadow-xl text-sm font-bold flex items-center gap-2"
+            className="fixed top-6 z-50 bg-blue-600 border border-blue-400 text-white px-5 py-3 rounded-2xl shadow-xl text-sm font-bold flex items-center gap-2"
           >
             <Sparkles size={16} className="animate-pulse" />
             <span>{toastMessage}</span>
@@ -249,7 +249,10 @@ export default function CommanderPassport({
         )}
       </AnimatePresence>
 
-      <div className="relative max-w-4xl w-full bg-zinc-900/60 border border-zinc-800 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row gap-8 items-center overflow-visible shadow-2xl">
+      <div 
+        style={{ backgroundColor: '#141923', color: '#ffffff' }}
+        className="relative max-w-4xl w-full bg-[#141923] border border-zinc-800 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row gap-8 items-center overflow-visible shadow-2xl text-white"
+      >
       
         {/* Close Button */}
         <button 

@@ -21,6 +21,7 @@ import WaitlistParentsSection from '../components/waitlist/WaitlistParentsSectio
 import WaitlistCTASection from '../components/waitlist/WaitlistCTASection';
 import WaitlistDemoModal from '../components/waitlist/WaitlistDemoModal';
 import WaitlistActivityToast from '../components/waitlist/WaitlistActivityToast';
+import LegalInfoModal from '../components/ui/LegalInfoModal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,6 +43,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
   const [loading, setLoading] = useState(false);
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [showPassport, setShowPassport] = useState(false);
+  const [legalModalType, setLegalModalType] = useState(null);
   const [isTeacher, setIsTeacher] = useState(false);
   const [activeNotification, setActiveNotification] = useState('');
   const [showNotification, setShowNotification] = useState(false);
@@ -58,6 +60,13 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       }, 850);
     } else {
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+  };
+
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -214,6 +223,9 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
         { opacity: 0, x: -350, y: 400, ease: "power1.in" }
       );
 
+      gsap.set(".panel-2, .panel-3, .panel-4", { autoAlpha: 0, pointerEvents: "none" });
+      gsap.set(".panel-1", { autoAlpha: 1, pointerEvents: "auto" });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".hero-scroll-container",
@@ -227,11 +239,8 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
         { scale: 0.15, y: "20%", opacity: 0.5 }, 
         { scale: 0.6, y: "0%", opacity: 1, duration: 2.2, ease: "power2.out" }
       )
-        .to(".panel-1", { autoAlpha: 0, scale: 0.9, duration: 1.2 })
+        .to(".panel-1", { autoAlpha: 0, pointerEvents: "none", scale: 0.9, duration: 1.2 })
         .to(".panel-2", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<")
-        .from(".hero-img-left", { x: "-100vw", rotation: -45, ease: "power2.out", duration: 1.5 }, "<")
-        .from(".hero-img-right", { x: "100vw", rotation: 45, ease: "power2.out", duration: 1.5 }, "<")
-        .from(".hero-img-center", { y: "100vh", rotation: 0, ease: "power2.out", duration: 1.5 }, "<")
         .to(".panel-2", { autoAlpha: 0, pointerEvents: "none", duration: 1, delay: 0.5 })
         .to(".ep-orbit-wrapper", { scale: 1, duration: 1.5 }, "<")
         .to(".panel-3", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<")
@@ -341,25 +350,41 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
             <div>
               <h3 className="font-bold text-white mb-6 uppercase tracking-wider text-xs">Plataforma</h3>
               <ul className="space-y-4 text-zinc-500 font-medium flex flex-col items-start">
-                <li><button onClick={() => setShowDemoModal(true)} className="hover:text-[#8DA9C4] transition-colors text-left">Mapa Estelar</button></li>
-                <li><button onClick={() => setShowDemoModal(true)} className="hover:text-[#8DA9C4] transition-colors text-left">Comandantes</button></li>
-                <li><button onClick={() => setShowDemoModal(true)} className="hover:text-[#8DA9C4] transition-colors text-left">Suscripciones</button></li>
+                <li>
+                  <button 
+                    onClick={() => {
+                      scrollToSection('section-waitlist-games');
+                      setShowDemoModal(true);
+                    }} 
+                    className="hover:text-[#8DA9C4] transition-colors text-left cursor-pointer"
+                  >
+                    Mapa Estelar
+                  </button>
+                </li>
+                <li><button onClick={() => scrollToSection('section-waitlist-future-perks')} className="hover:text-[#8DA9C4] transition-colors text-left cursor-pointer">Comandantes</button></li>
+                <li><button onClick={() => scrollToSection('section-waitlist-pricing')} className="hover:text-[#8DA9C4] transition-colors text-left cursor-pointer">Suscripciones</button></li>
               </ul>
             </div>
             <div>
-              <h3 className="font-bold text-white mb-6 uppercase tracking-wider text-xs">Legal</h3>
-              <ul className="space-y-4 text-zinc-500 font-medium">
-                <li><a href="#" className="hover:text-[#8DA9C4] transition-colors">Privacidad</a></li>
-                <li><a href="#" className="hover:text-[#8DA9C4] transition-colors">Términos</a></li>
-                <li><a href="#" className="hover:text-[#8DA9C4] transition-colors">Contacto</a></li>
+              <h3 className="font-bold text-white mb-6 uppercase tracking-wider text-xs">Legal & Contacto</h3>
+              <ul className="space-y-4 text-zinc-500 font-medium flex flex-col items-start">
+                <li><button onClick={() => setLegalModalType('privacy')} className="hover:text-[#8DA9C4] transition-colors text-left cursor-pointer">Privacidad</button></li>
+                <li><button onClick={() => setLegalModalType('terms')} className="hover:text-[#8DA9C4] transition-colors text-left cursor-pointer">Términos</button></li>
+                <li><button onClick={() => setLegalModalType('contact')} className="hover:text-[#8DA9C4] transition-colors text-left cursor-pointer">Contacto</button></li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-zinc-900 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-zinc-555 font-medium text-zinc-500">
+          <div className="border-t border-zinc-900 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-zinc-550 font-medium text-zinc-500">
             <p>© 2026 LumiNauts. Todos los derechos reservados.</p>
             <div className="flex items-center gap-4">
               <GitHubStarButton />
-              <div className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-850 flex items-center justify-center hover:bg-[#6B8BB4]/10 hover:text-[#8DA9C4] transition-colors cursor-pointer text-zinc-400 dark:bg-zinc-800 dark:border-zinc-700 dark:hover:bg-zinc-700"><Globe size={18}/></div>
+              <div 
+                onClick={() => setLegalModalType('privacy')} 
+                title="Seguridad e Idioma"
+                className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-850 flex items-center justify-center hover:bg-[#6B8BB4]/10 hover:text-[#8DA9C4] transition-colors cursor-pointer text-zinc-400 dark:bg-zinc-800 dark:border-zinc-700 dark:hover:bg-zinc-700"
+              >
+                <Globe size={18}/>
+              </div>
             </div>
           </div>
         </div>
@@ -373,6 +398,13 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
         onSubmitEmail={handleModalSubmitEmail}
         loading={loading}
         setShowPassport={setShowPassport}
+      />
+
+      {/* LEGAL & CONTACT MODAL */}
+      <LegalInfoModal
+        type={legalModalType}
+        isOpen={!!legalModalType}
+        onClose={() => setLegalModalType(null)}
       />
 
       <AnimatePresence>

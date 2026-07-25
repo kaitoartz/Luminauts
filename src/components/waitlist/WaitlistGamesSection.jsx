@@ -14,7 +14,7 @@ export default function WaitlistGamesSection({ games = [], onShowDemoModal }) {
 
   return (
     <section id="section-waitlist-games" className="py-20 md:py-36 relative bg-transparent text-white waitlist-section-games">
-      <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent"></div>
+
       <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col sm:flex-row justify-between items-center gap-4">
         <ScrollReveal origin="left" distance={30} reset={true} className="flex-1">
           <div>

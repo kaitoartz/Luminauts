@@ -85,7 +85,7 @@ export default function WaitlistHeroSection({
             </Button>
           )}
 
-          <div className="flex justify-center gap-6 mt-6 z-25 pointer-events-auto">
+          <div className="flex justify-center gap-6 z-25 pointer-events-auto">
             <ShineButton onClick={() => setShowDemoModal(true)} className="text-xs py-2.5 px-5 flex items-center gap-2 bg-transparent border border-[#6B8BB4]/30 text-[#8DA9C4] hover:bg-[#6B8BB4]/10">
               <Play size={14} fill="currentColor"/> Probar Demo Estelar
             </ShineButton>
@@ -93,7 +93,7 @@ export default function WaitlistHeroSection({
         </div>
 
         {/* Panel 2: Video/Image Showcase placeholder */}
-        <div className="panel-2 absolute inset-0 flex justify-center items-center z-10 invisible opacity-0 pointer-events-none">
+        <div className="panel-2 absolute inset-0 flex justify-center items-center z-10 opacity-0 pointer-events-none">
           <div className="relative w-full max-w-6xl h-full flex flex-col justify-center items-center px-6 pointer-events-auto">
             <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-3xl p-4 md:p-8 backdrop-blur-md max-w-3xl text-center">
               <Rocket size={48} className="mx-auto mb-4 text-[#E0B0FF] animate-pulse" />
@@ -115,12 +115,13 @@ export default function WaitlistHeroSection({
         </div>
 
         {/* Panel 3: Premium Features & Stats */}
-        <div className="panel-3 absolute inset-0 flex flex-col justify-center items-center text-center p-4 md:p-6 z-10 invisible opacity-0 pointer-events-none">
+        <div className="panel-3 absolute inset-0 flex flex-col justify-center items-center text-center p-4 md:p-6 z-10 opacity-0 pointer-events-none">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-12 text-white">
             Aprendizaje que <span className="text-[#8DA9C4]">engancha de verdad.</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl w-full">
             <LuminautsInteractiveCard
+              interactive={false}
               className="hero-stat-card"
               glowColor="rgba(141, 169, 196, 0.15)"
             >
@@ -131,6 +132,7 @@ export default function WaitlistHeroSection({
               </div>
             </LuminautsInteractiveCard>
             <LuminautsInteractiveCard
+              interactive={false}
               className="hero-stat-card"
               glowColor="rgba(224, 176, 255, 0.15)"
             >
@@ -141,6 +143,7 @@ export default function WaitlistHeroSection({
               </div>
             </LuminautsInteractiveCard>
             <LuminautsInteractiveCard
+              interactive={false}
               className="hero-stat-card col-span-1 sm:col-span-2 md:col-span-1"
               glowColor="rgba(253, 249, 226, 0.15)"
             >
@@ -154,7 +157,7 @@ export default function WaitlistHeroSection({
         </div>
 
         {/* Panel 4: Final CTA Form */}
-        <div className="panel-4 absolute inset-0 flex flex-col justify-center items-center text-center p-4 md:p-6 z-10 invisible opacity-0 pointer-events-none">
+        <div className="panel-4 absolute inset-0 flex flex-col justify-center items-center text-center p-4 md:p-6 z-10 opacity-0 pointer-events-none">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-4 tracking-tight text-white">¿Listo para tripular?</h2>
           <p className="text-sm md:text-base text-zinc-400 mb-6 max-w-xl">
             Únete hoy al waitlist oficial. Los usuarios registrados recibirán insignias de fundadores exclusivas y acceso prioritario una semana antes del despegue.

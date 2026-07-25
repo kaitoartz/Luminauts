@@ -8,8 +8,8 @@ export default function WaitlistFeaturesSection({ onShowDemoModal }) {
   return (
     <>
       {/* Feature Highlights Grid */}
-      <section id="section-waitlist-features" className="py-20 md:py-36 bg-transparent text-white px-6 relative overflow-hidden waitlist-section-features">
-        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent"></div>
+      <section id="section-waitlist-features" className="py-20 md:py-36 bg-transparent text-white px-6 relative overflow-visible waitlist-section-features">
+
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <ScrollReveal origin="bottom" reset={true}>
@@ -52,10 +52,16 @@ export default function WaitlistFeaturesSection({ onShowDemoModal }) {
       </section>
 
       {/* Categories / Feature Section Accordion/Stack */}
-      <div id="section-waitlist-details" className="feature-section-wrapper bg-transparent text-white relative overflow-hidden waitlist-section-details">
-        <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent"></div>
+      <div id="section-waitlist-details" className="feature-section-wrapper bg-transparent text-white relative overflow-visible waitlist-section-details">
         <ScrollReveal origin="bottom" distance={30} reset={true}>
-          <FeatureSection onNavigate={onShowDemoModal} />
+          <FeatureSection onNavigate={(target) => {
+            if (target === 'pricing') {
+              const el = document.getElementById('section-waitlist-pricing');
+              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+              onShowDemoModal();
+            }
+          }} />
         </ScrollReveal>
       </div>
     </>

@@ -16,7 +16,7 @@ export default function WaitlistCTASection({
 }) {
   return (
     <section id="section-waitlist-final-cta" className="py-36 md:py-48 bg-transparent px-6 lg:px-8 text-center overflow-hidden relative text-zinc-900 dark:text-white waitlist-section-final-cta">
-      <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent"></div>
+
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#6B8BB4]/5 dark:bg-[#6B8BB4]/10 rounded-full blur-[160px] pointer-events-none"></div>
       
       <div className="max-w-3xl mx-auto relative z-10 text-zinc-900 dark:text-white">
