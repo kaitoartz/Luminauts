@@ -10,6 +10,7 @@ const PremiumGameCard = ({ id, title, subject, level, duration, points, color, b
   const finalImageUrl = getImageUrl(image, id, title, isHovered);
 
   const handleCardClick = (e) => {
+    if (!interactive) return;
     if (locked) {
       if (onClick) onClick(e);
       return;
@@ -19,7 +20,7 @@ const PremiumGameCard = ({ id, title, subject, level, duration, points, color, b
     setTimeout(() => {
       setIsAnimating(false);
       if (onClick) onClick(e);
-    }, 600); // 600ms waiting for the star explosion animation
+    }, 600);
   };
 
   const getGlowColor = (colorStr) => {
@@ -35,10 +36,10 @@ const PremiumGameCard = ({ id, title, subject, level, duration, points, color, b
       interactive={interactive}
       onMouseEnter={() => setIsHovered(false)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={handleCardClick}
+      onClick={interactive ? handleCardClick : undefined}
       glowColor={getGlowColor(color)}
       className={locked ? 'opacity-85' : ''}
-      style={{ padding: 0 }} // Inner CardContentLayout handles its own padding
+      style={{ padding: 0 }}
     >
       <CardContentLayout
         id={id}
@@ -55,6 +56,7 @@ const PremiumGameCard = ({ id, title, subject, level, duration, points, color, b
         isDarkTheme={isDark}
         tag={tag}
         isAnimating={isAnimating}
+        interactive={interactive}
       />
     </LuminautsInteractiveCard>
   );

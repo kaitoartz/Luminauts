@@ -101,13 +101,9 @@ export default function WaitlistHeroSection({
               <p className="text-zinc-400 text-sm md:text-base max-w-lg mx-auto mb-6">
                 Juegos interactivos donde los cadetes tripulan naves espaciales y resuelven acertijos analíticos alineando estrellas para avanzar.
               </p>
-              <div className="w-full aspect-video bg-zinc-950 border border-zinc-800/50 hover:border-[#9059C8]/40 rounded-2xl flex items-center justify-center relative overflow-hidden group shadow-lg transition-colors duration-500">
-                {/* Falsa interfaz de juego como video con overlay CRT de alta fidelidad */}
-                <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnBub3J5MTV1dTA2c3kzeHJ6azIwYXdoaXRlMjNjZmdpMnpiaGU3diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/71fMwwGrFRszyoHhUy/giphy.gif" alt="Demo gameplay" className="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-lighten" />
-                
-                {/* Filtro CRT Scanlines */}
-                <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,_rgba(0,0,0,0.25)_50%)] bg-[size:100%_4px] opacity-30"></div>
-                
+              <div className="w-full aspect-video bg-zinc-950 border border-zinc-800/50 rounded-2xl flex items-center justify-center relative overflow-hidden shadow-lg">
+                {/* Falsa interfaz de juego como video */}
+                <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnBub3J5MTV1dTA2c3kzeHJ6azIwYXdoaXRlMjNjZmdpMnpiaHE3diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/71fMwwGrFRszyoHhUy/giphy.gif" alt="Demo gameplay" className="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-lighten" />
                 <div className="absolute inset-0 bg-linear-to-t from-zinc-950 via-transparent to-transparent opacity-80"></div>
               </div>
             </div>

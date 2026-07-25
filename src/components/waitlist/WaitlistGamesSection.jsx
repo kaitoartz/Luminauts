@@ -37,12 +37,11 @@ export default function WaitlistGamesSection({ games = [], onShowDemoModal }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {sampleGames.map((game) => (
             <ScrollReveal key={game.id} origin="bottom" distance={40} reset={true}>
-              <div className="relative cursor-pointer" onClick={onShowDemoModal}>
+              <div className="relative">
                 <PremiumGameCard 
                   {...game} 
                   isDark={true}
                   interactive={false}
-                  onClick={onShowDemoModal} 
                 />
               </div>
             </ScrollReveal>

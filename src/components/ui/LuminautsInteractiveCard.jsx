@@ -3,10 +3,10 @@ import React, { useRef, useEffect } from 'react';
 /**
  * Reusable, premium 3D interactive glass card component.
  * Features:
- * - 3D Tilt interaction following the mouse.
+ * - 3D Tilt interaction following the mouse (when interactive={true}).
  * - Dynamic spotlight glow overlay following the cursor.
  * - Nebula ambient glow shadow matching the Zero-Gravity rule.
- * - Perfect accessibility and high-end visual design.
+ * - Perfectly static when interactive={false}.
  */
 export default function LuminautsInteractiveCard({
   children,
@@ -58,31 +58,36 @@ export default function LuminautsInteractiveCard({
     };
   }, [interactive]);
 
+  const cursorClass = interactive || onClick ? 'cursor-pointer' : 'cursor-default';
+
   return (
     <div 
       className={`w-full h-full flex flex-col ${className}`}
-      style={{ perspective: '1000px', ...style }}
+      style={{ perspective: interactive ? '1000px' : 'none', ...style }}
     >
       <div
         ref={cardRef}
         onClick={onClick}
-        className="relative w-full h-full flex-grow rounded-[2rem] border border-zinc-800/40 bg-zinc-900/35 backdrop-blur-lg transition-all duration-300 ease-out select-none cursor-pointer group flex flex-col justify-between overflow-hidden p-8"
+        className={`relative w-full h-full flex-grow rounded-[2rem] border border-zinc-800/40 bg-zinc-900/35 backdrop-blur-lg transition-all duration-300 ease-out select-none ${cursorClass} ${interactive ? 'group' : ''} flex flex-col justify-between overflow-hidden p-8`}
         style={{
-          transformStyle: 'preserve-3d',
-          transform: 'rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--scale, 1))',
+          transformStyle: interactive ? 'preserve-3d' : 'flat',
+          transform: interactive ? 'rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--scale, 1))' : 'none',
           boxShadow: '0 10px 45px rgba(0, 0, 0, 0.35)',
-          willChange: 'transform'
+          willChange: interactive ? 'transform' : 'auto'
         }}
         {...props}
       >
-        {/* Glow overlay using cheap radial gradient instead of blur filter */}
-        <div 
-          className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none z-0"
-          style={{
-            background: `radial-gradient(circle at center, ${glowColor} 0%, transparent 70%)`,
-            borderRadius: '2rem'
-          }}
-        />
+        {/* Glow overlay - only active when interactive */}
+        {interactive && (
+          <div 
+            className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none z-0"
+            style={{
+              background: `radial-gradient(circle at center, ${glowColor} 0%, transparent 70%)`,
+              borderRadius: '2rem'
+            }}
+          />
+        )}
+
         {/* Spotlight overlay following the cursor */}
         {interactive && (
           <div
@@ -95,19 +100,21 @@ export default function LuminautsInteractiveCard({
           />
         )}
 
-        {/* Ambient Nebula backglow */}
-        <div
-          className="absolute -inset-[2px] rounded-[2rem] bg-gradient-to-r from-[#6B8BB4]/20 via-transparent to-[#E0B0FF]/20 opacity-40 group-hover:opacity-150 transition-opacity duration-500 pointer-events-none z-0"
-          style={{
-            maskImage: 'radial-gradient(ellipse at 50% 50%, black, transparent)',
-            WebkitMaskImage: 'radial-gradient(ellipse at 50% 50%, black, transparent)'
-          }}
-        />
+        {/* Ambient Nebula backglow - only active when interactive */}
+        {interactive && (
+          <div
+            className="absolute -inset-[2px] rounded-[2rem] bg-gradient-to-r from-[#6B8BB4]/20 via-transparent to-[#E0B0FF]/20 opacity-40 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"
+            style={{
+              maskImage: 'radial-gradient(ellipse at 50% 50%, black, transparent)',
+              WebkitMaskImage: 'radial-gradient(ellipse at 50% 50%, black, transparent)'
+            }}
+          />
+        )}
 
-        {/* Inner Content wrapper with depth */}
+        {/* Inner Content wrapper */}
         <div 
           className="relative z-10 w-full h-full flex flex-col justify-between"
-          style={{ transform: 'translateZ(20px)', transformStyle: 'preserve-3d' }}
+          style={{ transform: interactive ? 'translateZ(20px)' : 'none', transformStyle: interactive ? 'preserve-3d' : 'flat' }}
         >
           {children}
         </div>
