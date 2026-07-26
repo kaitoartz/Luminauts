@@ -1,5 +1,5 @@
 import React from 'react';
-import { Rocket, Share2, Copy } from 'lucide-react';
+import { Rocket, Share2, Copy, CreditCard, Sparkles } from 'lucide-react';
 import ScrollReveal from '../ui/ScrollReveal';
 import Button from '../ui/Button';
 import { getEmailSuggestion } from '../../utils/emailValidator';
@@ -18,11 +18,9 @@ export default function WaitlistCTASection({
   return (
     <section id="section-waitlist-final-cta" className="py-36 md:py-48 bg-transparent px-6 lg:px-8 text-center overflow-hidden relative text-zinc-900 dark:text-white waitlist-section-final-cta">
 
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#6B8BB4]/5 dark:bg-[#6B8BB4]/10 rounded-full blur-[160px] pointer-events-none"></div>
-      
       <div className="max-w-3xl mx-auto relative z-10 text-zinc-900 dark:text-white">
         <ScrollReveal origin="top" distance={30} reset={true}>
-          <Rocket size={64} className="mx-auto mb-8 text-[#51759C] dark:text-[#8DA9C4] filter drop-shadow-[0_0_15px_rgba(141,169,196,0.3)]" />
+          <Rocket size={48} className="mx-auto mb-8 text-[#51759C] dark:text-[#8DA9C4]" />
         </ScrollReveal>
         <ScrollReveal origin="bottom" distance={30} delay={0.1} reset={true}>
           <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-zinc-900 dark:text-white">Asegura tu carta de Fundador</h2>
@@ -35,9 +33,7 @@ export default function WaitlistCTASection({
         <ScrollReveal origin="bottom" distance={30} delay={0.3} reset={true}>
           <div className="flex-container w-full max-w-lg mx-auto z-20 pointer-events-auto">
             {status === 'success' ? (
-              <div className="w-full max-w-md mx-auto flex flex-col gap-6 text-left bg-zinc-900/40 border border-zinc-800 p-6 md:p-8 rounded-[2rem] backdrop-blur-md relative overflow-hidden">
-                <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-[#6B8BB4]/10 rounded-full blur-[40px] pointer-events-none" />
-                
+              <div className="w-full max-w-md mx-auto flex flex-col gap-6 text-left bg-zinc-900/60 border border-zinc-800 p-6 md:p-8 rounded-2xl relative overflow-hidden">
                 <div className="text-center space-y-2">
                   <h3 className="text-xl font-black text-white">¡Misión de Registro Iniciada!</h3>
                 </div>
@@ -48,9 +44,10 @@ export default function WaitlistCTASection({
                     e.stopPropagation();
                     setShowPassport(true);
                   }}
-                  className="w-full py-3.5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-2xl font-bold text-sm shadow-lg shadow-blue-500/10 active:scale-[0.97] flex items-center justify-center gap-2"
+                  className="w-full py-3.5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2"
                 >
-                  <span>Ver mi Pasaporte de Comandante 💳</span>
+                  <CreditCard className="w-4 h-4 text-[#E0B0FF]" />
+                  <span>Ver mi Pasaporte de Comandante</span>
                 </Button>
 
                 <div className="w-full h-px bg-zinc-800 my-1" />
@@ -67,7 +64,7 @@ export default function WaitlistCTASection({
                   
                   <button
                     onClick={async () => {
-                      const shareText = `🚀 ¡Acabo de registrarme como Comandante en LumiNauts! Obtén tu credencial estelar para la estación educativa del futuro. Únete a la tripulación aquí: ${window.location.origin}`;
+                      const shareText = `¡Acabo de registrarme como Comandante en LumiNauts! Obtén tu credencial estelar para la estación educativa del futuro. Únete a la tripulación aquí: ${window.location.origin}`;
                       try {
                         await navigator.clipboard.writeText(shareText);
                         alert('¡Enlace de invitación copiado al portapapeles!');
@@ -75,7 +72,7 @@ export default function WaitlistCTASection({
                         console.error(err);
                       }
                     }}
-                    className="w-full py-3 rounded-xl border border-zinc-850 bg-zinc-900/60 hover:bg-zinc-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 cursor-pointer"
+                    className="w-full py-3 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
                   >
                     <Copy size={14} />
                     <span>Copiar Enlace de Invitación</span>
@@ -85,7 +82,7 @@ export default function WaitlistCTASection({
               </div>
             ) : (
               <div className="w-full flex flex-col gap-3 items-center">
-                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 w-full bg-zinc-900/40 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200/20 shadow-md">
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 w-full bg-zinc-900/60 p-1.5 rounded-xl border border-zinc-800">
                   <label htmlFor="cta-email-input" className="sr-only">Correo electrónico</label>
                   <input 
                     id="cta-email-input"
@@ -102,7 +99,7 @@ export default function WaitlistCTASection({
                     className="flex-1 bg-transparent px-4 py-2.5 text-white placeholder-zinc-500 font-semibold focus:outline-none text-sm"
                     disabled={loading}
                   />
-                  <Button type="submit" disabled={loading} className="py-2.5 px-5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-xl font-bold text-xs whitespace-nowrap">
+                  <Button type="submit" disabled={loading} className="py-2.5 px-5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-lg font-bold text-xs whitespace-nowrap">
                     {loading ? 'Registrando...' : 'Unirse al Waitlist'}
                   </Button>
                 </form>
@@ -112,10 +109,13 @@ export default function WaitlistCTASection({
                     <button
                       type="button"
                       onClick={() => setEmail(getEmailSuggestion(email))}
-                      className="text-xs text-[#E0B0FF] hover:underline font-semibold bg-[#9059C8]/10 border border-[#9059C8]/30 px-3 py-1.5 rounded-xl cursor-pointer flex items-center justify-between gap-2 w-full sm:w-auto"
+                      className="text-xs text-[#E0B0FF] hover:underline font-semibold bg-[#9059C8]/10 border border-[#9059C8]/30 px-3 py-1.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 w-full sm:w-auto"
                     >
-                      <span>✨ ¿Quisiste decir <strong className="text-white">{getEmailSuggestion(email)}</strong>?</span>
-                      <span className="text-[10px] bg-[#9059C8]/30 px-2 py-0.5 rounded-lg uppercase font-bold text-white shrink-0">Corregir</span>
+                      <span className="flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-[#E0B0FF]" />
+                        ¿Quisiste decir <strong className="text-white">{getEmailSuggestion(email)}</strong>?
+                      </span>
+                      <span className="text-[10px] bg-[#9059C8]/30 px-2 py-0.5 rounded uppercase font-bold text-white shrink-0">Corregir</span>
                     </button>
                   </div>
                 )}

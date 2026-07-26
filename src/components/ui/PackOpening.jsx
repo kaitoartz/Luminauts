@@ -116,11 +116,19 @@ function LumiPackModel({ mousePos, hitCount, isOpening }) {
   );
 }
 
+function LoadNotifier({ onLoad }) {
+  useEffect(() => {
+    onLoad();
+  }, [onLoad]);
+  return null;
+}
+
 const PackOpening = () => {
   const [openingState, setOpeningState] = useState('IDLE'); // IDLE, HIT, OPENING, REVEALING
   const [hitCount, setHitCount] = useState(0);
   const [revealedCards, setRevealedCards] = useState({});
   const [isInView, setIsInView] = useState(false);
+  const [isPackLoaded, setIsPackLoaded] = useState(false);
   const MAX_HITS = 4;
 
   useEffect(() => {
@@ -388,7 +396,7 @@ const PackOpening = () => {
       {openingState !== 'REVEALING' && (
         <div
           ref={packContainerRef}
-          onClick={handlePackTap}
+          onClick={(!isInView || !isPackLoaded) ? undefined : handlePackTap}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           onTouchStart={handleTouchMove}
@@ -397,8 +405,8 @@ const PackOpening = () => {
           style={{ touchAction: 'pan-y' }}
           className="relative w-[320px] h-[400px] cursor-pointer z-20 select-none flex items-center justify-center touch-pan-y"
         >
-          {isInView ? (
-            <>
+          {isInView && (
+            <div className={`w-full h-full absolute inset-0 transition-opacity duration-500 ${isPackLoaded ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
               <Canvas
                 dpr={[1, 1.5]}
                 camera={{ position: [0, 0, 9.2], fov: 45 }}
@@ -411,6 +419,7 @@ const PackOpening = () => {
                 <spotLight position={[0, 10, 8]} angle={0.4} penumbra={1} intensity={3} color="#ffffff" />
                 
                 <Suspense fallback={null}>
+                  <LoadNotifier onLoad={() => setIsPackLoaded(true)} />
                   <Float speed={2} rotationIntensity={0.2} floatIntensity={0.4}>
                     <LumiPackModel 
                       mousePos={mousePos} 
@@ -432,17 +441,11 @@ const PackOpening = () => {
 
                 <ContactShadows position={[0, -2.4, 0]} opacity={0.6} scale={6} blur={2.2} far={4} />
               </Canvas>
-            </>
-          ) : (
-            <div className="w-full h-full rounded-[2.5rem] bg-zinc-900/60 border border-zinc-800 flex flex-col items-center justify-center p-6 text-center animate-pulse relative overflow-hidden backdrop-blur-md">
-              <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[#E0B0FF]/10 rounded-full blur-[80px] pointer-events-none" />
-              <div className="w-24 h-36 bg-[#E0B0FF]/10 border border-[#E0B0FF]/20 rounded-2xl mb-6 flex items-center justify-center shadow-[0_0_30px_rgba(224,176,255,0.1)]">
-                <span className="text-3xl animate-bounce">🪐</span>
-              </div>
-              <p className="text-xs text-[#E0B0FF] font-mono tracking-[0.22em] uppercase font-black">
-                Preparando Sobre Estelar...
-              </p>
             </div>
+          )}
+
+          {(!isInView || !isPackLoaded) && (
+              <div className="w-10 h-10 rounded-full border-2 border-[#E0B0FF]/20 border-t-[#E0B0FF] animate-spin" />
           )}
         </div>
       )}

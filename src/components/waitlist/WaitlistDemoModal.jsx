@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Rocket, FlaskConical, Award } from 'lucide-react';
+import { X, Rocket, FlaskConical, Award, Lock, CreditCard, Sparkles } from 'lucide-react';
 import Button from '../ui/Button';
 import { getEmailSuggestion, validateEmailSyntax } from '../../utils/emailValidator';
 
@@ -189,18 +189,20 @@ export default function WaitlistDemoModal({
                   <span className="absolute right-2 top-0 text-[8px] font-mono text-zinc-500 leading-none">Nivel 1 (35%)</span>
                 </div>
 
-                <div className="bg-zinc-950/60 border border-zinc-800 p-4 rounded-2xl text-left space-y-3">
-                  <p className="text-[11px] font-semibold text-zinc-300">
-                    🔒 Misiones de Lógica, Memoria y Programación bloqueadas en esta demo de prueba.
+                <div className="bg-zinc-950/60 border border-zinc-800 p-4 rounded-xl text-left space-y-3">
+                  <p className="text-[11px] font-semibold text-zinc-300 flex items-center gap-1.5">
+                    <Lock size={12} className="text-zinc-400 shrink-0" />
+                    <span>Misiones de Lógica, Memoria y Programación bloqueadas en esta demo de prueba.</span>
                   </p>
                   
                   {status === 'success' ? (
                     <Button 
                       type="button"
                       onClick={() => setShowPassport(true)}
-                      className="w-full py-3.5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-2xl font-bold text-sm shadow-lg shadow-blue-500/10 active:scale-[0.97]"
+                      className="w-full py-3.5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2"
                     >
-                      Ver mi Pasaporte de Comandante 💳
+                      <CreditCard size={14} className="text-[#E0B0FF]" />
+                      <span>Ver mi Pasaporte de Comandante</span>
                     </Button>
                   ) : (
                     <form onSubmit={handleFormSubmit} className="space-y-3">
@@ -214,17 +216,20 @@ export default function WaitlistDemoModal({
                           e.target.setCustomValidity('');
                           setEmail(e.target.value);
                         }}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 focus:outline-none focus:border-blue-500 text-xs text-white"
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 focus:outline-none focus:border-blue-500 text-xs text-white"
                       />
                       {getEmailSuggestion(email) && (
                         <div className="w-full text-left">
                           <button
                             type="button"
                             onClick={() => setEmail(getEmailSuggestion(email))}
-                            className="text-[11px] text-[#E0B0FF] hover:underline font-semibold bg-[#9059C8]/10 border border-[#9059C8]/30 px-3 py-1.5 rounded-xl cursor-pointer flex items-center justify-between gap-2 w-full"
+                            className="text-[11px] text-[#E0B0FF] hover:underline font-semibold bg-[#9059C8]/10 border border-[#9059C8]/30 px-3 py-1.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 w-full"
                           >
-                            <span>✨ ¿Quisiste decir <strong className="text-white">{getEmailSuggestion(email)}</strong>?</span>
-                            <span className="text-[9px] bg-[#9059C8]/30 px-2 py-0.5 rounded-lg uppercase font-bold text-white shrink-0">Corregir</span>
+                            <span className="flex items-center gap-1.5">
+                              <Sparkles size={12} className="text-[#E0B0FF]" />
+                              ¿Quisiste decir <strong className="text-white">{getEmailSuggestion(email)}</strong>?
+                            </span>
+                            <span className="text-[9px] bg-[#9059C8]/30 px-2 py-0.5 rounded uppercase font-bold text-white shrink-0">Corregir</span>
                           </button>
                         </div>
                       )}

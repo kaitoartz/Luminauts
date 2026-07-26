@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { Rocket, Globe } from 'lucide-react';
+import { Rocket, Globe, ShieldCheck } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
@@ -687,8 +687,11 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
                 </li>
               </ul>
 
-              <div className="p-3.5 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 text-[11px] text-zinc-500">
-                <span className="font-bold text-zinc-300 block mb-0.5">🛡️ Entorno Protegido para Cadetes</span>
+              <div className="p-3.5 rounded-xl bg-zinc-900/60 border border-zinc-800 text-[11px] text-zinc-500">
+                <span className="font-bold text-zinc-300 block mb-0.5 flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#6B8BB4]" />
+                  Entorno Protegido para Cadetes
+                </span>
                 Plataforma 100% libre de anuncios, rastreo comercial y microtransacciones no supervisadas.
               </div>
             </div>

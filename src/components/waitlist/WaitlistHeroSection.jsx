@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Users, Rocket, Play } from 'lucide-react';
+import { Users, Rocket, Play, CreditCard, Sparkles } from 'lucide-react';
 import AnimatedCounter from './AnimatedCounter';
 import Button from '../ui/Button';
 import ShineButton from '../ui/ShineButton';
@@ -85,16 +85,14 @@ export default function WaitlistHeroSection({
         {/* Panel 1: Main Title & Initial Form */}
         <div className="panel-1 absolute inset-0 flex flex-col justify-center items-center text-center p-6 z-10 lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8 pointer-events-none">
           <div className="flex flex-col items-center text-center lg:items-start lg:text-left lg:col-span-7 pointer-events-auto">
-            {/* Real-time Simulated Counter */}
+            {/* Real-time Counter */}
             <motion.div 
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-8 flex items-center gap-2.5 bg-white/2 border border-white/6 hover:border-white/12 rounded-full px-5 py-2 text-xs sm:text-sm font-medium text-[#8DA9C4] shadow-[0_4px_24px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_30px_rgba(144,89,200,0.1)] transition-all duration-500 group pointer-events-auto"
+              className="mb-8 flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#8DA9C4] pointer-events-auto"
             >
-              <div className="relative flex items-center justify-center w-6 h-6 rounded-full bg-linear-to-br from-[#9059C8]/25 to-blue-500/10 border border-[#9059C8]/20 group-hover:scale-105 transition-transform duration-300">
-                <Users className="w-3.5 h-3.5 text-[#E0B0FF]" />
-              </div>
+              <Users className="w-4 h-4 text-[#E0B0FF]" />
               <span>
                 Únete a <AnimatedCounter value={subscriberCount} /> cadetes y educadores registrados
               </span>
@@ -112,9 +110,10 @@ export default function WaitlistHeroSection({
               <Button 
                 type="button"
                 onClick={() => setShowPassport(true)}
-                className="w-full max-w-md z-20 pointer-events-auto px-2 py-3.5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-2xl font-bold text-sm shadow-lg shadow-blue-500/10 active:scale-[0.97]"
+                className="w-full max-w-md z-20 pointer-events-auto px-2 py-3.5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2"
               >
-                Ver mi Pasaporte de Comandante 💳
+                <CreditCard className="w-4 h-4 text-[#E0B0FF]" />
+                <span>Ver mi Pasaporte de Comandante</span>
               </Button>
             )}
 
@@ -207,13 +206,14 @@ export default function WaitlistHeroSection({
                     e.stopPropagation();
                     setShowPassport(true);
                   }}
-                  className="w-full py-3.5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-2xl font-bold text-sm shadow-lg shadow-blue-500/10 active:scale-[0.97]"
+                  className="w-full py-3.5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2"
                 >
-                  Ver mi Pasaporte de Comandante 💳
+                  <CreditCard className="w-4 h-4 text-[#E0B0FF]" />
+                  <span>Ver mi Pasaporte de Comandante</span>
                 </Button>
               ) : (
                 <div className="w-full flex flex-col gap-2">
-                  <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 w-full bg-white/5 p-1.5 rounded-2xl border border-zinc-200/20 shadow-md focus-within:border-[#E0B0FF]/40 focus-within:shadow-[0_0_25px_rgba(224,176,255,0.15)] transition-all duration-500">
+                  <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 w-full bg-zinc-900/60 p-1.5 rounded-xl border border-zinc-800 focus-within:border-[#E0B0FF]/40 transition-colors">
                     <label htmlFor="hero-email-input" className="sr-only">Correo electrónico</label>
                     <input 
                       id="hero-email-input"
@@ -226,10 +226,10 @@ export default function WaitlistHeroSection({
                         e.target.setCustomValidity('');
                         setEmail(e.target.value);
                       }}
-                      className="flex-1 bg-transparent px-4 py-2.5 text-white placeholder-zinc-400/60 font-semibold focus:outline-none text-sm"
+                      className="flex-1 bg-transparent px-4 py-2.5 text-white placeholder-zinc-500 font-semibold focus:outline-none text-sm"
                       disabled={loading}
                     />
-                    <Button type="submit" disabled={loading} className="py-2.5 px-5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-xl font-bold text-xs whitespace-nowrap">
+                    <Button type="submit" disabled={loading} className="py-2.5 px-5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-lg font-bold text-xs whitespace-nowrap">
                       {loading ? 'Registrando...' : 'Notificar Lanzamiento'}
                     </Button>
                   </form>
@@ -238,10 +238,13 @@ export default function WaitlistHeroSection({
                       <button
                         type="button"
                         onClick={() => setEmail(getEmailSuggestion(email))}
-                        className="text-xs text-[#E0B0FF] hover:underline font-semibold bg-[#9059C8]/10 border border-[#9059C8]/30 px-3 py-1.5 rounded-xl cursor-pointer flex items-center justify-between gap-2 w-full sm:w-auto"
+                        className="text-xs text-[#E0B0FF] hover:underline font-semibold bg-[#9059C8]/10 border border-[#9059C8]/30 px-3 py-1.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 w-full sm:w-auto"
                       >
-                        <span>✨ ¿Quisiste decir <strong className="text-white">{getEmailSuggestion(email)}</strong>?</span>
-                        <span className="text-[10px] bg-[#9059C8]/30 px-2 py-0.5 rounded-lg uppercase font-bold text-white shrink-0">Corregir</span>
+                        <span className="flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-[#E0B0FF]" />
+                          ¿Quisiste decir <strong className="text-white">{getEmailSuggestion(email)}</strong>?
+                        </span>
+                        <span className="text-[10px] bg-[#9059C8]/30 px-2 py-0.5 rounded uppercase font-bold text-white shrink-0">Corregir</span>
                       </button>
                     </div>
                   )}
