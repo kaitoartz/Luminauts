@@ -20,6 +20,34 @@ export default function WaitlistHeroSection({
   setShowPassport,
   setShowDemoModal
 }) {
+  const [isModelLoaded, setIsModelLoaded] = React.useState(() => {
+    return typeof window !== 'undefined' && !!window.customElements?.get('model-viewer');
+  });
+
+  React.useEffect(() => {
+    if (isModelLoaded) return;
+
+    const loadScript = () => {
+      if (document.querySelector('script[src*="model-viewer"]')) {
+        setIsModelLoaded(true);
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = 'https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js';
+      script.type = 'module';
+      script.async = true;
+      script.onload = () => setIsModelLoaded(true);
+      document.head.appendChild(script);
+    };
+
+    // Defer loading to after initial page paint and CPU activity settles
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(() => setTimeout(loadScript, 800));
+    } else {
+      setTimeout(loadScript, 1200);
+    }
+  }, [isModelLoaded]);
+
   return (
     <div id="section-waitlist-hero" className="relative h-[400vh] w-full hero-scroll-container waitlist-section-hero">
       {/* Sticky Stage */}
@@ -29,17 +57,23 @@ export default function WaitlistHeroSection({
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-5">
           <div className="ep-orbit-wrapper">
             <div className="ep-model-container">
-              <model-viewer
-                ref={modelViewerRef}
-                src={lowPolyEarthGLB}
-                class="ep-earth-viewer pointer-events-none"
-                camera-orbit="0deg 75deg 105%"
-                interaction-prompt="none"
-                disable-zoom
-                disable-pan
-                shadow-intensity="0"
-                exposure="0.5"
-              ></model-viewer>
+              {isModelLoaded ? (
+                <model-viewer
+                  ref={modelViewerRef}
+                  src={lowPolyEarthGLB}
+                  class="ep-earth-viewer pointer-events-none"
+                  camera-orbit="0deg 75deg 105%"
+                  interaction-prompt="none"
+                  disable-zoom
+                  disable-pan
+                  shadow-intensity="0"
+                  exposure="0.5"
+                ></model-viewer>
+              ) : (
+                <div className="ep-earth-viewer flex items-center justify-center bg-transparent">
+                  <div className="w-10 h-10 rounded-full border-2 border-[#E0B0FF]/20 border-t-[#E0B0FF] animate-spin" />
+                </div>
+              )}
             </div>
           </div>
         </div>
