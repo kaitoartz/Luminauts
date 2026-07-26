@@ -29,9 +29,9 @@ export default function WaitlistCollectionSection({ onWaitlistClick }) {
           
           <ScrollReveal origin="bottom" delay={0.3} reset={true}>
             {/* Contenedor para @pokemon-cards-holo-effect-v2 */}
-            <div className="w-full flex items-center justify-center p-4">
-              <div id="pokemon-cards-holo-effect-v2-container" className="w-full flex flex-wrap justify-center gap-6 xl:gap-8 py-8">
-                  <PackOpening />
+            <div className="w-full flex items-center justify-center">
+              <div id="pokemon-cards-holo-effect-v2-container" className="w-full flex flex-wrap justify-center gap-6 xl:gap-8">
+                <PackOpening />
               </div>
             </div>
           </ScrollReveal>

@@ -19,9 +19,10 @@ import WaitlistGamesSection from '../components/waitlist/WaitlistGamesSection';
 import WaitlistCollectionSection from '../components/waitlist/WaitlistCollectionSection';
 import WaitlistParentsSection from '../components/waitlist/WaitlistParentsSection';
 import WaitlistCTASection from '../components/waitlist/WaitlistCTASection';
-import WaitlistDemoModal from '../components/waitlist/WaitlistDemoModal';
 import WaitlistActivityToast from '../components/waitlist/WaitlistActivityToast';
-import LegalInfoModal from '../components/ui/LegalInfoModal';
+
+const WaitlistDemoModal = React.lazy(() => import('../components/waitlist/WaitlistDemoModal'));
+const LegalInfoModal = React.lazy(() => import('../components/ui/LegalInfoModal'));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -391,21 +392,27 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       </footer>
 
       {/* INTERACTIVE DEMO MODAL */}
-      <WaitlistDemoModal
-        isOpen={showDemoModal}
-        onClose={() => setShowDemoModal(false)}
-        status={status}
-        onSubmitEmail={handleModalSubmitEmail}
-        loading={loading}
-        setShowPassport={setShowPassport}
-      />
+      <Suspense fallback={null}>
+        {showDemoModal && (
+          <WaitlistDemoModal
+            isOpen={showDemoModal}
+            onClose={() => setShowDemoModal(false)}
+            status={status}
+            onSubmitEmail={handleModalSubmitEmail}
+            loading={loading}
+            setShowPassport={setShowPassport}
+          />
+        )}
 
-      {/* LEGAL & CONTACT MODAL */}
-      <LegalInfoModal
-        type={legalModalType}
-        isOpen={!!legalModalType}
-        onClose={() => setLegalModalType(null)}
-      />
+        {/* LEGAL & CONTACT MODAL */}
+        {legalModalType && (
+          <LegalInfoModal
+            type={legalModalType}
+            isOpen={!!legalModalType}
+            onClose={() => setLegalModalType(null)}
+          />
+        )}
+      </Suspense>
 
       <AnimatePresence>
         {showPassport && (

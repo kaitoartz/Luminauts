@@ -1,6 +1,9 @@
 
 
 :root {
+  /* Habilita transiciones CSS nativas de height: auto en navegadores modernos */
+  interpolate-size: allow-keywords;
+
   /* --- PALETA DE COLORES LUMINAUTS (MODO CLARO) --- */
   --bg: #F4F7FB; /* Soft light cosmic blue-gray */
   
@@ -1447,6 +1450,23 @@ p {
   grid-template-rows: 1fr;
   opacity: 1;
 }
+
+/* Modern CSS calc-size() Progressive Enhancement */
+@supports (height: calc-size(auto, size)) {
+  .calc-size-auto {
+    height: calc-size(auto, size + 1rem);
+    transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+/* Low-power / Mobile GPU performance fallback for heavy blur & shadows */
+@media (max-width: 768px) {
+  .glass-panel {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+}
+
 
 
 

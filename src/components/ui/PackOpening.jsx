@@ -1,6 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+/* eslint-disable react/no-unknown-property */
+import React, { useState, useRef, useEffect, Suspense } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { useGLTF, Environment, ContactShadows, Float } from '@react-three/drei';
+import * as THREE from 'three';
 import { gsap } from 'gsap';
 import HoloCard from './HoloCard';
+import lumipackGLB from '../../assets/lumipack.glb';
+
+useGLTF.preload(lumipackGLB);
 
 const CARDS_DATA = [
   {
@@ -11,7 +18,7 @@ const CARDS_DATA = [
     frontImage: 'https://images.pokemontcg.io/swsh35/56_hires.png',
     name: 'Nauta',
     desc: 'Carta Básica',
-    glowColor: 'rgba(148, 163, 184, 0.4)' // Slate
+    glowColor: 'rgba(148, 163, 184, 0.4)'
   },
   {
     id: 'estelar',
@@ -22,7 +29,7 @@ const CARDS_DATA = [
     frontImage: 'https://images.pokemontcg.io/swsh9/171_hires.png',
     name: 'Estelar',
     desc: 'Efecto Metálico / Trainer Gallery',
-    glowColor: 'rgba(56, 189, 248, 0.6)' // Sky blue
+    glowColor: 'rgba(56, 189, 248, 0.6)'
   },
   {
     id: 'superestelar',
@@ -33,7 +40,7 @@ const CARDS_DATA = [
     frontImage: 'https://images.pokemontcg.io/swsh9/171_hires.png',
     name: 'SuperEstelar',
     desc: 'Full Art / Shimmer V',
-    glowColor: 'rgba(99, 102, 241, 0.7)' // Indigo
+    glowColor: 'rgba(99, 102, 241, 0.7)'
   },
   {
     id: 'cosmos',
@@ -43,7 +50,7 @@ const CARDS_DATA = [
     frontImage: 'https://images.pokemontcg.io/swsh10/27_hires.png',
     name: 'Cosmos',
     desc: 'Resplandor Radiante',
-    glowColor: 'rgba(192, 132, 252, 0.8)' // Purple
+    glowColor: 'rgba(192, 132, 252, 0.8)'
   },
   {
     id: 'supernova',
@@ -53,77 +60,127 @@ const CARDS_DATA = [
     frontImage: 'https://images.pokemontcg.io/swsh9/186_hires.png',
     name: 'SuperNova',
     desc: 'Edición Secreta / Fundador',
-    glowColor: 'rgba(250, 204, 21, 0.9)' // Gold
+    glowColor: 'rgba(250, 204, 21, 0.9)'
   }
 ];
 
-const PackOpening = ({ boosterArtUrl = '/src/assets/genetic-apex-mewtwo.png' }) => {
-  const [openingState, setOpeningState] = useState('IDLE'); // 'IDLE', 'HITTING', 'OPENING', 'REVEALING'
+function LumiPackModel({ mousePos, hitCount, isOpening }) {
+  const { scene } = useGLTF(lumipackGLB);
+  const modelRef = useRef();
+  const spinOffset = useRef({ angle: 0 });
+
+  // Clone scene so multiple instances don't share node transforms
+  const clonedScene = React.useMemo(() => {
+    const clone = scene.clone();
+    clone.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+        if (child.material) {
+          child.material.roughness = 0.25;
+          child.material.metalness = 0.75;
+          child.material.envMapIntensity = 1.5;
+        }
+      }
+    });
+    return clone;
+  }, [scene]);
+
+  // Animación del acumulador de giro al hacer clic
+  useEffect(() => {
+    if (hitCount > 0) {
+      gsap.to(spinOffset.current, {
+        angle: hitCount * Math.PI * 2,
+        duration: 0.65,
+        ease: "back.out(1.4)"
+      });
+    }
+  }, [hitCount]);
+
+  useFrame(() => {
+    if (!modelRef.current || isOpening) return;
+    
+    // Lerp suave combinando inercia de mouse + giro acumulado de clics
+    const targetRx = (mousePos.current.y - 0.5) * -0.6;
+    const targetRy = (mousePos.current.x - 0.5) * 0.6 + spinOffset.current.angle;
+
+    modelRef.current.rotation.x = THREE.MathUtils.lerp(modelRef.current.rotation.x, targetRx, 0.12);
+    modelRef.current.rotation.y = THREE.MathUtils.lerp(modelRef.current.rotation.y, targetRy, 0.12);
+  });
+
+  return (
+    <group ref={modelRef} scale={3.2} position={[0, -0.3, 0]}>
+      <primitive object={clonedScene} />
+    </group>
+  );
+}
+
+const PackOpening = () => {
+  const [openingState, setOpeningState] = useState('IDLE'); // IDLE, HIT, OPENING, REVEALING
   const [hitCount, setHitCount] = useState(0);
-  const [revealedCards, setRevealedCards] = useState({}); // Track which cards have been flipped
-  
+  const [revealedCards, setRevealedCards] = useState({});
   const MAX_HITS = 4;
-  
-  const sceneContainerRef = useRef(null);
-  const packRef = useRef(null);
-  const packTopHalfRef = useRef(null);
-  const packBottomHalfRef = useRef(null);
+
+  const mousePos = useRef({ x: 0.5, y: 0.5 });
+  const packContainerRef = useRef(null);
   const explosionFlashRef = useRef(null);
   const centralGlowRef = useRef(null);
-  const particlesWrapperRef = useRef(null);
   const cardsContainerRef = useRef(null);
+  const particlesWrapperRef = useRef(null);
+  const sceneContainerRef = useRef(null);
 
-  // Polígonos de corte en zigzag para simular costura rota
-  const zigzagClipPathTop = "polygon(0% 0%, 100% 0%, 100% 59%, 85% 56%, 70% 61%, 55% 57%, 40% 60%, 25% 56%, 10% 59%, 0% 56%)";
-  const zigzagClipPathBottom = "polygon(0% 56%, 10% 59%, 25% 56%, 40% 60%, 55% 57%, 70% 61%, 85% 56%, 100% 59%, 100% 100%, 0% 100%)";
+  const handleMouseMove = (e) => {
+    if (!packContainerRef.current || openingState === 'OPENING') return;
+    const rect = packContainerRef.current.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+    mousePos.current = { x: Math.max(0, Math.min(1, px)), y: Math.max(0, Math.min(1, py)) };
+  };
 
-  // Fase 1: IDLE - Animación de flote suave
-  useEffect(() => {
-    const gsapCtx = gsap.context(() => {
-      if (openingState === 'IDLE') {
-        gsap.to(packRef.current, {
-          y: "-=12",
-          rotationZ: 1.5,
-          rotationY: 3,
-          duration: 2.2,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut"
-        });
-      }
-    }, sceneContainerRef);
+  const handleMouseLeave = () => {
+    mousePos.current = { x: 0.5, y: 0.5 };
+  };
 
-    return () => gsapCtx.revert();
-  }, [openingState]);
-
-  // Fase 1: HITTING - Squash & Stretch
+  // Fase 1: HIT - Feedback de toque y squish
   const handlePackTap = (e) => {
-    if (openingState !== 'IDLE') return;
+    if (openingState === 'OPENING' || openingState === 'REVEALING') return;
 
     const newHitCount = hitCount + 1;
     setHitCount(newHitCount);
+    setOpeningState('HIT');
 
-    // Audio de impacto comentado
-    /*
-    const playHitSound = () => {
-      const audio = new Audio('/assets/sounds/pack_crunch.mp3');
-      audio.playbackRate = 1 + (newHitCount * 0.08);
-      audio.play();
-    };
-    playHitSound();
-    */
+    // Chispas al tocar el sobre 3D
+    if (particlesWrapperRef.current && sceneContainerRef.current) {
+      const rect = sceneContainerRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
 
-    gsap.killTweensOf(packRef.current);
+      const spark = document.createElement('div');
+      spark.className = 'absolute w-14 h-14 rounded-full pointer-events-none z-30 mix-blend-screen';
+      spark.style.left = `${x - 28}px`;
+      spark.style.top = `${y - 28}px`;
+      spark.style.background = 'radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(224,176,255,0.7) 40%, rgba(56,189,248,0.4) 70%, transparent 100%)';
+      particlesWrapperRef.current.appendChild(spark);
 
-    // Transición definitiva al 4º golpe
+      gsap.to(spark, {
+        scale: 2.8,
+        opacity: 0,
+        duration: 0.38,
+        ease: "power2.out",
+        onComplete: () => spark.remove()
+      });
+    }
+
+    gsap.killTweensOf(packContainerRef.current);
+
     if (newHitCount >= MAX_HITS) {
       executeExplosiveTearSequence();
       return;
     }
 
     const intensity = 1 + (newHitCount * 0.15);
-    const squishScaleX = 1 + (0.06 * intensity);
-    const squishScaleY = 1 - (0.06 * intensity);
+    const squishScaleX = 1 + (0.07 * intensity);
+    const squishScaleY = 1 - (0.07 * intensity);
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -131,66 +188,32 @@ const PackOpening = ({ boosterArtUrl = '/src/assets/genetic-apex-mewtwo.png' }) 
       }
     });
 
-    tl.to(packRef.current, {
+    tl.to(packContainerRef.current, {
       scaleX: squishScaleX,
       scaleY: squishScaleY,
-      rotationZ: `random(-4, 4)`,
       duration: 0.08,
       ease: "power2.in"
-    }).to(packRef.current, {
+    }).to(packContainerRef.current, {
       scaleX: 1,
       scaleY: 1,
-      rotationZ: 0,
       duration: 0.45,
       ease: "elastic.out(1.1, 0.4)"
     });
-
-    // Brillo en coordenadas de impacto
-    if (particlesWrapperRef.current) {
-      const rect = sceneContainerRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      const spark = document.createElement('div');
-      spark.className = 'absolute w-12 h-12 rounded-full pointer-events-none z-30 mix-blend-screen';
-      spark.style.left = `${x - 24}px`;
-      spark.style.top = `${y - 24}px`;
-      spark.style.background = 'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(56,189,248,0.5) 50%, transparent 100%)';
-      particlesWrapperRef.current.appendChild(spark);
-
-      gsap.to(spark, {
-        scale: 2.5,
-        opacity: 0,
-        duration: 0.35,
-        ease: "power2.out",
-        onComplete: () => spark.remove()
-      });
-    }
   };
 
-  // Fase 2: OPENING - Animación de desgarro y explosión física
+  // Fase 2: OPENING - Animación de explosión 3D
   const executeExplosiveTearSequence = () => {
     setOpeningState('OPENING');
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Audio de ruptura comentado
-    /*
-    const playTearSound = () => {
-      const audio = new Audio('/assets/sounds/pack_rip.mp3');
-      audio.play();
-    };
-    playTearSound();
-    */
-
-    // Crear partículas dinámicas
-    const numParticles = prefersReducedMotion ? 10 : 35;
+    const numParticles = prefersReducedMotion ? 10 : 40;
     const particles = [];
+
     if (particlesWrapperRef.current) {
       particlesWrapperRef.current.innerHTML = '';
       for (let i = 0; i < numParticles; i++) {
         const p = document.createElement('div');
-        p.className = 'absolute w-2.5 h-2.5 rounded-full bg-gradient-to-r from-amber-200 to-white opacity-0 pointer-events-none z-30 mix-blend-screen';
+        p.className = 'absolute w-3 h-3 rounded-full bg-gradient-to-r from-[#E0B0FF] via-sky-300 to-white opacity-0 pointer-events-none z-30 mix-blend-screen';
         particlesWrapperRef.current.appendChild(p);
         particles.push(p);
       }
@@ -203,35 +226,23 @@ const PackOpening = ({ boosterArtUrl = '/src/assets/genetic-apex-mewtwo.png' }) 
     });
 
     if (prefersReducedMotion) {
-      // Alternativa simplificada sin movimientos bruscos
       masterTimeline
-        .to(packRef.current, { opacity: 0, scale: 0.9, duration: 0.4, ease: "power2.out" })
+        .to(packContainerRef.current, { opacity: 0, scale: 0.8, duration: 0.4, ease: "power2.out" })
         .to(explosionFlashRef.current, { opacity: 1, duration: 0.1 })
         .to(explosionFlashRef.current, { opacity: 0, duration: 0.4 });
       return;
     }
 
-    gsap.set(particles, { x: 0, y: 0, scale: "random(0.6, 1.8)" });
+    gsap.set(particles, { x: 0, y: 0, scale: "random(0.6, 2.2)" });
 
     masterTimeline.addLabel("rupture")
-      // Separación agresiva de mitades
-      .to(packTopHalfRef.current, {
-        y: -500,
-        rotationZ: -25,
-        rotationX: -35,
-        opacity: 0,
-        duration: 0.85,
-        ease: "power3.in"
-      }, "rupture")
-      .to(packBottomHalfRef.current, {
-        y: 500,
+      .to(packContainerRef.current, {
+        scale: 1.4,
         rotationZ: 15,
-        rotationX: 25,
         opacity: 0,
-        duration: 0.85,
+        duration: 0.65,
         ease: "power3.in"
       }, "rupture")
-      // Flash de luz expansivo
       .to(explosionFlashRef.current, {
         opacity: 1,
         duration: 0.1,
@@ -242,21 +253,19 @@ const PackOpening = ({ boosterArtUrl = '/src/assets/genetic-apex-mewtwo.png' }) 
         duration: 0.8,
         ease: "power3.out"
       }, "rupture+=0.1")
-      // Brillo nebula central
       .to(centralGlowRef.current, {
-        scale: 7,
+        scale: 8,
         opacity: 0,
-        duration: 0.65,
+        duration: 0.7,
         ease: "expo.out"
       }, "rupture")
-      // Explosión de partículas vectoriales
       .to(particles, {
-        x: () => `random(-280, 280)`,
-        y: () => `random(-280, 280)`,
+        x: () => `random(-320, 320)`,
+        y: () => `random(-320, 320)`,
         opacity: "random(0.8, 1)",
-        duration: 0.45,
+        duration: 0.5,
         ease: "power3.out",
-        stagger: { amount: 0.05 }
+        stagger: { amount: 0.06 }
       }, "rupture")
       .to(particles, {
         scale: 0,
@@ -264,10 +273,10 @@ const PackOpening = ({ boosterArtUrl = '/src/assets/genetic-apex-mewtwo.png' }) 
         duration: 0.35,
         ease: "power1.in",
         stagger: { amount: 0.05 }
-      }, "rupture+=0.25");
+      }, "rupture+=0.3");
   };
 
-  // Fase 3: REVEALING - Dispersión de cartas tipo poker en grid
+  // Fase 3: REVEALING - Dispersión de cartas
   useEffect(() => {
     if (openingState === 'REVEALING') {
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -280,7 +289,6 @@ const PackOpening = ({ boosterArtUrl = '/src/assets/genetic-apex-mewtwo.png' }) 
         return;
       }
 
-      // Animación de dispersión desde el centro de la pantalla
       const timer = setTimeout(() => {
         gsap.fromTo('.card-wrapper',
           { 
@@ -324,10 +332,8 @@ const PackOpening = ({ boosterArtUrl = '/src/assets/genetic-apex-mewtwo.png' }) 
     }
   }, [openingState]);
 
-  // Fase 4: Volteo y feedback de audio de rareza al hacer clic
-  const handleCardClick = (cardId, rarity) => {
+  const handleCardClick = (cardId) => {
     if (revealedCards[cardId]) return;
-
     setRevealedCards(prev => ({
       ...prev,
       [cardId]: true
@@ -340,7 +346,7 @@ const PackOpening = ({ boosterArtUrl = '/src/assets/genetic-apex-mewtwo.png' }) 
       className="relative flex items-center justify-center w-full min-h-[650px] overflow-hidden select-none rounded-[2.5rem]"
     >
       {/* Fondo estelar sutil */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.08)_0%,transparent_75%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(144,89,200,0.12)_0%,transparent_75%)] pointer-events-none" />
 
       {/* Contenedor de partículas */}
       <div ref={particlesWrapperRef} className="absolute inset-0 pointer-events-none z-30 flex items-center justify-center" />
@@ -348,57 +354,47 @@ const PackOpening = ({ boosterArtUrl = '/src/assets/genetic-apex-mewtwo.png' }) 
       {/* Brillo central expansivo */}
       <div
         ref={centralGlowRef}
-        className="absolute w-64 h-64 rounded-full bg-sky-500/25 opacity-0 blur-[85px] pointer-events-none z-10"
+        className="absolute w-64 h-64 rounded-full bg-[#E0B0FF]/25 opacity-0 blur-[85px] pointer-events-none z-10"
       />
 
-      {/* FASE 1 & 2: SOBRE FÍSICO */}
+      {/* FASE 1 & 2: MODELO SOBRE 3D GLB CON R3F CANVAS */}
       {openingState !== 'REVEALING' && (
         <div
-          ref={packRef}
+          ref={packContainerRef}
           onClick={handlePackTap}
-          className="relative w-[290px] h-[415px] cursor-pointer z-20 select-none"
-          style={{ transformStyle: 'preserve-3d', perspective: '1100px' }}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          className="relative w-[320px] h-[450px] cursor-pointer z-20 select-none flex items-center justify-center"
         >
-          {/* Mitad Superior del Sobre */}
-          <div
-            ref={packTopHalfRef}
-            className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{
-              clipPath: zigzagClipPathTop,
-              transformStyle: 'preserve-3d',
-              backfaceVisibility: 'hidden',
-              filter: 'drop-shadow(0 15px 20px rgba(0,0,0,0.5))'
-            }}
+          <Canvas
+            dpr={[1, 1.5]}
+            camera={{ position: [0, 0, 7.5], fov: 45 }}
+            gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
+            className="w-full h-full pointer-events-none"
           >
-            <img
-              src={boosterArtUrl}
-              alt="Sobre Mitad Superior"
-              className="w-full h-full object-contain pointer-events-none saturate-[1.05] brightness-95"
-            />
-          </div>
+            <ambientLight intensity={1.2} />
+            <directionalLight position={[5, 8, 5]} intensity={2.5} color="#E0B0FF" />
+            <directionalLight position={[-5, -4, -2]} intensity={1.2} color="#8DA9C4" />
+            <spotLight position={[0, 10, 8]} angle={0.4} penumbra={1} intensity={3} color="#ffffff" />
+            
+            <Suspense fallback={null}>
+              <Float speed={2} rotationIntensity={0.2} floatIntensity={0.4}>
+                <LumiPackModel 
+                  mousePos={mousePos} 
+                  hitCount={hitCount}
+                  isOpening={openingState === 'OPENING'}
+                />
+              </Float>
+              <Environment preset="city" />
+            </Suspense>
 
-          {/* Mitad Inferior del Sobre */}
-          <div
-            ref={packBottomHalfRef}
-            className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{
-              clipPath: zigzagClipPathBottom,
-              transformStyle: 'preserve-3d',
-              backfaceVisibility: 'hidden',
-              filter: 'drop-shadow(0 15px 20px rgba(0,0,0,0.5))'
-            }}
-          >
-            <img
-              src={boosterArtUrl}
-              alt="Sobre Mitad Inferior"
-              className="w-full h-full object-contain pointer-events-none saturate-[1.05] brightness-95"
-            />
-          </div>
+            <ContactShadows position={[0, -2.4, 0]} opacity={0.6} scale={6} blur={2.2} far={4} />
+          </Canvas>
           
           {/* Guía de gesto */}
           {hitCount === 0 && (
-            <div className="absolute -bottom-14 w-full text-center pointer-events-none animate-pulse">
-              <span className="text-xs text-sky-400 font-mono tracking-[0.2em] uppercase bg-zinc-900/90 border border-sky-500/30 px-5 py-2.5 rounded-full shadow-[0_0_20px_rgba(56,189,248,0.25)]">
+            <div className="absolute -bottom-6 w-full text-center pointer-events-none animate-pulse z-30">
+              <span className="text-xs text-[#E0B0FF] font-mono tracking-[0.2em] uppercase bg-zinc-900/90 border border-[#9059C8]/40 px-5 py-2.5 rounded-full shadow-[0_0_20px_rgba(144,89,200,0.3)]">
                 Toca para abrir
               </span>
             </div>
@@ -412,11 +408,11 @@ const PackOpening = ({ boosterArtUrl = '/src/assets/genetic-apex-mewtwo.png' }) 
           ref={cardsContainerRef}
           className="relative flex flex-wrap justify-center gap-6 xl:gap-8 items-center z-20 w-full max-w-6xl py-8 px-4"
         >
-          {CARDS_DATA.map((card, index) => (
+          {CARDS_DATA.map((card) => (
             <div
               key={card.id}
               className="card-wrapper select-none"
-              onClick={() => handleCardClick(card.id, card.rarity)}
+              onClick={() => handleCardClick(card.id)}
             >
               <HoloCard
                 rarity={card.rarity}
