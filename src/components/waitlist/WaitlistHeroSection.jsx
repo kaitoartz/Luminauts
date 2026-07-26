@@ -6,6 +6,7 @@ import Button from '../ui/Button';
 import ShineButton from '../ui/ShineButton';
 import { BlurReveal } from '../ui/blur-reveal';
 import LuminautsInteractiveCard from '../ui/LuminautsInteractiveCard';
+import lowPolyEarthGLB from '../../assets/low_poly_earth.glb';
 
 export default function WaitlistHeroSection({
   modelViewerRef,
@@ -30,7 +31,7 @@ export default function WaitlistHeroSection({
             <div className="ep-model-container">
               <model-viewer
                 ref={modelViewerRef}
-                src="/low_poly_earth.glb"
+                src={lowPolyEarthGLB}
                 class="ep-earth-viewer pointer-events-none"
                 camera-orbit="0deg 75deg 105%"
                 interaction-prompt="none"
@@ -62,18 +63,12 @@ export default function WaitlistHeroSection({
           </motion.div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.1] max-w-5xl mb-6 text-white">
-            <BlurReveal trigger={!isSplashActive} delay={0.15}>La&nbsp;</BlurReveal>
-            <BlurReveal trigger={!isSplashActive} delay={0.25}>estación&nbsp;</BlurReveal>
-            <BlurReveal trigger={!isSplashActive} className="text-[#E0B0FF] font-black" delay={0.35}>educativa&nbsp;</BlurReveal>
-            <BlurReveal trigger={!isSplashActive} delay={0.45}>del&nbsp;</BlurReveal>
-            <BlurReveal trigger={!isSplashActive} delay={0.55}>futuro.</BlurReveal>
+            La estación <span className="text-[#E0B0FF] font-black">educativa</span> del futuro.
           </h1>
           
-          <BlurReveal trigger={!isSplashActive} delay={0.7} duration={1.2}>
-            <p className="text-base sm:text-lg text-zinc-400 max-w-2xl font-medium leading-relaxed mb-8">
-              LumiNauts combina ciencia, matemáticas y juego estelar. Registra tu correo hoy y asegura tu boleto de acceso anticipado al lanzamiento oficial.
-            </p>
-          </BlurReveal>
+          <p className="text-base sm:text-lg text-zinc-400 max-w-2xl font-medium leading-relaxed mb-8">
+            LumiNauts combina ciencia, matemáticas y juego estelar. Registra tu correo hoy y asegura tu boleto de acceso anticipado al lanzamiento oficial.
+          </p>
 
           {status == true && (
             <Button 
