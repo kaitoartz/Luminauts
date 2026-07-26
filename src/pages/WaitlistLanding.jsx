@@ -50,7 +50,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
   const [showNotification, setShowNotification] = useState(false);
   
   const emailInputRef = useRef(null);
-  const modelViewerRef = useRef(null);
+  const [modelViewerElement, setModelViewerElement] = useState(null);
   const lenisRef = useRef(null);
 
   const scrollToWaitlist = () => {
@@ -224,38 +224,73 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
         { opacity: 0, x: -350, y: 400, ease: "power1.in" }
       );
 
-      gsap.set(".panel-2, .panel-3, .panel-4", { autoAlpha: 0, pointerEvents: "none" });
-      gsap.set(".panel-1", { autoAlpha: 1, pointerEvents: "auto" });
+      const mm = gsap.matchMedia();
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".hero-scroll-container",
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1,
-        }
+      // Mobile/Tablet: Centered, scale up to 1.6
+      mm.add("(max-width: 1023px)", () => {
+        gsap.set(".panel-2, .panel-3, .panel-4", { autoAlpha: 0, pointerEvents: "none" });
+        gsap.set(".panel-1", { autoAlpha: 1, pointerEvents: "auto" });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".hero-scroll-container",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 1,
+          }
+        });
+
+        tl.fromTo(".ep-orbit-wrapper", 
+          { scale: 0.15, y: "20%", opacity: 0.5 }, 
+          { scale: 0.6, y: "0%", opacity: 1, duration: 2.2, ease: "power2.out" }
+        )
+          .to(".panel-1", { autoAlpha: 0, pointerEvents: "none", scale: 0.9, duration: 1.2 })
+          .to(".panel-2", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<")
+          .to(".panel-2", { autoAlpha: 0, pointerEvents: "none", duration: 1, delay: 0.5 })
+          .to(".ep-orbit-wrapper", { scale: 1, duration: 1.5 }, "<")
+          .to(".panel-3", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<")
+          .from(".hero-stat-card", { y: 60, opacity: 0, stagger: 0.2, ease: "back.out(1.7)", duration: 1.2 }, "<")
+          .to(".panel-3", { autoAlpha: 0, pointerEvents: "none", duration: 1, delay: 0.5 })
+          .to(".panel-4", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<")
+          .from(".panel-4 h2, .panel-4 p, .panel-4 .flex-container", { y: 40, opacity: 0, stagger: 0.15, ease: "power3.out", duration: 1.2 }, "<")
+          .to(".ep-orbit-wrapper", { scale: 1.6, opacity: 1, duration: 1.5, ease: "power1.inOut" }, "<");
       });
 
-      tl.fromTo(".ep-orbit-wrapper", 
-        { scale: 0.15, y: "20%", opacity: 0.5 }, 
-        { scale: 0.6, y: "0%", opacity: 1, duration: 2.2, ease: "power2.out" }
-      )
-        .to(".panel-1", { autoAlpha: 0, pointerEvents: "none", scale: 0.9, duration: 1.2 })
-        .to(".panel-2", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<")
-        .to(".panel-2", { autoAlpha: 0, pointerEvents: "none", duration: 1, delay: 0.5 })
-        .to(".ep-orbit-wrapper", { scale: 1, duration: 1.5 }, "<")
-        .to(".panel-3", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<")
-        .from(".hero-stat-card", { y: 60, opacity: 0, stagger: 0.2, ease: "back.out(1.7)", duration: 1.2 }, "<")
-        .to(".panel-3", { autoAlpha: 0, pointerEvents: "none", duration: 1, delay: 0.5 })
-        .to(".panel-4", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<")
-        .from(".panel-4 h2, .panel-4 p, .panel-4 .flex-container", { y: 40, opacity: 0, stagger: 0.15, ease: "power3.out", duration: 1.2 }, "<")
-        .to(".ep-orbit-wrapper", { scale: 1.6, opacity: 1, duration: 1.5, ease: "power1.inOut" }, "<");
+      // Desktop/PC: Split layout on right side, scale limited to 1.05
+      mm.add("(min-width: 1024px)", () => {
+        gsap.set(".panel-2, .panel-3, .panel-4", { autoAlpha: 0, pointerEvents: "none" });
+        gsap.set(".panel-1", { autoAlpha: 1, pointerEvents: "auto" });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".hero-scroll-container",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 1,
+          }
+        });
+
+        tl.fromTo(".ep-orbit-wrapper", 
+          { scale: 0.3, y: "10%", opacity: 0.5 }, 
+          { scale: 0.75, y: "0%", opacity: 1, duration: 2.2, ease: "power2.out" }
+        )
+          .to(".panel-1", { autoAlpha: 0, pointerEvents: "none", scale: 0.95, duration: 1.2 })
+          .to(".panel-2", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<")
+          .to(".panel-2", { autoAlpha: 0, pointerEvents: "none", duration: 1, delay: 0.5 })
+          .to(".ep-orbit-wrapper", { scale: 0.85, duration: 1.5 }, "<")
+          .to(".panel-3", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<")
+          .from(".hero-stat-card", { y: 40, opacity: 0, stagger: 0.2, ease: "power2.out", duration: 1.2 }, "<")
+          .to(".panel-3", { autoAlpha: 0, pointerEvents: "none", duration: 1, delay: 0.5 })
+          .to(".panel-4", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<")
+          .from(".panel-4 h2, .panel-4 p, .panel-4 .flex-container", { y: 30, opacity: 0, stagger: 0.15, ease: "power3.out", duration: 1.2 }, "<")
+          .to(".ep-orbit-wrapper", { scale: 1.05, opacity: 1, duration: 1.5, ease: "power1.inOut" }, "<");
+      });
 
       const hasReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       if (!hasReducedMotion) {
-        if (modelViewerRef.current) {
-          gsap.fromTo(modelViewerRef.current,
+        if (modelViewerElement) {
+          gsap.fromTo(modelViewerElement,
             { attr: { "camera-orbit": "0deg 75deg 105%" } },
             {
               attr: { "camera-orbit": "1080deg 75deg 105%" },
@@ -284,7 +319,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
         window.removeEventListener('mouseup', handleMouseUp);
       }
     };
-  }, [isSplashActive]);
+  }, [isSplashActive, modelViewerElement]);
 
   if (isLoading) {
     return <PageSkeleton view="landing" />;
@@ -302,7 +337,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       {/* Pinned Scroll Hero Section */}
       <main id="main-content" className="relative z-10">
         <WaitlistHeroSection
-          modelViewerRef={modelViewerRef}
+          modelViewerRef={setModelViewerElement}
           subscriberCount={subscriberCount}
         isSplashActive={isSplashActive}
         status={status}

@@ -1019,6 +1019,21 @@ body {
     height: 900px;
   }
 }
+.earth-backdrop-circle {
+  position: absolute;
+  inset: -10%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(12, 12, 16, 0.8) 0%, rgba(5, 5, 7, 0.92) 65%, rgba(0, 0, 0, 0.98) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 
+    0 0 70px rgba(141, 169, 196, 0.12),
+    0 0 120px rgba(224, 176, 255, 0.04),
+    inset 0 0 50px rgba(0, 0, 0, 0.95);
+  pointer-events: none;
+  z-index: 0;
+  transform: translateZ(-30px);
+  transition: all 0.5s ease;
+}
 .ep-orbit-line-wrapper {
   position: absolute;
   inset: 0;
