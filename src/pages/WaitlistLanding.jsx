@@ -300,9 +300,10 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       </div>
 
       {/* Pinned Scroll Hero Section */}
-      <WaitlistHeroSection
-        modelViewerRef={modelViewerRef}
-        subscriberCount={subscriberCount}
+      <main id="main-content" className="relative z-10">
+        <WaitlistHeroSection
+          modelViewerRef={modelViewerRef}
+          subscriberCount={subscriberCount}
         isSplashActive={isSplashActive}
         status={status}
         handleSubmit={handleSubmit}
@@ -337,6 +338,8 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
         isTeacher={isTeacher}
         setIsTeacher={setIsTeacher}
       />
+
+      </main>
 
       {/* Footer */}
       <footer className="relative z-10 bg-transparent border-t border-zinc-900 pt-20 pb-10 px-6 lg:px-8 text-zinc-400 text-xs">

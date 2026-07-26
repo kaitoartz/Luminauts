@@ -85,7 +85,9 @@ export default function WaitlistCTASection({
             ) : (
               <div className="w-full flex flex-col gap-3 items-center">
                 <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 w-full bg-zinc-900/40 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200/20 shadow-md">
+                  <label htmlFor="cta-email-input" className="sr-only">Correo electrónico</label>
                   <input 
+                    id="cta-email-input"
                     ref={emailInputRef}
                     type="email" 
                     required 

@@ -173,7 +173,9 @@ export default function WaitlistHeroSection({
               </Button>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 w-full bg-white/5 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200/20 shadow-md focus-within:border-[#E0B0FF]/40 focus-within:shadow-[0_0_25px_rgba(224,176,255,0.15)] transition-all duration-500">
+                <label htmlFor="hero-email-input" className="sr-only">Correo electrónico</label>
                 <input 
+                  id="hero-email-input"
                   type="email" 
                   required 
                   aria-label="Correo electrónico"

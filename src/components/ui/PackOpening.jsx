@@ -7,7 +7,8 @@ import { gsap } from 'gsap';
 import HoloCard from './HoloCard';
 import lumipackGLB from '../../assets/lumipack.glb';
 
-useGLTF.preload(lumipackGLB);
+// Defer loading of GLB assets by commenting out initial preload
+// useGLTF.preload(lumipackGLB);
 
 const CARDS_DATA = [
   {
@@ -119,7 +120,24 @@ const PackOpening = () => {
   const [openingState, setOpeningState] = useState('IDLE'); // IDLE, HIT, OPENING, REVEALING
   const [hitCount, setHitCount] = useState(0);
   const [revealedCards, setRevealedCards] = useState({});
+  const [isInView, setIsInView] = useState(false);
   const MAX_HITS = 4;
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '120px' }
+    );
+    if (sceneContainerRef.current) {
+      observer.observe(sceneContainerRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
 
   const mousePos = useRef({ x: 0.5, y: 0.5 });
   const packContainerRef = useRef(null);
@@ -366,37 +384,60 @@ const PackOpening = () => {
           onMouseLeave={handleMouseLeave}
           className="relative w-[320px] h-[450px] cursor-pointer z-20 select-none flex items-center justify-center"
         >
-          <Canvas
-            dpr={[1, 1.5]}
-            camera={{ position: [0, 0, 7.5], fov: 45 }}
-            gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
-            className="w-full h-full pointer-events-none"
-          >
-            <ambientLight intensity={1.2} />
-            <directionalLight position={[5, 8, 5]} intensity={2.5} color="#E0B0FF" />
-            <directionalLight position={[-5, -4, -2]} intensity={1.2} color="#8DA9C4" />
-            <spotLight position={[0, 10, 8]} angle={0.4} penumbra={1} intensity={3} color="#ffffff" />
-            
-            <Suspense fallback={null}>
-              <Float speed={2} rotationIntensity={0.2} floatIntensity={0.4}>
-                <LumiPackModel 
-                  mousePos={mousePos} 
-                  hitCount={hitCount}
-                  isOpening={openingState === 'OPENING'}
-                />
-              </Float>
-              <Environment preset="city" />
-            </Suspense>
+          {isInView ? (
+            <>
+              <Canvas
+                dpr={[1, 1.5]}
+                camera={{ position: [0, 0, 7.5], fov: 45 }}
+                gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
+                className="w-full h-full pointer-events-none"
+              >
+                <ambientLight intensity={1.2} />
+                <directionalLight position={[5, 8, 5]} intensity={2.5} color="#E0B0FF" />
+                <directionalLight position={[-5, -4, -2]} intensity={1.2} color="#8DA9C4" />
+                <spotLight position={[0, 10, 8]} angle={0.4} penumbra={1} intensity={3} color="#ffffff" />
+                
+                <Suspense fallback={null}>
+                  <Float speed={2} rotationIntensity={0.2} floatIntensity={0.4}>
+                    <LumiPackModel 
+                      mousePos={mousePos} 
+                      hitCount={hitCount}
+                      isOpening={openingState === 'OPENING'}
+                    />
+                  </Float>
+                  <Environment resolution={32}>
+                    <mesh position={[0, 5, 0]} scale={[10, 1, 10]}>
+                      <planeGeometry />
+                      <meshBasicMaterial color="#E0B0FF" toneMapped={false} />
+                    </mesh>
+                    <mesh position={[5, 0, 0]} scale={[1, 10, 10]}>
+                      <planeGeometry />
+                      <meshBasicMaterial color="#8DA9C4" toneMapped={false} />
+                    </mesh>
+                  </Environment>
+                </Suspense>
 
-            <ContactShadows position={[0, -2.4, 0]} opacity={0.6} scale={6} blur={2.2} far={4} />
-          </Canvas>
-          
-          {/* Guía de gesto */}
-          {hitCount === 0 && (
-            <div className="absolute -bottom-6 w-full text-center pointer-events-none animate-pulse z-30">
-              <span className="text-xs text-[#E0B0FF] font-mono tracking-[0.2em] uppercase bg-zinc-900/90 border border-[#9059C8]/40 px-5 py-2.5 rounded-full shadow-[0_0_20px_rgba(144,89,200,0.3)]">
-                Toca para abrir
-              </span>
+                <ContactShadows position={[0, -2.4, 0]} opacity={0.6} scale={6} blur={2.2} far={4} />
+              </Canvas>
+              
+              {/* Guía de gesto */}
+              {hitCount === 0 && (
+                <div className="absolute -bottom-6 w-full text-center pointer-events-none animate-pulse z-30">
+                  <span className="text-xs text-[#E0B0FF] font-mono tracking-[0.2em] uppercase bg-zinc-900/90 border border-[#9059C8]/40 px-5 py-2.5 rounded-full shadow-[0_0_20px_rgba(144,89,200,0.3)]">
+                    Toca para abrir
+                  </span>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="w-full h-full rounded-[2.5rem] bg-zinc-900/60 border border-zinc-800 flex flex-col items-center justify-center p-6 text-center animate-pulse relative overflow-hidden backdrop-blur-md">
+              <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[#E0B0FF]/10 rounded-full blur-[80px] pointer-events-none" />
+              <div className="w-24 h-36 bg-[#E0B0FF]/10 border border-[#E0B0FF]/20 rounded-2xl mb-6 flex items-center justify-center shadow-[0_0_30px_rgba(224,176,255,0.1)]">
+                <span className="text-3xl animate-bounce">🪐</span>
+              </div>
+              <p className="text-xs text-[#E0B0FF] font-mono tracking-[0.22em] uppercase font-black">
+                Preparando Sobre Estelar...
+              </p>
             </div>
           )}
         </div>
