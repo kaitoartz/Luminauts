@@ -240,9 +240,10 @@ const HoloCard = ({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
-      onTouchMove={(e) => handleMouseMove(e.touches[0])}
+      onTouchMove={(e) => e.touches && e.touches[0] && handleMouseMove(e.touches[0])}
       onTouchEnd={handleMouseLeave}
       style={{
+        touchAction: 'pan-y',
         ...dynamicVars,
         ...style
       }}

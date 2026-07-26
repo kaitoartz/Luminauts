@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Rocket, Menu, X, Shield, User, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PremiumThemeToggle from './ui/PremiumThemeToggle';
@@ -37,17 +38,21 @@ const Navbar = ({ currentView, onNavigate, apiStatus, onOpenSettings, theme, onT
     { id: 'dashboard', label: 'Misiones' }
   ];
 
-  return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'py-3' : 'py-5'}`}>
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className={`max-w-7xl mx-auto flex justify-between items-center transition-all duration-500 rounded-full px-6 ${scrolled ? 'bg-[#ffffff]/80 dark:bg-[#141923]/80 backdrop-blur-xl border border-zinc-200 dark:border-zinc-200 shadow-lg py-3' : 'bg-transparent py-2'}`}>
+  const content = (
+    <nav className="fixed top-0 inset-x-0 z-[9999] py-3 sm:py-4 transition-all duration-300">
+      <div className="px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className={`flex justify-between items-center transition-all duration-300 rounded-full px-4 sm:px-6 py-2.5 ${
+          scrolled 
+            ? 'bg-zinc-950/90 dark:bg-[#141923]/95 backdrop-blur-xl border border-zinc-800/80 shadow-[0_10px_40px_rgba(0,0,0,0.6)] text-white' 
+            : 'bg-zinc-950/60 dark:bg-[#141923]/60 backdrop-blur-md border border-white/10 text-white'
+        }`}>
           
           {/* Logo */}
-          <div className="flex items-center gap-3 cursor-pointer group" onClick={() => !isWaitlistMode && onNavigate('landing')}>
-            <div className="w-12 h-12 bg-linear-to-tr from-[#6B8BB4] to-[#E0B0FF] rounded-[18px] flex items-center justify-center text-white shadow-lg shadow-indigo-500/10 group-hover:scale-105 group-hover:rotate-3 transition-transform">
-              <Rocket size={24} />
+          <div className="flex items-center gap-2.5 cursor-pointer group shrink-0" onClick={() => !isWaitlistMode && onNavigate('landing')}>
+            <div className="w-9 h-9 sm:w-11 sm:h-11 bg-linear-to-tr from-[#6B8BB4] to-[#E0B0FF] rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/10 group-hover:scale-105 transition-transform shrink-0">
+              <Rocket size={18} className="sm:w-5 sm:h-5" />
             </div>
-            <span className="font-black text-2xl tracking-tight text-zinc-900 dark:text-white hidden sm:block">Luminauts</span>
+            <span className="font-black text-base sm:text-xl md:text-2xl tracking-tight text-white">Luminauts</span>
           </div>
           
           {/* Desktop Navigation Menu (hidden on mobile/tablet) */}
@@ -56,7 +61,7 @@ const Navbar = ({ currentView, onNavigate, apiStatus, onOpenSettings, theme, onT
               <button 
                 key={nav.id} 
                 onClick={() => onNavigate(nav.id)} 
-                className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${currentView === nav.id ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 shadow-md' : 'text-zinc-555 dark:text-zinc-550 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100/80 dark:hover:bg-zinc-200'}`}
+                className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${currentView === nav.id ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 shadow-md' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'}`}
               >
                 {nav.label}
               </button>
@@ -64,16 +69,16 @@ const Navbar = ({ currentView, onNavigate, apiStatus, onOpenSettings, theme, onT
           </div>
           
           {/* Actions (Desktop & Mobile) */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             {/* Indicador de Conexión de API (Desktop) */}
             {!isWaitlistMode && (
               <button 
                 onClick={onOpenSettings}
-                className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-200/60 dark:border-zinc-200 bg-zinc-550/50 dark:bg-zinc-950/50 hover:bg-zinc-100/80 dark:hover:bg-zinc-200 text-zinc-650 dark:text-zinc-300 transition-all text-xs font-bold shadow-sm"
+                className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800 text-zinc-300 transition-all text-xs font-bold shadow-sm"
                 title="Configuración de API"
               >
                 <span className={`w-2.5 h-2.5 rounded-full ${apiStatus === 'connected' ? 'bg-green-500 animate-pulse' : apiStatus === 'connecting' ? 'bg-yellow-500 animate-pulse' : 'bg-red-500'}`} />
-                <span className="text-zinc-600 dark:text-zinc-300 hidden xl:inline">
+                <span className="text-zinc-300 hidden xl:inline">
                   {apiStatus === 'connected' ? 'API Conectada' : apiStatus === 'connecting' ? 'Conectando...' : 'API Desconectada'}
                 </span>
               </button>
@@ -85,30 +90,38 @@ const Navbar = ({ currentView, onNavigate, apiStatus, onOpenSettings, theme, onT
             {/* Parents / Profile Desktop Buttons */}
             {!isWaitlistMode && (
               <div className="hidden lg:flex items-center gap-2">
-                <button className="text-sm font-bold text-zinc-500 dark:text-zinc-550 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100/85 dark:hover:bg-zinc-200 transition-colors px-3 py-2 rounded-lg" onClick={() => onNavigate('parents')}>Padres</button>
-                <button className="text-sm font-bold text-zinc-500 dark:text-zinc-550 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100/85 dark:hover:bg-zinc-200 transition-colors px-3 py-2 rounded-lg" onClick={() => onNavigate('profile')}>Perfil</button>
+                <button className="text-sm font-bold text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-colors px-3 py-2 rounded-lg" onClick={() => onNavigate('parents')}>Padres</button>
+                <button className="text-sm font-bold text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-colors px-3 py-2 rounded-lg" onClick={() => onNavigate('profile')}>Perfil</button>
               </div>
             )}
 
-            {/* "Jugar Ahora" / "Unirse" Button (Desktop) */}
+            {/* "Jugar Ahora" / "Unirse" Button (Visible and fluid on mobile & desktop) */}
             {isWaitlistMode ? (
-              <Button size="md" className="rounded-full shadow-lg shadow-blue-500/20 px-8 hidden lg:inline-flex" onClick={onJoinClick}>
-                Unirse a Waitlist
+              <Button 
+                size="sm" 
+                className="rounded-full shadow-lg shadow-blue-500/20 px-4 sm:px-8 py-2 text-xs sm:text-sm font-bold flex items-center justify-center shrink-0" 
+                onClick={onJoinClick}
+              >
+                Unirse
               </Button>
             ) : (
-              <Button size="md" className="rounded-full shadow-lg shadow-blue-500/20 px-8 hidden lg:inline-flex" onClick={() => onNavigate('catalog')}>
+              <Button 
+                size="sm" 
+                className="rounded-full shadow-lg shadow-blue-500/20 px-4 sm:px-8 py-2 text-xs sm:text-sm font-bold hidden sm:inline-flex shrink-0" 
+                onClick={() => onNavigate('catalog')}
+              >
                 Jugar Ahora
               </Button>
             )}
 
-            {/* Mobile Burger Menu Button (Visible on mobile/tablet) */}
+            {/* Mobile Burger Menu Button (Visible on mobile/tablet in normal mode) */}
             {!isWaitlistMode && (
               <button 
                 onClick={() => setIsOpen(!isOpen)}
-                className="p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-200 bg-[#ffffff]/80 dark:bg-[#141923]/80 text-zinc-700 dark:text-zinc-300 lg:hidden flex items-center justify-center hover:scale-105 active:scale-95 transition-transform z-50 shadow-sm"
+                className="p-2 rounded-xl border border-zinc-800 bg-zinc-900/80 text-zinc-200 lg:hidden flex items-center justify-center hover:scale-105 active:scale-95 transition-transform z-50 shadow-sm"
                 aria-label="Abrir menú"
               >
-                {isOpen ? <X size={22} /> : <Menu size={22} />}
+                {isOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
             )}
           </div>
@@ -213,6 +226,8 @@ const Navbar = ({ currentView, onNavigate, apiStatus, onOpenSettings, theme, onT
       </AnimatePresence>
     </nav>
   );
+
+  return typeof document !== 'undefined' ? createPortal(content, document.body) : null;
 };
 
 export default Navbar;

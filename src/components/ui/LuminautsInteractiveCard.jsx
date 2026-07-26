@@ -42,6 +42,26 @@ export default function LuminautsInteractiveCard({
       card.style.setProperty('--glow-opacity', '1');
     };
 
+    const handleTouchMove = (e) => {
+      if (!e.touches || !e.touches[0]) return;
+      const touch = e.touches[0];
+      const rect = card.getBoundingClientRect();
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateY = ((x - centerX) / centerX) * 12;
+      const rotateX = ((y - centerY) / centerY) * -12;
+
+      card.style.setProperty('--rx', `${rotateX}deg`);
+      card.style.setProperty('--ry', `${rotateY}deg`);
+      card.style.setProperty('--scale', `1.03`);
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+      card.style.setProperty('--glow-opacity', '1');
+    };
+
     const handleMouseLeave = () => {
       card.style.setProperty('--rx', `0deg`);
       card.style.setProperty('--ry', `0deg`);
@@ -51,10 +71,14 @@ export default function LuminautsInteractiveCard({
 
     card.addEventListener('mousemove', handleMouseMove);
     card.addEventListener('mouseleave', handleMouseLeave);
+    card.addEventListener('touchmove', handleTouchMove, { passive: true });
+    card.addEventListener('touchend', handleMouseLeave, { passive: true });
 
     return () => {
       card.removeEventListener('mousemove', handleMouseMove);
       card.removeEventListener('mouseleave', handleMouseLeave);
+      card.removeEventListener('touchmove', handleTouchMove);
+      card.removeEventListener('touchend', handleMouseLeave);
     };
   }, [interactive]);
 
@@ -68,12 +92,12 @@ export default function LuminautsInteractiveCard({
       <div
         ref={cardRef}
         onClick={onClick}
-        className={`relative w-full h-full flex-grow rounded-[2rem] border border-zinc-800/40 bg-zinc-900/35 backdrop-blur-lg transition-all duration-300 ease-out select-none ${cursorClass} ${interactive ? 'group' : ''} flex flex-col justify-between overflow-hidden p-8`}
+        className={`relative w-full h-full flex-grow rounded-[2rem] border border-zinc-800/40 bg-zinc-900/35 transition-all duration-300 ease-out select-none ${cursorClass} ${interactive ? 'group' : ''} flex flex-col justify-between overflow-hidden p-8 touch-pan-y`}
         style={{
           transformStyle: interactive ? 'preserve-3d' : 'flat',
           transform: interactive ? 'rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--scale, 1))' : 'none',
-          boxShadow: '0 10px 45px rgba(0, 0, 0, 0.35)',
-          willChange: interactive ? 'transform' : 'auto'
+          willChange: interactive ? 'transform' : 'auto',
+          touchAction: 'pan-y'
         }}
         {...props}
       >

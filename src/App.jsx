@@ -15,6 +15,7 @@ import LegalInfoModal from './components/ui/LegalInfoModal';
 // Layout Components
 import Navbar from './components/Navbar';
 import ModalWaitlistForm from './components/ModalWaitlistForm';
+import ClickSpark from './components/ui/ClickSpark';
 
 // Page Views (Lazy Loaded)
 const Landing = lazy(() => import('./pages/Landing'));
@@ -323,8 +324,9 @@ const App = () => {
   }
 
   return (
-    <div className="w-full min-h-screen relative font-sans text-zinc-100 bg-[#141923] selection:bg-blue-800 selection:text-white">
-      {/* Top progress bar */}
+    <ClickSpark sparkColor="#E0B0FF" sparkSize={14} sparkRadius={24} sparkCount={10} duration={400}>
+      <div className="w-full min-h-screen relative font-sans text-zinc-100 bg-[#141923] selection:bg-blue-800 selection:text-white">
+        {/* Top progress bar */}
       <AnimatePresence>
         {showProgress && (
           <motion.div 
@@ -589,7 +591,8 @@ const App = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+      </div>
+    </ClickSpark>
   );
 };
 

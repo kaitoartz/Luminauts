@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Rocket, FlaskConical, Award } from 'lucide-react';
 import Button from '../ui/Button';
+import { getEmailSuggestion, validateEmailSyntax } from '../../utils/emailValidator';
 
 export default function WaitlistDemoModal({
   isOpen,
@@ -36,6 +37,16 @@ export default function WaitlistDemoModal({
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (!email) return;
+    
+    if (!validateEmailSyntax(email)) {
+      const emailInput = e.target.querySelector('input[type="email"]');
+      if (emailInput) {
+        emailInput.setCustomValidity("Por favor, ingresa una dirección de correo válida (ejemplo: usuario@dominio.com).");
+        emailInput.reportValidity();
+      }
+      return;
+    }
+    
     onSubmitEmail({ email, isTeacher });
   };
 
@@ -199,9 +210,24 @@ export default function WaitlistDemoModal({
                         aria-label="Correo electrónico"
                         placeholder="Email para guardar racha y notificar..." 
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => {
+                          e.target.setCustomValidity('');
+                          setEmail(e.target.value);
+                        }}
                         className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 focus:outline-none focus:border-blue-500 text-xs text-white"
                       />
+                      {getEmailSuggestion(email) && (
+                        <div className="w-full text-left">
+                          <button
+                            type="button"
+                            onClick={() => setEmail(getEmailSuggestion(email))}
+                            className="text-[11px] text-[#E0B0FF] hover:underline font-semibold bg-[#9059C8]/10 border border-[#9059C8]/30 px-3 py-1.5 rounded-xl cursor-pointer flex items-center justify-between gap-2 w-full"
+                          >
+                            <span>✨ ¿Quisiste decir <strong className="text-white">{getEmailSuggestion(email)}</strong>?</span>
+                            <span className="text-[9px] bg-[#9059C8]/30 px-2 py-0.5 rounded-lg uppercase font-bold text-white shrink-0">Corregir</span>
+                          </button>
+                        </div>
+                      )}
                       <label className="flex items-center gap-2 text-[10px] text-zinc-400 font-bold cursor-pointer select-none">
                         <input 
                           type="checkbox" 

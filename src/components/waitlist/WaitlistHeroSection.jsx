@@ -7,6 +7,7 @@ import ShineButton from '../ui/ShineButton';
 import { BlurReveal } from '../ui/blur-reveal';
 import LuminautsInteractiveCard from '../ui/LuminautsInteractiveCard';
 import lowPolyEarthGLB from '../../assets/low_poly_earth.glb';
+import { getEmailSuggestion } from '../../utils/emailValidator';
 
 export default function WaitlistHeroSection({
   modelViewerRef,
@@ -55,8 +56,8 @@ export default function WaitlistHeroSection({
         
         {/* 3D Line Globe Container */}
         <div className="absolute inset-0 flex items-center justify-center lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8 pointer-events-none overflow-hidden z-5">
-          <div className="hidden lg:block lg:col-span-6"></div>
-          <div className="flex items-center justify-center lg:col-span-6 relative w-full h-full">
+          <div className="hidden lg:block lg:col-span-7"></div>
+          <div className="flex items-center justify-center lg:col-span-5 relative w-full h-full">
             <div className="ep-orbit-wrapper relative">
               <div className="ep-model-container relative z-10">
                 {isModelLoaded ? (
@@ -83,13 +84,13 @@ export default function WaitlistHeroSection({
         
         {/* Panel 1: Main Title & Initial Form */}
         <div className="panel-1 absolute inset-0 flex flex-col justify-center items-center text-center p-6 z-10 lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8 pointer-events-none">
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left lg:col-span-6 pointer-events-auto">
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left lg:col-span-7 pointer-events-auto">
             {/* Real-time Simulated Counter */}
             <motion.div 
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-8 flex items-center gap-2.5 bg-white/2 border border-white/6 hover:border-white/12 rounded-full px-5 py-2 text-xs sm:text-sm font-medium text-[#8DA9C4] backdrop-blur-xl shadow-[0_4px_24px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_30px_rgba(144,89,200,0.1)] transition-all duration-500 group pointer-events-auto"
+              className="mb-8 flex items-center gap-2.5 bg-white/2 border border-white/6 hover:border-white/12 rounded-full px-5 py-2 text-xs sm:text-sm font-medium text-[#8DA9C4] shadow-[0_4px_24px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_30px_rgba(144,89,200,0.1)] transition-all duration-500 group pointer-events-auto"
             >
               <div className="relative flex items-center justify-center w-6 h-6 rounded-full bg-linear-to-br from-[#9059C8]/25 to-blue-500/10 border border-[#9059C8]/20 group-hover:scale-105 transition-transform duration-300">
                 <Users className="w-3.5 h-3.5 text-[#E0B0FF]" />
@@ -123,13 +124,13 @@ export default function WaitlistHeroSection({
               </ShineButton>
             </div>
           </div>
-          <div className="hidden lg:block lg:col-span-6"></div>
+          <div className="hidden lg:block lg:col-span-5"></div>
         </div>
 
         {/* Panel 2: Video/Image Showcase placeholder */}
         <div className="panel-2 absolute inset-0 flex justify-center items-center z-10 opacity-0 pointer-events-none lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8">
-          <div className="relative w-full h-full flex flex-col justify-center items-center lg:items-start lg:col-span-6 pointer-events-auto">
-            <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-3xl p-4 md:p-6 backdrop-blur-md max-w-xl text-center lg:text-left">
+          <div className="relative w-full h-full flex flex-col justify-center items-center lg:items-start lg:col-span-7 pointer-events-auto">
+            <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-3xl p-4 md:p-6 max-w-xl text-center lg:text-left">
               <Rocket size={40} className="mx-auto lg:mx-0 mb-4 text-[#E0B0FF] animate-pulse" />
               <h3 className="text-2xl md:text-3xl font-black mb-2 text-white">Órbita del Aprendizaje</h3>
               <p className="text-zinc-400 text-sm md:text-base max-w-lg mx-auto lg:mx-0 mb-6 font-medium leading-relaxed">
@@ -142,57 +143,57 @@ export default function WaitlistHeroSection({
               </div>
             </div>
           </div>
-          <div className="hidden lg:block lg:col-span-6"></div>
+          <div className="hidden lg:block lg:col-span-5"></div>
         </div>
 
         {/* Panel 3: Premium Features & Stats */}
         <div className="panel-3 absolute inset-0 flex flex-col justify-center items-center text-center p-4 md:p-6 z-10 opacity-0 pointer-events-none lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8">
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left lg:col-span-6 w-full pointer-events-auto">
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left lg:col-span-7 w-full pointer-events-auto">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-black mb-8 text-white">
               Aprendizaje que <span className="text-[#8DA9C4]">engancha de verdad.</span>
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-1 gap-4 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3.5 w-full max-w-sm sm:max-w-xl md:max-w-3xl lg:max-w-2xl mx-auto lg:mx-0">
               <LuminautsInteractiveCard
                 interactive={false}
-                className="hero-stat-card"
+                className="hero-stat-card px-4"
                 glowColor="rgba(141, 169, 196, 0.15)"
               >
                 <div>
-                  <div className="text-2xl md:text-3xl font-black text-[#8DA9C4] mb-1">+50</div>
-                  <div className="font-bold text-white text-sm mb-1">Misiones Activas</div>
-                  <div className="text-zinc-400 text-xs font-semibold leading-normal">Desarrolladas por pedagogos y expertos en lógica.</div>
+                  <div className="text-xl sm:text-2xl font-black text-[#8DA9C4] mb-0.5">+50</div>
+                  <div className="font-bold text-white text-xs sm:text-sm mb-0.5">Misiones Activas</div>
+                  <div className="text-zinc-400 text-[11px] sm:text-xs font-semibold leading-normal">Desarrolladas por pedagogos y expertos en lógica.</div>
                 </div>
               </LuminautsInteractiveCard>
               <LuminautsInteractiveCard
                 interactive={false}
-                className="hero-stat-card"
+                className="hero-stat-card px-4"
                 glowColor="rgba(224, 176, 255, 0.15)"
               >
                 <div>
-                  <div className="text-2xl md:text-3xl font-black text-[#E0B0FF] mb-1">98%</div>
-                  <div className="font-bold text-white text-sm mb-1">Interés y Enfoque</div>
-                  <div className="text-zinc-400 text-xs font-semibold leading-normal">Asegurado mediante rachas estelares y misiones narrativas.</div>
+                  <div className="text-xl sm:text-2xl font-black text-[#E0B0FF] mb-0.5">98%</div>
+                  <div className="font-bold text-white text-xs sm:text-sm mb-0.5">Interés y Enfoque</div>
+                  <div className="text-zinc-400 text-[11px] sm:text-xs font-semibold leading-normal">Asegurado mediante rachas estelares y misiones narrativas.</div>
                 </div>
               </LuminautsInteractiveCard>
               <LuminautsInteractiveCard
                 interactive={false}
-                className="hero-stat-card col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-1"
+                className="hero-stat-card col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-1 px-4"
                 glowColor="rgba(253, 249, 226, 0.15)"
               >
                 <div>
-                  <div className="text-2xl md:text-3xl font-black text-[#FDF9E2] mb-1">100%</div>
-                  <div className="font-bold text-white text-sm mb-1">Seguro para Niños</div>
-                  <div className="text-zinc-400 text-xs font-semibold leading-normal">Sin anuncios, sin microtransacciones, con control parental.</div>
+                  <div className="text-xl sm:text-2xl font-black text-[#FDF9E2] mb-0.5">100%</div>
+                  <div className="font-bold text-white text-xs sm:text-sm mb-0.5">Seguro para Niños</div>
+                  <div className="text-zinc-400 text-[11px] sm:text-xs font-semibold leading-normal">Sin anuncios, sin microtransacciones, con control parental.</div>
                 </div>
               </LuminautsInteractiveCard>
             </div>
           </div>
-          <div className="hidden lg:block lg:col-span-6"></div>
+          <div className="hidden lg:block lg:col-span-5"></div>
         </div>
 
         {/* Panel 4: Final CTA Form */}
         <div className="panel-4 absolute inset-0 flex flex-col justify-center items-center text-center p-4 md:p-6 z-10 opacity-0 pointer-events-none lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8">
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left lg:col-span-6 w-full pointer-events-auto">
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left lg:col-span-7 w-full pointer-events-auto">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-4 tracking-tight text-white">¿Listo para tripular?</h2>
             <p className="text-sm md:text-base text-zinc-400 mb-6 max-w-xl font-medium leading-relaxed">
               Únete hoy al waitlist oficial. Los usuarios registrados recibirán insignias de fundadores exclusivas y acceso prioritario una semana antes del despegue.
@@ -211,27 +212,44 @@ export default function WaitlistHeroSection({
                   Ver mi Pasaporte de Comandante 💳
                 </Button>
               ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 w-full bg-white/5 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200/20 shadow-md focus-within:border-[#E0B0FF]/40 focus-within:shadow-[0_0_25px_rgba(224,176,255,0.15)] transition-all duration-500">
-                  <label htmlFor="hero-email-input" className="sr-only">Correo electrónico</label>
-                  <input 
-                    id="hero-email-input"
-                    type="email" 
-                    required 
-                    aria-label="Correo electrónico"
-                    placeholder="Correo de papá, mamá o profesor..." 
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="flex-1 bg-transparent px-4 py-2.5 text-white placeholder-zinc-400/60 font-semibold focus:outline-none text-sm"
-                    disabled={loading}
-                  />
-                  <Button type="submit" disabled={loading} className="py-2.5 px-5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-xl font-bold text-xs whitespace-nowrap">
-                    {loading ? 'Registrando...' : 'Notificar Lanzamiento'}
-                  </Button>
-                </form>
+                <div className="w-full flex flex-col gap-2">
+                  <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 w-full bg-white/5 p-1.5 rounded-2xl border border-zinc-200/20 shadow-md focus-within:border-[#E0B0FF]/40 focus-within:shadow-[0_0_25px_rgba(224,176,255,0.15)] transition-all duration-500">
+                    <label htmlFor="hero-email-input" className="sr-only">Correo electrónico</label>
+                    <input 
+                      id="hero-email-input"
+                      type="email" 
+                      required 
+                      aria-label="Correo electrónico"
+                      placeholder="Correo de papá, mamá o profesor..." 
+                      value={email}
+                      onChange={(e) => {
+                        e.target.setCustomValidity('');
+                        setEmail(e.target.value);
+                      }}
+                      className="flex-1 bg-transparent px-4 py-2.5 text-white placeholder-zinc-400/60 font-semibold focus:outline-none text-sm"
+                      disabled={loading}
+                    />
+                    <Button type="submit" disabled={loading} className="py-2.5 px-5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-xl font-bold text-xs whitespace-nowrap">
+                      {loading ? 'Registrando...' : 'Notificar Lanzamiento'}
+                    </Button>
+                  </form>
+                  {getEmailSuggestion(email) && (
+                    <div className="w-full text-left px-1">
+                      <button
+                        type="button"
+                        onClick={() => setEmail(getEmailSuggestion(email))}
+                        className="text-xs text-[#E0B0FF] hover:underline font-semibold bg-[#9059C8]/10 border border-[#9059C8]/30 px-3 py-1.5 rounded-xl cursor-pointer flex items-center justify-between gap-2 w-full sm:w-auto"
+                      >
+                        <span>✨ ¿Quisiste decir <strong className="text-white">{getEmailSuggestion(email)}</strong>?</span>
+                        <span className="text-[10px] bg-[#9059C8]/30 px-2 py-0.5 rounded-lg uppercase font-bold text-white shrink-0">Corregir</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </div>
-          <div className="hidden lg:block lg:col-span-6"></div>
+          <div className="hidden lg:block lg:col-span-5"></div>
         </div>
       </div>
     </div>

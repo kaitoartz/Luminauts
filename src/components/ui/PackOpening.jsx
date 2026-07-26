@@ -92,7 +92,7 @@ function LumiPackModel({ mousePos, hitCount, isOpening }) {
     if (hitCount > 0) {
       gsap.to(spinOffset.current, {
         angle: hitCount * Math.PI * 2,
-        duration: 0.65,
+        duration: 1.65,
         ease: "back.out(1.4)"
       });
     }
@@ -152,6 +152,15 @@ const PackOpening = () => {
     const rect = packContainerRef.current.getBoundingClientRect();
     const px = (e.clientX - rect.left) / rect.width;
     const py = (e.clientY - rect.top) / rect.height;
+    mousePos.current = { x: Math.max(0, Math.min(1, px)), y: Math.max(0, Math.min(1, py)) };
+  };
+
+  const handleTouchMove = (e) => {
+    if (!packContainerRef.current || openingState === 'OPENING' || !e.touches || !e.touches[0]) return;
+    const touch = e.touches[0];
+    const rect = packContainerRef.current.getBoundingClientRect();
+    const px = (touch.clientX - rect.left) / rect.width;
+    const py = (touch.clientY - rect.top) / rect.height;
     mousePos.current = { x: Math.max(0, Math.min(1, px)), y: Math.max(0, Math.min(1, py)) };
   };
 
@@ -382,13 +391,17 @@ const PackOpening = () => {
           onClick={handlePackTap}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className="relative w-[320px] h-[450px] cursor-pointer z-20 select-none flex items-center justify-center"
+          onTouchStart={handleTouchMove}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleMouseLeave}
+          style={{ touchAction: 'pan-y' }}
+          className="relative w-[320px] h-[400px] cursor-pointer z-20 select-none flex items-center justify-center touch-pan-y"
         >
           {isInView ? (
             <>
               <Canvas
                 dpr={[1, 1.5]}
-                camera={{ position: [0, 0, 7.5], fov: 45 }}
+                camera={{ position: [0, 0, 9.2], fov: 45 }}
                 gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
                 className="w-full h-full pointer-events-none"
               >
@@ -419,15 +432,6 @@ const PackOpening = () => {
 
                 <ContactShadows position={[0, -2.4, 0]} opacity={0.6} scale={6} blur={2.2} far={4} />
               </Canvas>
-              
-              {/* Guía de gesto */}
-              {hitCount === 0 && (
-                <div className="absolute -bottom-6 w-full text-center pointer-events-none animate-pulse z-30">
-                  <span className="text-xs text-[#E0B0FF] font-mono tracking-[0.2em] uppercase bg-zinc-900/90 border border-[#9059C8]/40 px-5 py-2.5 rounded-full shadow-[0_0_20px_rgba(144,89,200,0.3)]">
-                    Toca para abrir
-                  </span>
-                </div>
-              )}
             </>
           ) : (
             <div className="w-full h-full rounded-[2.5rem] bg-zinc-900/60 border border-zinc-800 flex flex-col items-center justify-center p-6 text-center animate-pulse relative overflow-hidden backdrop-blur-md">

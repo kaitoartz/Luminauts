@@ -2,6 +2,7 @@ import React from 'react';
 import { Rocket, Share2, Copy } from 'lucide-react';
 import ScrollReveal from '../ui/ScrollReveal';
 import Button from '../ui/Button';
+import { getEmailSuggestion } from '../../utils/emailValidator';
 
 export default function WaitlistCTASection({
   status,
@@ -94,7 +95,10 @@ export default function WaitlistCTASection({
                     aria-label="Correo electrónico"
                     placeholder="Correo de papá, mamá o profesor..." 
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      e.target.setCustomValidity('');
+                      setEmail(e.target.value);
+                    }}
                     className="flex-1 bg-transparent px-4 py-2.5 text-white placeholder-zinc-500 font-semibold focus:outline-none text-sm"
                     disabled={loading}
                   />
@@ -102,6 +106,20 @@ export default function WaitlistCTASection({
                     {loading ? 'Registrando...' : 'Unirse al Waitlist'}
                   </Button>
                 </form>
+
+                {getEmailSuggestion(email) && (
+                  <div className="w-full text-left px-1">
+                    <button
+                      type="button"
+                      onClick={() => setEmail(getEmailSuggestion(email))}
+                      className="text-xs text-[#E0B0FF] hover:underline font-semibold bg-[#9059C8]/10 border border-[#9059C8]/30 px-3 py-1.5 rounded-xl cursor-pointer flex items-center justify-between gap-2 w-full sm:w-auto"
+                    >
+                      <span>✨ ¿Quisiste decir <strong className="text-white">{getEmailSuggestion(email)}</strong>?</span>
+                      <span className="text-[10px] bg-[#9059C8]/30 px-2 py-0.5 rounded-lg uppercase font-bold text-white shrink-0">Corregir</span>
+                    </button>
+                  </div>
+                )}
+
                 <label className="flex items-center gap-2 text-xs text-zinc-400 font-bold cursor-pointer select-none">
                   <input 
                     type="checkbox" 

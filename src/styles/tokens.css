@@ -1,0 +1,29 @@
+/**
+ * Luminauts Centralized Design System Tokens
+ * Extracted with $impeccable extract
+ */
+:root {
+  /* Cosmic Palette */
+  --color-cosmic-bg: #0B0F17;
+  --color-stellar-blue: #6B8BB4;
+  --color-muted-blue: #8DA9C4;
+  --color-starlight-purple: #E0B0FF;
+  --color-cosmic-purple: #9059C8;
+  --color-star-gold: #FFE885;
+  
+  /* Border Radiuses */
+  --radius-card: 2rem;
+  --radius-card-large: 2.5rem;
+  --radius-button: 1rem;
+  --radius-input: 1rem;
+
+  /* Nebula Shadows and Glows */
+  --shadow-nebula-blue: 0 0 35px rgba(107, 139, 180, 0.15);
+  --shadow-starlight-purple: 0 0 25px rgba(224, 176, 255, 0.15);
+  --shadow-cosmic-glow: 0 4px 25px rgba(141, 169, 196, 0.1);
+
+  /* Animation Easing Curves */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}

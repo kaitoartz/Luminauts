@@ -52,9 +52,9 @@ export default function WaitlistCollectionSection({ onWaitlistClick }) {
             {/* Plan Cadete */}
             <ScrollReveal origin="left" distance={40} reset={true} className="h-full">
               <LuminautsInteractiveCard
-                interactive={false}
-                glowColor="rgba(107, 139, 180, 0.15)"
-                className="h-full"
+                interactive={true}
+                glowColor="rgba(107, 139, 180, 0.25)"
+                className="h-full cursor-pointer transition-all duration-300 hover:scale-[1.02]"
               >
                 <div className="flex flex-col justify-between h-full p-2">
                   <div>
@@ -75,9 +75,9 @@ export default function WaitlistCollectionSection({ onWaitlistClick }) {
             {/* Pase Estelar (Fundador) */}
             <ScrollReveal origin="right" distance={40} delay={0.15} reset={true} className="h-full">
               <LuminautsInteractiveCard
-                interactive={false}
-                glowColor="rgba(224, 176, 255, 0.2)"
-                className="h-full relative"
+                interactive={true}
+                glowColor="rgba(224, 176, 255, 0.3)"
+                className="h-full relative cursor-pointer transition-all duration-300 hover:scale-[1.02]"
               >
                 <div className="flex flex-col justify-between h-full p-2">
                   <div>
