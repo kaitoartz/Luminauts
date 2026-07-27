@@ -52,7 +52,7 @@ export default function WaitlistHeroSection({
   return (
     <div id="section-waitlist-hero" className="relative h-[400vh] w-full hero-scroll-container waitlist-section-hero">
       {/* Sticky Stage */}
-      <div className="sticky top-0 h-dvh w-full overflow-hidden flex flex-col justify-center items-center bg-transparent text-white z-10 transition-colors duration-300">
+      <div className="sticky top-0 h-svh w-full overflow-hidden flex flex-col justify-center items-center bg-transparent text-white z-10 transition-colors duration-300">
         
         {/* 3D Line Globe Container */}
         <div className="absolute inset-0 flex items-center justify-center lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8 pointer-events-none overflow-hidden z-5">
