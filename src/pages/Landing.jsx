@@ -176,21 +176,19 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
 
       if (!hasReducedMotion) {
         // Rotate 3D Earth model camera-orbit continuously
-        if (modelViewerRef.current) {
-          gsap.fromTo(modelViewerRef.current,
-            { attr: { "camera-orbit": "0deg 75deg 105%" } },
-            {
-              attr: { "camera-orbit": "1080deg 75deg 105%" },
-              ease: "none",
-              scrollTrigger: {
-                trigger: ".hero-scroll-container",
-                start: "top top",
-                end: "bottom bottom",
-                scrub: 1,
-              }
+        gsap.fromTo("model-viewer.ep-earth-viewer",
+          { attr: { "camera-orbit": "0deg 75deg 105%" } },
+          {
+            attr: { "camera-orbit": "720deg 75deg 105%" },
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".hero-scroll-container",
+              start: "top top",
+              end: "bottom bottom",
+              scrub: 1,
             }
-          );
-        }
+          }
+        );
       }
 
       // 2. Games Grid Entrance Animation

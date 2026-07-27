@@ -358,8 +358,9 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
           }
         });
 
-        if (modelViewerElement && !hasReducedMotion) {
-          gsap.set(modelViewerElement, { attr: { "camera-orbit": "0deg 75deg 105%" } });
+        const targetViewer = modelViewerElement || "model-viewer.ep-earth-viewer";
+        if (!hasReducedMotion) {
+          gsap.set(targetViewer, { attr: { "camera-orbit": "0deg 75deg 105%" } });
         }
 
         tl.fromTo(".ep-orbit-wrapper", 
@@ -369,24 +370,24 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
           .to(".panel-1", { autoAlpha: 0, pointerEvents: "none", scale: 1, duration: 1.2 })
           .to(".panel-2", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<");
 
-        if (modelViewerElement && !hasReducedMotion) {
-          tl.to(modelViewerElement, { attr: { "camera-orbit": "160deg 180deg 105%" }, duration: 1.2, ease: "power1.inOut" }, "<");
+        if (!hasReducedMotion) {
+          tl.to(targetViewer, { attr: { "camera-orbit": "160deg 180deg 105%" }, duration: 1.2, ease: "power1.inOut" }, "<");
         }
 
         tl.to(".panel-2", { autoAlpha: 0, pointerEvents: "none", duration: 1, delay: 0.5 })
           .to(".ep-orbit-wrapper", { scale: 1, duration: 1.5 }, "<")
           .to(".panel-3", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<");
 
-        if (modelViewerElement && !hasReducedMotion) {
-          tl.to(modelViewerElement, { attr: { "camera-orbit": "520deg 0deg 105%" }, duration: 1.2, ease: "power1.inOut" }, "<");
+        if (!hasReducedMotion) {
+          tl.to(targetViewer, { attr: { "camera-orbit": "520deg 0deg 105%" }, duration: 1.2, ease: "power1.inOut" }, "<");
         }
 
         tl.from(".hero-stat-card", { y: 60, opacity: 0, stagger: 0.2, ease: "back.out(1.7)", duration: 1.2 }, "<")
           .to(".panel-3", { autoAlpha: 0, pointerEvents: "none", duration: 1, delay: 0.5 })
           .to(".panel-4", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<");
 
-        if (modelViewerElement && !hasReducedMotion) {
-          tl.to(modelViewerElement, { attr: { "camera-orbit": "780deg 75deg 105%" }, duration: 1.2, ease: "power1.inOut" }, "<");
+        if (!hasReducedMotion) {
+          tl.to(targetViewer, { attr: { "camera-orbit": "780deg 75deg 105%" }, duration: 1.2, ease: "power1.inOut" }, "<");
         }
 
         tl.from(".panel-4 h2, .panel-4 p, .panel-4 .flex-container", { y: 40, opacity: 0, stagger: 0.15, ease: "power3.out", duration: 1.2 }, "<")
@@ -407,8 +408,9 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
           }
         });
 
-        if (modelViewerElement && !hasReducedMotion) {
-          gsap.set(modelViewerElement, { attr: { "camera-orbit": "0deg 75deg 105%" } });
+        const targetViewer = modelViewerElement || "model-viewer.ep-earth-viewer";
+        if (!hasReducedMotion) {
+          gsap.set(targetViewer, { attr: { "camera-orbit": "0deg 75deg 105%" } });
         }
 
         tl.fromTo(".ep-orbit-wrapper", 
@@ -418,24 +420,24 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
           .to(".panel-1", { autoAlpha: 0, pointerEvents: "none", scale: 1, duration: 1.2 })
           .to(".panel-2", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<");
 
-        if (modelViewerElement && !hasReducedMotion) {
-          tl.to(modelViewerElement, { attr: { "camera-orbit": "160deg 180deg 105%" }, duration: 1.2, ease: "power1.inOut" }, "<");
+        if (!hasReducedMotion) {
+          tl.to(targetViewer, { attr: { "camera-orbit": "160deg 180deg 105%" }, duration: 1.2, ease: "power1.inOut" }, "<");
         }
 
         tl.to(".panel-2", { autoAlpha: 0, pointerEvents: "none", duration: 1, delay: 0.5 })
           .to(".ep-orbit-wrapper", { scale: 1, duration: 1.5 }, "<")
           .to(".panel-3", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<");
 
-        if (modelViewerElement && !hasReducedMotion) {
-          tl.to(modelViewerElement, { attr: { "camera-orbit": "520deg 0deg 105%" }, duration: 1.2, ease: "power1.inOut" }, "<");
+        if (!hasReducedMotion) {
+          tl.to(targetViewer, { attr: { "camera-orbit": "520deg 0deg 105%" }, duration: 1.2, ease: "power1.inOut" }, "<");
         }
 
         tl.from(".hero-stat-card", { y: 40, opacity: 0, stagger: 0.2, ease: "power2.out", duration: 1.2 }, "<")
           .to(".panel-3", { autoAlpha: 0, pointerEvents: "none", duration: 1, delay: 0.5 })
           .to(".panel-4", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<");
 
-        if (modelViewerElement && !hasReducedMotion) {
-          tl.to(modelViewerElement, { attr: { "camera-orbit": "780deg 75deg 105%" }, duration: 1.2, ease: "power1.inOut" }, "<");
+        if (!hasReducedMotion) {
+          tl.to(targetViewer, { attr: { "camera-orbit": "780deg 75deg 105%" }, duration: 1.2, ease: "power1.inOut" }, "<");
         }
 
         tl.from(".panel-4 h2, .panel-4 p, .panel-4 .flex-container", { y: 30, opacity: 0, stagger: 0.15, ease: "power3.out", duration: 1.2 }, "<")
