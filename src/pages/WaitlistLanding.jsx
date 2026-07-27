@@ -529,7 +529,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
   }
 
   return (
-    <div className={`min-h-screen bg-zinc-950 text-white transition-all duration-700 relative ${isLoading ? 'blur-md opacity-40 pointer-events-none' : 'blur-none opacity-100'}`}>
+    <div className={`min-h-screen w-full max-w-full overflow-x-hidden bg-zinc-950 text-white transition-all duration-700 relative ${isLoading ? 'blur-md opacity-40 pointer-events-none' : 'blur-none opacity-100'}`}>
       
       {/* Global Background Layer */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
