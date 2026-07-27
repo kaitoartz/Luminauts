@@ -7,9 +7,20 @@ export function initViewportHelper() {
 
   let ticking = false;
 
-  const updateViewportHeight = () => {
-    const vh = (window.visualViewport ? window.visualViewport.height : window.innerHeight) * 0.01;
-    document.documentElement.style.setProperty('--app-height', `${vh * 100}px`);
+  let lastWidth = window.innerWidth;
+  let lastHeight = window.innerHeight;
+
+  const updateViewportHeight = (force = false) => {
+    const currentWidth = window.innerWidth;
+    const currentHeight = window.innerHeight;
+
+    // Only update height var if width changes (orientation) or height change > 150px (keyboard)
+    if (force || currentWidth !== lastWidth || Math.abs(currentHeight - lastHeight) > 150) {
+      const vh = (window.visualViewport ? window.visualViewport.height : window.innerHeight) * 0.01;
+      document.documentElement.style.setProperty('--app-height', `${vh * 100}px`);
+      lastWidth = currentWidth;
+      lastHeight = currentHeight;
+    }
 
     if (window.visualViewport) {
       document.documentElement.style.setProperty('--visual-top', `${window.visualViewport.offsetTop}px`);
@@ -20,12 +31,12 @@ export function initViewportHelper() {
 
   const requestUpdate = () => {
     if (!ticking) {
-      requestAnimationFrame(updateViewportHeight);
+      requestAnimationFrame(() => updateViewportHeight(false));
       ticking = true;
     }
   };
 
-  updateViewportHeight();
+  updateViewportHeight(true);
 
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', requestUpdate);
