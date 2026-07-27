@@ -19,6 +19,7 @@ import FeatureSection from '../components/ui/a';
 import ScrollReveal from '../components/ui/ScrollReveal';
 
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSplashActive }) => {
   const [email, setEmail] = useState('');
@@ -58,6 +59,8 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
       lenis = new Lenis({
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothTouch: false,
+        touchMultiplier: 0,
       });
       lenisRef.current = lenis;
       if (isSplashActive) lenis.stop();

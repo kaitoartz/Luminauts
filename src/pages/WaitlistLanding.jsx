@@ -47,6 +47,7 @@ const WaitlistDemoModal = React.lazy(() => import('../components/waitlist/Waitli
 const LegalInfoModal = React.lazy(() => import('../components/ui/LegalInfoModal'));
 
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 const SIMULATED_NOTIFICATIONS = [
   "El Comandante Mateo R. se ha unido a la tripulación.",
@@ -278,6 +279,8 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       lenis = new Lenis({
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothTouch: false,
+        touchMultiplier: 0,
       });
       lenisRef.current = lenis;
       if (isSplashActive) lenis.stop();
