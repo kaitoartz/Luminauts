@@ -53,3 +53,8 @@
     100% { transform: translateX(100%); }
   }
 }
+
+html, body {
+  overscroll-behavior-y: none;
+}
+

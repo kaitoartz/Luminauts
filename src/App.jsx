@@ -518,7 +518,8 @@ const App = () => {
             initial={{ opacity: 0, y: 50, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.95 }}
-            className="fixed bottom-6 right-6 left-6 sm:left-auto max-w-[calc(100vw-3rem)] sm:max-w-[340px] z-[9999] flex justify-center"
+            style={{ bottom: 'calc(1.5rem + env(safe-area-inset-bottom, 0px))' }}
+            className="fixed right-6 left-6 sm:left-auto max-w-[calc(100vw-3rem)] sm:max-w-[340px] z-[9999] flex justify-center"
           >
             <div className="bg-zinc-900/95 border border-zinc-800 p-5 rounded-2xl shadow-2xl backdrop-blur-xl text-left space-y-3">
               <div className="flex items-center gap-2">
