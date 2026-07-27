@@ -17,6 +17,7 @@ import Navbar from './components/Navbar';
 import ModalWaitlistForm from './components/ModalWaitlistForm';
 import ClickSpark from './components/ui/ClickSpark';
 import { initViewportHelper } from './utils/viewportHelper';
+import ViewportDebugHud from './components/ui/ViewportDebugHud';
 
 // Page Views (Lazy Loaded)
 const Landing = lazy(() => import('./pages/Landing'));
@@ -330,6 +331,7 @@ const App = () => {
 
   return (
     <ClickSpark sparkColor="#E0B0FF" sparkSize={14} sparkRadius={24} sparkCount={10} duration={400}>
+      <ViewportDebugHud />
       <div className="w-full min-h-screen relative font-sans text-zinc-100 bg-[#141923] selection:bg-blue-800 selection:text-white">
         {/* Top progress bar */}
       <AnimatePresence>
