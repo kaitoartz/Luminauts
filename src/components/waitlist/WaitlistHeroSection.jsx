@@ -71,6 +71,11 @@ export default function WaitlistHeroSection({
                     disable-pan
                     shadow-intensity="0"
                     exposure="0.5"
+                    onLoad={() => {
+                      if (typeof window !== 'undefined' && window.ScrollTrigger) {
+                        window.ScrollTrigger.refresh();
+                      }
+                    }}
                   ></model-viewer>
                 ) : (
                   <div className="ep-earth-viewer flex items-center justify-center bg-transparent">
