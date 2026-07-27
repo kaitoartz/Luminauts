@@ -16,6 +16,7 @@ import LegalInfoModal from './components/ui/LegalInfoModal';
 import Navbar from './components/Navbar';
 import ModalWaitlistForm from './components/ModalWaitlistForm';
 import ClickSpark from './components/ui/ClickSpark';
+import { initViewportHelper } from './utils/viewportHelper';
 
 // Page Views (Lazy Loaded)
 const Landing = lazy(() => import('./pages/Landing'));
@@ -55,6 +56,10 @@ const App = () => {
     const saved = localStorage.getItem('eduplay_theme');
     return saved || 'light';
   });
+
+  useEffect(() => {
+    return initViewportHelper();
+  }, []);
 
   useEffect(() => {
     if (theme === 'dark') {

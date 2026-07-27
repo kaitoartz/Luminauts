@@ -249,7 +249,10 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
       {/* Scroll Container wrapper (400vh height to trigger scroll timeline) */}
       <div className="relative h-[400vh] w-full hero-scroll-container">
         {/* Sticky Stage (pinned container) */}
-        <div className="sticky top-0 h-dvh w-full overflow-hidden flex flex-col justify-center items-center bg-zinc-950 text-zinc-900 dark:text-white z-10 transition-colors duration-300">
+        <div 
+          style={{ height: 'var(--app-height, 100vh)' }}
+          className="sticky top-0 w-full overflow-hidden flex flex-col justify-center items-center bg-zinc-950 text-zinc-900 dark:text-white z-10 transition-colors duration-300"
+        >
           {/* Background Glow */}
           <div className="absolute inset-0 bg-linear-to-tr from-blue-950/20 via-zinc-950 to-purple-950/20 z-0 pointer-events-none overflow-hidden">
             <StarsBg className="opacity-100" />

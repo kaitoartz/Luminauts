@@ -54,7 +54,22 @@
   }
 }
 
+:root {
+  --app-height: 100vh;
+}
+
 html, body {
   overscroll-behavior-y: none;
 }
+
+/* CSS Containment to isolate scroll reflows */
+.hero-scroll-container {
+  contain: layout style;
+}
+
+.ep-orbit-wrapper {
+  contain: layout paint style;
+  will-change: transform;
+}
+
 
