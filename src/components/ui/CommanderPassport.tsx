@@ -8,6 +8,20 @@ import astronautCommander from '../../assets/lanyard/astronaut_commander.png';
 
 const Lanyard = React.lazy(() => import('./Lanyard'));
 
+export interface CommanderPassportProps {
+  email: string;
+  onClose: () => void;
+  position?: [number, number, number];
+  gravity?: [number, number, number];
+  fov?: number;
+  transparent?: boolean;
+  frontImage?: string;
+  backImage?: string | null;
+  imageFit?: 'cover' | 'contain';
+  lanyardImage?: string | null;
+  lanyardWidth?: number;
+}
+
 export default function CommanderPassport({ 
   email, 
   onClose,
@@ -20,15 +34,15 @@ export default function CommanderPassport({
   imageFit = 'cover',
   lanyardImage = null,
   lanyardWidth = 2
-}) {
-  const [userName, setUserName] = useState(() => localStorage.getItem('luminauts_commander_name') || '');
-  const [inputName, setInputName] = useState('');
-  const [isNameSubmitted, setIsNameSubmitted] = useState(!!localStorage.getItem('luminauts_commander_name'));
-  const [copied, setCopied] = useState(false);
-  const [downloading, setDownloading] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
-  const [mounted, setMounted] = useState(false);
+}: CommanderPassportProps) {
+  const [userName, setUserName] = useState<string>(() => localStorage.getItem('luminauts_commander_name') || '');
+  const [inputName, setInputName] = useState<string>('');
+  const [isNameSubmitted, setIsNameSubmitted] = useState<boolean>(!!localStorage.getItem('luminauts_commander_name'));
+  const [copied, setCopied] = useState<boolean>(false);
+  const [downloading, setDownloading] = useState<boolean>(false);
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const [toastMessage, setToastMessage] = useState<string>('');
+  const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
     setMounted(true);
@@ -42,7 +56,7 @@ export default function CommanderPassport({
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
     
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
       }
@@ -57,7 +71,7 @@ export default function CommanderPassport({
   }, [onClose]);
 
   // Save name when submitted
-  const handleNameSubmit = (e) => {
+  const handleNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputName.trim()) return;
     const cleanName = inputName.trim();
@@ -72,7 +86,7 @@ export default function CommanderPassport({
     setIsNameSubmitted(false);
   };
 
-  const triggerToast = (msg) => {
+  const triggerToast = (msg: string) => {
     setToastMessage(msg);
     setShowToast(true);
     setTimeout(() => setShowToast(false), 3000);
@@ -100,6 +114,7 @@ export default function CommanderPassport({
     canvas.width = 800;
     canvas.height = 1200;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
     const img = new Image();
     img.src = astronautCommander;
@@ -247,7 +262,7 @@ export default function CommanderPassport({
             triggerToast('¡Pasaporte guardado!');
             setDownloading(false);
             return;
-          } catch (shareErr) {
+          } catch (shareErr: any) {
             if (shareErr.name === 'AbortError') {
               setDownloading(false);
               return;
@@ -452,7 +467,7 @@ export default function CommanderPassport({
               ) : (
                 <>
                   <Download size={16} />
-                  <span>Descargar Pasaporte</span>
+                  <span>Descargar Pasaporte (PNG)</span>
                 </>
               )}
             </button>

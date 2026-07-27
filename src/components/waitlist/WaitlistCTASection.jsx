@@ -44,10 +44,18 @@ export default function WaitlistCTASection({
                     e.stopPropagation();
                     setShowPassport(true);
                   }}
-                  className="w-full py-3.5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2"
+                  variant="shimmer"
+                  size="md"
+                  className="w-full justify-between px-4"
                 >
-                  <CreditCard className="w-4 h-4 text-[#E0B0FF]" />
-                  <span>Ver mi Pasaporte de Comandante</span>
+                  <div className="flex items-center gap-2">
+                    <CreditCard size={16} className="text-[#E0B0FF]" />
+                    <span>Ver mi Pasaporte de Comandante</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-[11px] bg-[#E0B0FF]/10 text-[#E0B0FF] px-2 py-0.5 rounded-full border border-[#E0B0FF]/30">
+                    <Sparkles size={11} />
+                    <span className="font-bold">ID</span>
+                  </div>
                 </Button>
 
                 <div className="w-full h-px bg-zinc-800 my-1" />

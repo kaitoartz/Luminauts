@@ -13,7 +13,7 @@ export default function WaitlistActivityToast({ show, text }) {
           exit={{ opacity: 0, x: -30, y: 20, scale: 0.95 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           style={{ backgroundColor: '#0F141E' }}
-          className="fixed bottom-6 left-6 z-50 max-w-xs border border-[#8DA9C4]/30 p-3.5 rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.8)] flex items-center gap-3 text-left pointer-events-auto text-white backdrop-blur-xl"
+          className="fixed bottom-6 left-6 z-30 max-w-xs border border-[#8DA9C4]/30 p-3.5 rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.8)] flex items-center gap-3 text-left pointer-events-auto text-white backdrop-blur-xl"
         >
           <div className="w-8 h-8 rounded-xl bg-[#8DA9C4]/20 border border-[#8DA9C4]/40 flex items-center justify-center text-[#8DA9C4] shrink-0 shadow-inner">
             <Rocket size={15} />

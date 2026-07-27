@@ -39,7 +39,7 @@ const Navbar = ({ currentView, onNavigate, apiStatus, onOpenSettings, theme, onT
   ];
 
   const content = (
-    <nav className="fixed top-0 inset-x-0 z-[9999] py-3 sm:py-4 transition-all duration-300">
+    <nav className="fixed top-0 inset-x-0 z-40 py-3 sm:py-4 transition-all duration-300">
       <div className="px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className={`flex justify-between items-center transition-all duration-300 rounded-full px-4 sm:px-6 py-2.5 ${
           scrolled 

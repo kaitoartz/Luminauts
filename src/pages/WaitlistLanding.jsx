@@ -94,9 +94,20 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
+  // Lock page scroll when modals (Passport, Demo, Legal) are open
+  useEffect(() => {
+    if (showPassport || showDemoModal || legalModalType) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [showPassport, showDemoModal, legalModalType]);
+
   // Keyboard Navigation for Hero Panels & Accessibility ($impeccable adapt)
   useEffect(() => {
-    if (activeView !== 'landing') return;
+    if (activeView !== 'landing' || showPassport || showDemoModal || legalModalType) return;
 
     const handleKeyDown = (e) => {
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
@@ -114,7 +125,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeView]);
+  }, [activeView, showPassport, showDemoModal, legalModalType]);
   const [modelViewerElement, setModelViewerElement] = useState(null);
   const lenisRef = useRef(null);
 
@@ -754,7 +765,10 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
       </AnimatePresence>
       
       {/* Floating Social Proof Notifications */}
-      <WaitlistActivityToast show={showNotification} text={activeNotification} />
+      <WaitlistActivityToast 
+        show={showNotification && !showPassport && !showDemoModal && !legalModalType} 
+        text={activeNotification} 
+      />
 
     </div>
   );
