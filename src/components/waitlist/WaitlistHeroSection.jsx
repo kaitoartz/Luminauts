@@ -53,8 +53,7 @@ export default function WaitlistHeroSection({
     <div id="section-waitlist-hero" className="relative h-[400vh] w-full hero-scroll-container waitlist-section-hero">
       {/* Sticky Stage */}
       <div 
-        style={{ height: 'var(--app-height, 100vh)' }}
-        className="sticky top-0 w-full overflow-hidden flex flex-col justify-center items-center bg-transparent text-white z-10 transition-colors duration-300"
+        className="sticky top-0 w-full min-h-[100svh] h-[100svh] overflow-hidden flex flex-col justify-center items-center bg-transparent text-white z-10 transition-colors duration-300"
       >
         
         {/* 3D Line Globe Container */}
