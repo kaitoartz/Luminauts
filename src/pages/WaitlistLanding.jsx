@@ -267,7 +267,9 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
   };
 
   useEffect(() => {
+    const forceDisableLenis = localStorage.getItem('luminauts-disable-lenis') === 'true';
     const isTouchDevice = 
+      forceDisableLenis ||
       window.matchMedia('(hover: none) and (pointer: coarse)').matches || 
       (window.matchMedia('(pointer: coarse)').matches && !window.matchMedia('(hover: hover)').matches);
     let lenis = null;
@@ -357,9 +359,7 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
             trigger: ".hero-scroll-container",
             start: "top top",
             end: "bottom bottom",
-            scrub: true,
-            fastScrollEnd: true,
-            preventOverlaps: true,
+            scrub: 1,
           }
         });
 

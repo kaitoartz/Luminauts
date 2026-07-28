@@ -3,6 +3,10 @@ import { createPortal } from 'react-dom';
 
 export default function ViewportDebugHud() {
   const [isOpen, setIsOpen] = useState(false);
+  const [lenisDisabled, setLenisDisabled] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return localStorage.getItem('luminauts-disable-lenis') === 'true';
+  });
   const [metrics, setMetrics] = useState({
     winInnerHeight: 0,
     vvHeight: 0,
@@ -12,6 +16,7 @@ export default function ViewportDebugHud() {
     scrollY: 0,
     resizeCount: 0,
     userAgent: '',
+    lenisClass: false,
   });
 
   useEffect(() => {
@@ -23,6 +28,7 @@ export default function ViewportDebugHud() {
       count++;
       const vv = window.visualViewport;
       const appHeight = getComputedStyle(document.documentElement).getPropertyValue('--app-height');
+      const hasLenis = document.documentElement.classList.contains('lenis');
 
       setMetrics({
         winInnerHeight: window.innerHeight,
@@ -33,6 +39,7 @@ export default function ViewportDebugHud() {
         scrollY: Math.round(window.scrollY),
         resizeCount: count,
         userAgent: navigator.userAgent.includes('Firefox') ? 'Firefox Mobile' : navigator.userAgent.includes('Safari') ? 'Safari Mobile' : 'Mobile Browser',
+        lenisClass: hasLenis,
       });
     };
 
@@ -92,8 +99,30 @@ export default function ViewportDebugHud() {
             <span className="text-zinc-400">scrollY:</span>
             <span className="font-bold text-white">{metrics.scrollY}px</span>
 
+            <span className="text-zinc-400">Lenis Status:</span>
+            <span className={`font-bold ${metrics.lenisClass ? 'text-emerald-400' : 'text-red-400'}`}>
+              {metrics.lenisClass ? 'ACTIVE' : 'OFF'}
+            </span>
+
             <span className="text-zinc-400">Events Fired:</span>
             <span className="font-bold text-emerald-400">#{metrics.resizeCount}</span>
+          </div>
+
+          <div className="border-t border-zinc-800 pt-2 mt-2 pointer-events-auto">
+            <label className="flex items-center gap-2 text-[10px] text-zinc-300 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={lenisDisabled}
+                onChange={(e) => {
+                  const val = e.target.checked;
+                  setLenisDisabled(val);
+                  localStorage.setItem('luminauts-disable-lenis', val ? 'true' : 'false');
+                  window.location.reload();
+                }}
+                className="rounded border-zinc-700 text-red-600 focus:ring-red-500 bg-zinc-900 w-3 h-3"
+              />
+              <span>Force Disable Lenis</span>
+            </label>
           </div>
         </div>
       )}

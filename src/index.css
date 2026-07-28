@@ -54,11 +54,14 @@
   }
 }
 
-
+:root {
+  --app-height: 100vh;
+}
 
 html, body, #root {
   overflow-x: clip;
   max-width: 100%;
+  overscroll-behavior-y: none;
 }
 
 .ep-orbit-wrapper {

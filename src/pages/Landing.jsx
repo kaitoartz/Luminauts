@@ -45,7 +45,9 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
 
   useEffect(() => {
     // Detect touch-only device (like mobile/tablet, not hybrid touchscreen PC)
+    const forceDisableLenis = localStorage.getItem('luminauts-disable-lenis') === 'true';
     const isTouchDevice = 
+      forceDisableLenis ||
       window.matchMedia('(hover: none) and (pointer: coarse)').matches || 
       (window.matchMedia('(pointer: coarse)').matches && !window.matchMedia('(hover: hover)').matches);
 
