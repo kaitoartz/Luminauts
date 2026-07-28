@@ -246,12 +246,18 @@ const Grainient = ({
     };
     document.addEventListener('visibilitychange', onVisibility);
 
+    const isTouchDevice = typeof window !== 'undefined' && 
+      (window.matchMedia('(hover: none) and (pointer: coarse)').matches || 
+       (window.matchMedia('(pointer: coarse)').matches && !window.matchMedia('(hover: hover)').matches));
+
+    let cachedMaxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+
     const handleScroll = () => {
+      if (isTouchDevice) return; // Skip WebGL scroll offset recalculation on mobile touch to avoid toolbar resize jank
       const speed = scrollSpeedRef.current;
       if (speed === 0) return;
       const scrollY = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? scrollY / docHeight : 0;
+      const progress = scrollY / cachedMaxScroll;
       
       const res = program.uniforms.uCenterOffset.value;
       res[0] = centerXRef.current;
@@ -261,8 +267,10 @@ const Grainient = ({
         renderer.render({ scene: mesh });
       }
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    if (!isTouchDevice) {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      handleScroll();
+    }
 
     tryStart();
 

@@ -357,7 +357,9 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
             trigger: ".hero-scroll-container",
             start: "top top",
             end: "bottom bottom",
-            scrub: 1,
+            scrub: true,
+            fastScrollEnd: true,
+            preventOverlaps: true,
           }
         });
 
