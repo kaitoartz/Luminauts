@@ -248,7 +248,7 @@ const Landing = ({ onNavigate, onLockClick, games = [], theme, isLoading, isSpla
   }, [isSplashActive]);
 
   return (
-    <div className={`min-h-screen w-full max-w-full overflow-x-hidden bg-zinc-950 text-zinc-900 dark:text-white transition-all duration-700 ${isLoading ? 'blur-md opacity-40 pointer-events-none' : 'blur-none opacity-100'}`}>
+    <div className={`min-h-screen w-full max-w-full bg-zinc-950 text-zinc-900 dark:text-white transition-all duration-700 ${isLoading ? 'blur-md opacity-40 pointer-events-none' : 'blur-none opacity-100'}`}>
       {/* Scroll Container wrapper (400vh height to trigger scroll timeline) */}
       <div className="relative h-[400vh] w-full hero-scroll-container">
         {/* Sticky Stage (pinned container) */}
