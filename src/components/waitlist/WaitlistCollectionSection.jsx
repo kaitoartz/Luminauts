@@ -13,17 +13,41 @@ export default function WaitlistCollectionSection({ onWaitlistClick }) {
         <div className="max-w-[1400px] mx-auto px-6">
           <div className="text-center mb-16">
             <ScrollReveal origin="bottom" reset={true}>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E0B0FF]/10 border border-[#E0B0FF]/30 text-[#E0B0FF] text-xs font-extrabold mb-4 uppercase tracking-wider">
+                <Sparkles size={14} className="text-[#FFE885]" /> Sello de Colección Fundador
+              </div>
               <h2 className="text-4xl lg:text-5xl font-black mb-6">
-                ¡Desbloquea y colecciona <br/><span className="text-[#E0B0FF]">cartas exclusivas!</span>
+                Colecciona exploradores, criaturas y <br/><span className="text-[#E0B0FF]">artefactos del universo Luminauts</span>
               </h2>
             </ScrollReveal>
             <ScrollReveal origin="bottom" delay={0.15} reset={true}>
-              <p className="text-zinc-400 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed font-medium">
-                Cumple con los desafíos educativos en matemáticas, ciencias y lógica para ganar XP. Descubre datos reales del cosmos y obtén cartas de distintos niveles de rareza: <strong className="text-zinc-200">Nauta, Estelar, SuperEstelar, Cosmos y SuperNova</strong>. <br/><br/>
-                <span className="text-[#E0B0FF] font-bold px-4 py-2 bg-[#E0B0FF]/10 rounded-full border border-[#E0B0FF]/20 inline-flex items-center gap-2 mt-2 shadow-[0_0_20px_rgba(224,176,255,0.15)] text-xs sm:text-sm">
-                  <Sparkles size={14} className="text-[#E0B0FF]" /> ¡Suscríbete a la beta y asegura tu carta edición exclusiva de Fundador Luminauts!
-                </span>
+              <p className="text-zinc-300 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed font-medium mb-6">
+                Cada misión completada desbloquea tarjetas educativas con personajes, curiosidades científicas y desafíos de lógica. Descubre cartas de distintas rarezas: <strong className="text-[#8DA9C4]">Común</strong>, <strong className="text-[#E0B0FF]">Rara</strong> y la codiciada <strong className="text-[#FFE885]">Founder Edition</strong>.
               </p>
+              
+              {/* Founder Pack Offer Highlights */}
+              <div className="max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-3 text-left my-8">
+                <div className="p-3.5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex flex-col justify-between">
+                  <span className="text-[10px] font-bold text-[#E0B0FF] uppercase tracking-wider">Beneficio 1</span>
+                  <span className="text-xs font-bold text-white mt-1">Demos Jugables</span>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex flex-col justify-between">
+                  <span className="text-[10px] font-bold text-[#FFE885] uppercase tracking-wider">Beneficio 2</span>
+                  <span className="text-xs font-bold text-white mt-1">Holocard Founder</span>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex flex-col justify-between">
+                  <span className="text-[10px] font-bold text-[#8DA9C4] uppercase tracking-wider">Beneficio 3</span>
+                  <span className="text-xs font-bold text-white mt-1">Nombre Reservado</span>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex flex-col justify-between">
+                  <span className="text-[10px] font-bold text-[#9059C8] uppercase tracking-wider">Beneficio 4</span>
+                  <span className="text-xs font-bold text-white mt-1">Premios por Invitar</span>
+                </div>
+              </div>
+
+              <span className="text-[#FFE885] font-bold px-4 py-2.5 bg-[#FFE885]/10 rounded-full border border-[#FFE885]/30 inline-flex items-center gap-2 mt-2 shadow-[0_0_25px_rgba(255,232,133,0.15)] text-xs sm:text-sm">
+                <Sparkles size={15} className="text-[#FFE885]" /> Reserva tu lugar antes del lanzamiento para desbloquear la Holocard Founder exclusivas.
+              </span>
             </ScrollReveal>
           </div>
           

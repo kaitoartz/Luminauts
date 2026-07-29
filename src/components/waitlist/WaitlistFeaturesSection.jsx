@@ -1,5 +1,5 @@
 import React from 'react';
-import { Rocket, Shield, BookOpen, ArrowRight } from 'lucide-react';
+import { Rocket, CreditCard, Star, ArrowRight } from 'lucide-react';
 import ScrollReveal from '../ui/ScrollReveal';
 import LuminautsInteractiveCard from '../ui/LuminautsInteractiveCard';
 import FeatureSection from '../ui/stack-feature-section';
@@ -14,20 +14,20 @@ export default function WaitlistFeaturesSection({ onShowDemoModal }) {
           <div className="text-center mb-16">
             <ScrollReveal origin="bottom" reset={true}>
               <h2 className="text-3xl lg:text-4xl font-black mb-4">
-                Exploración que <span className="text-[#E0B0FF]">fascina.</span>
+                No es solo una lista de espera.
               </h2>
             </ScrollReveal>
             <ScrollReveal origin="bottom" delay={0.15} reset={true}>
-              <p className="text-zinc-400 max-w-2xl mx-auto text-base">
-                Un entorno gamificado para despertar el ingenio natural de los Luminautas.
+              <p className="text-zinc-300 max-w-2xl mx-auto text-base font-medium">
+                Es la entrada anticipada al universo Luminauts.
               </p>
             </ScrollReveal>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: "Navegación Lúdica", desc: "Ganancia de XP, rangos estelares y constelaciones que se completan al avanzar en los retos.", icon: Rocket, color: "text-[#E0B0FF]" },
-              { title: "Control de Misión", desc: "Reportes automáticos para padres/profesores. Mapeo de áreas pedagógicas en tiempo real.", icon: Shield, color: "text-[#8DA9C4]" },
-              { title: "Plan pedagógico", desc: "Misiones estructuradas basadas en currículos académicos internacionales de lógica y cálculo.", icon: BookOpen, color: "text-[#6B8BB4]" }
+              { title: "Misiones Jugables", desc: "Mini experiencias interactivas para aprender explorando ciencia, lógica y creatividad.", icon: Rocket, color: "text-[#E0B0FF]" },
+              { title: "Tarjetas Coleccionables", desc: "Personajes, criaturas y artefactos del universo Luminauts con distintas rarezas.", icon: CreditCard, color: "text-[#8DA9C4]" },
+              { title: "Recompensas Fundadoras", desc: "Contenido exclusivo para quienes se unan antes del lanzamiento oficial.", icon: Star, color: "text-[#FFE885]" }
             ].map((b, i) => (
               <ScrollReveal key={i} origin="bottom" distance={30} delay={i * 0.15} reset={true}>
                 <LuminautsInteractiveCard

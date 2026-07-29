@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Zap, Star, CheckCircle2, Trophy, Award, BookOpen, FlaskConical, Sparkles } from 'lucide-react';
+import { Zap, Star, CheckCircle2, Trophy, Award, BookOpen, FlaskConical, Sparkles, Rocket } from 'lucide-react';
 import TicketProfileCard from '../components/ui/TicketProfileCard';
 import AlertBanner from '../components/ui/AlertBanner';
 import Badge from '../components/ui/Badge';
@@ -103,7 +103,7 @@ const Dashboard = ({ onNavigate, user, onAddXp, isLoading }) => {
                   <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center mb-4 shadow-sm">
                     <Trophy size={32} />
                   </div>
-                  <h4 className="text-xl font-black text-zinc-900 dark:text-white mb-2">¡Misión Cumplida! 🚀</h4>
+                  <h4 className="text-xl font-black text-zinc-900 dark:text-white mb-2 flex items-center justify-center gap-2">¡Misión Cumplida! <Rocket size={20} className="text-[#E0B0FF]" /></h4>
                   <p className="text-zinc-650 dark:text-zinc-550 text-sm max-w-sm font-medium">
                     Has completado todos tus retos diarios de hoy. Tu rango y XP han aumentado estelarmente. ¡Vuelve mañana para nuevas misiones!
                   </p>

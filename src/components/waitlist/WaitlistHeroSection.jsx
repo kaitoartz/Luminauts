@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Users, Rocket, Play, CreditCard, Sparkles } from 'lucide-react';
+import { Users, Rocket, Play, CreditCard, Sparkles, Lock } from 'lucide-react';
 import AnimatedCounter from './AnimatedCounter';
 import Button from '../ui/Button';
 import ShineButton from '../ui/ShineButton';
@@ -73,12 +73,17 @@ export default function WaitlistHeroSection({
         {/* Panel 1: Main Title & Initial Form */}
         <div className="panel-1 order-1 relative lg:absolute lg:inset-0 flex flex-col justify-center items-center text-center pt-12 pb-4 z-10 lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-3 lg:px-8 pointer-events-auto lg:pointer-events-none">
           <ScrollReveal origin="bottom" distance={30} duration={0.8} reset={false} className="w-full flex flex-col items-center text-center lg:items-start lg:text-left lg:col-span-7 pointer-events-auto">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-black tracking-tight leading-[1.1] max-w-5xl mb-6 mt-6 text-white">
-              La estación <span className="text-[#E0B0FF] font-black">educativa</span> del futuro.
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#9059C8]/15 border border-[#E0B0FF]/30 text-[#E0B0FF] text-xs font-bold mb-4 shadow-[0_0_20px_rgba(144,89,200,0.2)]">
+              <Sparkles size={13} className="text-[#FFE885]" />
+              <span>Acceso anticipado para familias fundadoras</span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-black tracking-tight leading-[1.1] max-w-5xl mb-6 mt-2 text-white">
+              Una aventura educativa para <span className="text-[#E0B0FF] font-black">niños curiosos.</span>
             </h1>
             
-            <p className="text-base sm:text-lg text-zinc-400 max-w-xl font-medium leading-relaxed mb-12">
-              LumiNauts combina ciencia, matemáticas y juego estelar. Registra tu correo hoy y asegura tu boleto de acceso anticipado al lanzamiento oficial.
+            <p className="text-base sm:text-lg text-zinc-300 max-w-xl font-medium leading-relaxed mb-8">
+              LumiNauts convierte el aprendizaje en misiones, demos jugables y tarjetas coleccionables para que tu hijo explore ciencia, lógica y creatividad jugando.
             </p>
 
             {status === 'success' && (
@@ -108,14 +113,17 @@ export default function WaitlistHeroSection({
             >
               <Users className="w-4 h-4 text-[#E0B0FF]" />
               <span>
-                Únete a <AnimatedCounter value={subscriberCount} /> cadetes y educadores registrados
+                Únete a <AnimatedCounter value={subscriberCount} /> familias y educadores en la lista de despegue
               </span>
             </motion.div>
-            <div className="flex justify-center gap-6 z-25 pointer-events-auto mb-8">
-              <ShineButton onClick={() => setShowDemoModal(true)} className="text-xs py-2.5 px-5 flex items-center gap-2 bg-transparent border border-[#6B8BB4]/30 text-[#8DA9C4] hover:bg-[#6B8BB4]/10">
-                <Play size={14} fill="currentColor"/> Probar Demo Estelar
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 z-25 pointer-events-auto mb-4">
+              <ShineButton onClick={() => setShowDemoModal(true)} className="text-xs py-2.5 px-5 flex items-center gap-2 bg-[#6B8BB4]/20 border border-[#6B8BB4]/50 text-[#8DA9C4] hover:bg-[#6B8BB4]/30">
+                <Play size={14} fill="currentColor"/> Probar Demos Jugables
               </ShineButton>
             </div>
+            <p className="text-[11px] text-zinc-500 font-semibold max-w-md text-center lg:text-left flex items-center gap-1.5">
+              <Lock size={11} className="text-[#6B8BB4] shrink-0" /> Recibe acceso anticipado, una tarjeta exclusiva y recompensas por invitar a otras familias. Sin spam.
+            </p>
           </ScrollReveal>
           <div className="hidden lg:block lg:col-span-5"></div>
         </div>
@@ -234,9 +242,9 @@ export default function WaitlistHeroSection({
         {/* Panel 4: Final CTA Form - High padding on mobile to isolate as standalone screen */}
         <div className="panel-4 order-5 relative lg:absolute lg:inset-0 flex flex-col justify-center items-center text-center p-6 py-28 sm:py-36 my-16 lg:my-0 z-10 pointer-events-auto lg:pointer-events-none lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8">
           <ScrollReveal origin="bottom" distance={40} duration={0.8} reset={false} className="flex flex-col items-center text-center lg:items-start lg:text-left lg:col-span-7 w-full pointer-events-auto">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-4 tracking-tight text-white">¿Listo para tripular?</h2>
-            <p className="text-sm md:text-base text-zinc-400 mb-6 max-w-xl font-medium leading-relaxed">
-              Únete hoy al waitlist oficial. Los usuarios registrados recibirán insignias de fundadores exclusivas y acceso prioritario una semana antes del despegue.
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-4 tracking-tight text-white">¿Listo para desbloquear el Pack Fundador?</h2>
+            <p className="text-sm md:text-base text-zinc-300 mb-6 max-w-xl font-medium leading-relaxed">
+              Únete antes del lanzamiento y desbloquea contenido exclusivo, acceso a demos jugables y recompensas por invitar a otras familias.
             </p>
             <div className="flex-container w-full max-w-lg z-20 pointer-events-auto px-0">
               {status === 'success' ? (
@@ -269,7 +277,7 @@ export default function WaitlistHeroSection({
                       type="email" 
                       required 
                       aria-label="Correo electrónico"
-                      placeholder="Correo de papá, mamá o profesor..." 
+                      placeholder="Ingresa el correo de un adulto responsable..." 
                       value={email}
                       onChange={(e) => {
                         e.target.setCustomValidity('');
@@ -279,7 +287,7 @@ export default function WaitlistHeroSection({
                       disabled={loading}
                     />
                     <Button type="submit" disabled={loading} className="py-2.5 px-5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-lg font-bold text-xs whitespace-nowrap">
-                      {loading ? 'Registrando...' : 'Notificar Lanzamiento'}
+                      {loading ? 'Reservando...' : 'Reservar Pack Fundador'}
                     </Button>
                   </form>
                   {getEmailSuggestion(email) && (
@@ -297,6 +305,9 @@ export default function WaitlistHeroSection({
                       </button>
                     </div>
                   )}
+                  <p className="text-[11px] text-zinc-500 text-left px-1 font-medium">
+                    Sin spam. Solo novedades de lanzamiento, recompensas y acceso exclusivo para familias fundadoras.
+                  </p>
                 </div>
               )}
             </div>

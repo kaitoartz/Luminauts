@@ -1,32 +1,44 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, HelpCircle, ShieldCheck, Sparkles, GraduationCap } from 'lucide-react';
+import { ChevronDown, HelpCircle, ShieldCheck, Sparkles, GraduationCap, CreditCard, Clock } from 'lucide-react';
 import ScrollReveal from '../ui/ScrollReveal';
 
 const FAQ_ITEMS = [
   {
     id: 'faq-1',
-    icon: Sparkles,
-    question: '¿Qué es LumiNauts y a quién está dirigido?',
-    answer: 'LumiNauts es la estación educativa del futuro: una plataforma interactiva gamificada donde niños de 6 a 14 años exploran el espacio mientras desarrollan habilidades críticas en matemáticas, lógica analítica y ciencias mediante juegos inmersivos.'
+    icon: HelpCircle,
+    question: '¿Para qué edad es Luminauts?',
+    answer: 'Ideal para niños curiosos en etapa escolar (6 a 14 años). Ajustaremos las misiones según el feedback de las primeras familias fundadoras.'
   },
   {
     id: 'faq-2',
-    icon: ShieldCheck,
-    question: '¿Es un entorno seguro para los estudiantes?',
-    answer: 'Absolutamente. LumiNauts cumple estrictamente con las leyes COPPA y GDPR-K de privacidad infantil. La plataforma es 100% libre de anuncios de terceros, rastreo comercial y microtransacciones no supervisadas.'
+    icon: CreditCard,
+    question: '¿Tiene costo registrarse?',
+    answer: 'No. El registro anticipado es completamente gratis. Solo necesitas el correo de un adulto responsable.'
   },
   {
     id: 'faq-3',
-    icon: HelpCircle,
-    question: '¿Qué beneficios otorga el registro en la lista de espera (Waitlist)?',
-    answer: 'Al registrarte hoy aseguras tu Pasaporte de Comandante Fundador, acceso anticipado prioritario una semana antes del lanzamiento beta oficial e insignias exclusivas para la primera generación de cadetes.'
+    icon: Sparkles,
+    question: '¿Qué recibo si me uno ahora?',
+    answer: 'Acceso anticipado, novedades de lanzamiento, una tarjeta Founder Edition exclusiva y la posibilidad de desbloquear más premios invitando familias.'
   },
   {
     id: 'faq-4',
+    icon: ShieldCheck,
+    question: '¿Mi hijo necesita registrarse?',
+    answer: 'No. El correo debe ser de un adulto responsable. Luminauts cumple con COPPA y GDPR-K para protección de datos de menores.'
+  },
+  {
+    id: 'faq-5',
+    icon: Clock,
+    question: '¿Cuándo estarán los demos?',
+    answer: 'Estamos preparando las primeras misiones jugables. Los inscritos serán los primeros en recibir acceso cuando estén disponibles.'
+  },
+  {
+    id: 'faq-6',
     icon: GraduationCap,
-    question: '¿Cómo funciona para docentes y escuelas?',
-    answer: 'Los educadores pueden registrarse como Comandantes de Aula para acceder a herramientas de seguimiento de progreso colectivo, asignación de misiones pedagógicas e integración con planes de estudio escolares.'
+    question: '¿Cómo funcionan las recompensas?',
+    answer: 'Después de registrarte recibirás un enlace único. Cada familia que se una desde tu enlace suma progreso para desbloquear recompensas exclusivas para tu hijo.'
   }
 ];
 

@@ -23,11 +23,11 @@ export default function WaitlistCTASection({
           <Rocket size={48} className="mx-auto mb-8 text-[#51759C] dark:text-[#8DA9C4]" />
         </ScrollReveal>
         <ScrollReveal origin="bottom" distance={30} delay={0.1} reset={true}>
-          <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-zinc-900 dark:text-white">Asegura tu carta de Fundador</h2>
+          <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-zinc-900 dark:text-white">Sé parte de las primeras familias Luminauts</h2>
         </ScrollReveal>
         <ScrollReveal origin="bottom" distance={30} delay={0.2} reset={true}>
           <p className="text-xl text-zinc-650 dark:text-zinc-350 mb-10 leading-relaxed font-medium">
-            Únete al waitlist oficial hoy. Obtén acceso prioritario al despegue y asegura tus beneficios exclusivos para la primera generación de cadetes.
+            Reserva tu Pack Fundador y recibe acceso anticipado, recompensas exclusivas y novedades de las primeras misiones jugables.
           </p>
         </ScrollReveal>
         <ScrollReveal origin="bottom" distance={30} delay={0.3} reset={true}>
@@ -66,31 +66,42 @@ export default function WaitlistCTASection({
                     <Share2 size={14} className="text-[#8DA9C4]" />
                     Invita a otros Comandantes
                   </h4>
-                  <p className="text-[11px] text-zinc-500 font-semibold leading-relaxed">
-                    Comparte tu invitación para desbloquear beneficios exclusivos de fundador cuando abramos la estación:
+                  <p className="text-[11px] text-zinc-400 font-semibold leading-relaxed">
+                    Comparte tu invitación para desbloquear beneficios exclusivos de fundador:
                   </p>
                   
-                  <button
-                    onClick={async () => {
-                      const shareText = `¡Acabo de registrarme como Comandante en LumiNauts! Obtén tu credencial estelar para la estación educativa del futuro. Únete a la tripulación aquí: ${window.location.origin}`;
-                      try {
-                        await navigator.clipboard.writeText(shareText);
-                        alert('¡Enlace de invitación copiado al portapapeles!');
-                      } catch (err) {
-                        console.error(err);
-                      }
-                    }}
-                    className="w-full py-3 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
-                  >
-                    <Copy size={14} />
-                    <span>Copiar Enlace de Invitación</span>
-                  </button>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <button
+                      onClick={async () => {
+                        const shareText = `¡Acabo de registrarme en LumiNauts! Obtén tu Pack Fundador y acceso anticipado para la estación educativa del futuro: ${window.location.origin}`;
+                        try {
+                          await navigator.clipboard.writeText(shareText);
+                          alert('¡Enlace de invitación copiado al portapapeles!');
+                        } catch (err) {
+                          console.error(err);
+                        }
+                      }}
+                      className="w-full py-3 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                    >
+                      <Copy size={14} />
+                      <span>Copiar Link</span>
+                    </button>
+                    <a
+                      href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`¡Hola! Te recomiendo LumiNauts: una estación educativa estelar para niños. Únete gratis antes del lanzamiento y reserva tu Pack Fundador aquí: ${window.location.origin}`)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="w-full py-3 rounded-xl border border-[#25D366]/30 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                    >
+                      <Share2 size={14} />
+                      <span>WhatsApp</span>
+                    </a>
+                  </div>
                 </div>
 
               </div>
             ) : (
               <div className="w-full flex flex-col gap-3 items-center">
-                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 w-full bg-zinc-900/60 p-1.5 rounded-xl border border-zinc-800">
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 w-full bg-zinc-900/60 p-1.5 rounded-xl border border-zinc-800 focus-within:border-[#E0B0FF]/40 transition-colors">
                   <label htmlFor="cta-email-input" className="sr-only">Correo electrónico</label>
                   <input 
                     id="cta-email-input"
@@ -98,7 +109,7 @@ export default function WaitlistCTASection({
                     type="email" 
                     required 
                     aria-label="Correo electrónico"
-                    placeholder="Correo de papá, mamá o profesor..." 
+                    placeholder="Correo de un adulto responsable..." 
                     value={email}
                     onChange={(e) => {
                       e.target.setCustomValidity('');
@@ -108,7 +119,7 @@ export default function WaitlistCTASection({
                     disabled={loading}
                   />
                   <Button type="submit" disabled={loading} className="py-2.5 px-5 bg-[#6B8BB4] hover:bg-[#8DA9C4] text-white rounded-lg font-bold text-xs whitespace-nowrap">
-                    {loading ? 'Registrando...' : 'Unirse al Waitlist'}
+                    {loading ? 'Reservando...' : 'Reservar Pack Fundador'}
                   </Button>
                 </form>
 
@@ -137,6 +148,7 @@ export default function WaitlistCTASection({
                   />
                   <span>¿Eres docente? (Activar para pilotos de aula)</span>
                 </label>
+                <p className="text-[11px] text-zinc-500 font-semibold mt-3">Gratis. Sin spam. Puedes darte de baja cuando quieras.</p>
               </div>
             )}
           </div>

@@ -18,17 +18,20 @@ export default function WaitlistGamesSection({ games = [], onShowDemoModal }) {
       <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col sm:flex-row justify-between items-center gap-4">
         <ScrollReveal origin="left" distance={30} reset={true} className="flex-1">
           <div>
-            <h2 className="text-3xl font-black mb-2">Misiones en Desarrollo</h2>
-            <p className="text-sm text-zinc-400">Una vista previa del mapa de aprendizaje que estamos armando.</p>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#6B8BB4]/15 border border-[#6B8BB4]/30 text-[#8DA9C4] text-xs font-bold mb-2">
+              <span>Próximamente • Demos Cortos Interactivos</span>
+            </div>
+            <h2 className="text-3xl font-black mb-2">Prueba las primeras misiones pronto</h2>
+            <p className="text-sm text-zinc-300">Estamos preparando demos jugables cortos para que tu hijo explore Luminauts antes del lanzamiento.</p>
           </div>
         </ScrollReveal>
         <ScrollReveal origin="right" distance={30} delay={0.1} reset={true}>
           <Button 
             variant="secondary" 
             onClick={onShowDemoModal} 
-            className="gap-1.5 bg-zinc-900 border-zinc-850 text-white rounded-xl text-xs py-2 px-4"
+            className="gap-2 bg-[#9059C8]/20 border border-[#9059C8]/40 hover:bg-[#9059C8]/30 text-[#E0B0FF] rounded-xl text-xs py-2.5 px-5 font-bold shadow-[0_0_15px_rgba(144,89,200,0.15)]"
           >
-            Probar Demo Interactiva <ArrowRight size={12}/>
+            Avísame cuando los demos estén listos <ArrowRight size={14}/>
           </Button>
         </ScrollReveal>
       </div>

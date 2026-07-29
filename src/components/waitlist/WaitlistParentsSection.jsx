@@ -1,56 +1,70 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Award, UserCheck, Gift, Crown, Quote } from 'lucide-react';
+import { Sparkles, Award, UserCheck, Gift, Crown, ShieldCheck, Clock, Heart, Lock } from 'lucide-react';
 import ScrollReveal from '../ui/ScrollReveal';
 
 const LOYALTY_ROADMAP_ITEMS = [
   {
-    step: "Nivel 1",
-    title: "Cofre de Avatares",
-    description: "1 Cadete o 1er mes. Avatares de fundador.",
+    step: "1 Amigo",
+    title: "Insignia Fundadora",
+    description: "Fondo e insignia digital exclusiva en perfil.",
     status: "done",
     icon: UserCheck
   },
   {
-    step: "Nivel 2",
-    title: "Pase Estelar Gratis",
-    description: "3 Cadetes o 3er mes. 1 mes de acceso libre.",
+    step: "3 Amigos",
+    title: "Holocard Exclusiva",
+    description: "Tarjeta de colección edición especial de fundador.",
     status: "in-progress",
     icon: Gift
   },
   {
-    step: "Nivel 3",
-    title: "Credencial de Oro",
-    description: "5 Cadetes o 6to mes. 2 meses gratis + insignia.",
+    step: "5 Amigos",
+    title: "Acceso Demo",
+    description: "Acceso anticipado a misiones jugables antes que nadie.",
     status: "upcoming",
     icon: Award
   },
   {
-    step: "Nivel 4",
-    title: "Acceso Prioritario VIP",
-    description: "10 Cadetes o 1 año. Acceso beta ilimitado.",
+    step: "10 Amigos",
+    title: "Pack Fundador",
+    description: "Pack digital completo de fundador + beneficios.",
     status: "upcoming",
     icon: Crown
+  },
+  {
+    step: "25 Amigos",
+    title: "Muro Exploradores",
+    description: "Aparición destacada del niño en Muro de Exploradores.",
+    status: "upcoming",
+    icon: Sparkles
   }
 ];
 
-const TESTIMONIALS = [
+const PARENT_TRUST_PILLARS = [
   {
-    text: "Mi hijo por fin disfruta hacer sumas mentales. Se conecta voluntariamente a hacer sus misiones diarias.",
-    author: "María P.",
-    role: "Madre de Leo (9 años)"
+    icon: ShieldCheck,
+    title: "100% Sin Anuncios",
+    description: "Espacio protegido sin publicidad ni llamadas de atención comerciales."
   },
   {
-    text: "El panel de control me permite ver exactamente dónde tienen dificultades en lógica. Útil para el aula.",
-    author: "Prof. Carlos R.",
-    role: "Docente de Primaria"
+    icon: Heart,
+    title: "Contenido Curado",
+    description: "Desarrollado con pedagogos para potenciar lógica, ciencia y pensamiento crítico."
   },
   {
-    text: "Los acertijos del laboratorio químico tienen una estética increíble y son muy fáciles de comprender.",
-    author: "Sofi P.",
-    role: "Cadete (10 años)"
+    icon: Clock,
+    title: "Sesiones Cortas",
+    description: "Diseñado para pausas activas saludables de 10-15 min, sin scroll infinito."
+  },
+  {
+    icon: Lock,
+    title: "Privacidad COPPA & GDPR",
+    description: "Solo solicitamos el correo del adulto responsable. Datos familiares 100% seguros."
   }
 ];
+
+
 
 export default function WaitlistParentsSection() {
   return (
@@ -66,11 +80,11 @@ export default function WaitlistParentsSection() {
             <div className="mb-10">
               <div className="flex items-center gap-1.5 text-xs font-semibold text-[#E0B0FF] mb-2">
                 <Sparkles size={14} />
-                <span>Programa de Fidelización Estelar</span>
+                <span>Recompensas por Invitar</span>
               </div>
-              <h3 className="text-2xl font-black text-white tracking-tight">Niveles de Fidelidad & Recompensas</h3>
-              <p className="text-sm text-zinc-400 mt-1 font-medium">
-                Desbloquea beneficios invitando cadetes o manteniendo tu cuenta activa.
+              <h3 className="text-2xl font-black text-white tracking-tight">Invita familias. Desbloquea recompensas.</h3>
+              <p className="text-sm text-zinc-300 mt-1 font-medium">
+                Después de registrarte recibirás un enlace único. Compártelo con otros padres y desbloquea recompensas para tu hijo.
               </p>
             </div>
 
@@ -160,32 +174,72 @@ export default function WaitlistParentsSection() {
         </div>
       </section>
 
-      {/* Testimoniales de Comandantes */}
-      <section id="section-waitlist-testimonials" className="py-20 md:py-36 bg-transparent text-white px-6 relative waitlist-section-testimonials">
-        <div className="max-w-7xl mx-auto mb-16 text-center">
+      {/* Sección: Confianza Parental */}
+      <section id="section-waitlist-parent-trust" className="py-20 bg-transparent text-white px-6 relative waitlist-section-parent-trust">
+        <div className="max-w-6xl mx-auto text-center">
           <ScrollReveal origin="bottom" distance={30} reset={true}>
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-3 tracking-tight">Comentarios de Comandantes</h2>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#6B8BB4]/15 border border-[#6B8BB4]/30 text-[#8DA9C4] text-xs font-extrabold mb-4 uppercase tracking-wider">
+              <ShieldCheck size={14} className="text-[#8DA9C4]" /> Seguridad y Filosofía Parental
+            </div>
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-4 tracking-tight">Diseñado para niños. Pensado para padres.</h2>
+            <p className="text-sm text-zinc-300 max-w-2xl mx-auto font-medium mb-12">
+              Un entorno seguro, libre de distracciones y diseñado para estimular la curiosidad sin crear dependencia digital.
+            </p>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+            {PARENT_TRUST_PILLARS.map((pillar, idx) => {
+              const Icon = pillar.icon;
+              return (
+                <ScrollReveal key={idx} origin="bottom" distance={30} delay={idx * 0.1} reset={true}>
+                  <div className="bg-[#141923] border border-zinc-800/80 hover:border-[#6B8BB4]/40 rounded-2xl p-6 h-full flex flex-col justify-between transition-colors">
+                    <div>
+                      <div className="w-10 h-10 rounded-xl bg-[#6B8BB4]/15 border border-[#6B8BB4]/30 flex items-center justify-center text-[#8DA9C4] mb-4">
+                        <Icon size={20} />
+                      </div>
+                      <h3 className="text-base font-bold text-white mb-2">{pillar.title}</h3>
+                      <p className="text-xs text-zinc-400 font-medium leading-relaxed">{pillar.description}</p>
+                    </div>
+                  </div>
+                </ScrollReveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Social Proof Honesto */}
+      <section id="section-waitlist-testimonials" className="py-20 md:py-36 bg-transparent text-white px-6 relative waitlist-section-testimonials">
+        <div className="max-w-5xl mx-auto text-center">
+          <ScrollReveal origin="bottom" distance={30} reset={true}>
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-3 tracking-tight">Construido junto a familias curiosas</h2>
           </ScrollReveal>
           <ScrollReveal origin="bottom" distance={30} delay={0.1} reset={true}>
-            <p className="text-sm text-zinc-400 max-w-md mx-auto font-medium">Padres y profesores que ya han probado nuestros builds de prueba.</p>
+            <p className="text-sm text-zinc-300 max-w-lg mx-auto font-medium mb-12">
+              Estamos invitando a los primeros padres, madres y niños exploradores a probar Luminauts antes del lanzamiento.
+            </p>
           </ScrollReveal>
-        </div>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto text-left">
-          {TESTIMONIALS.map((test, i) => (
-            <ScrollReveal key={i} origin="bottom" distance={30} delay={i * 0.15} reset={true} className="h-full">
-              <div className="bg-[#141923] border border-zinc-800 rounded-xl p-6 h-full flex flex-col justify-between">
-                <div className="mb-6">
-                  <Quote size={18} className="text-[#8DA9C4] mb-3 opacity-60" />
-                  <p className="text-zinc-300 text-sm leading-relaxed font-medium">"{test.text}"</p>
-                </div>
-                <div className="pt-4 border-t border-zinc-800/80">
-                  <div className="font-bold text-sm text-white">{test.author}</div>
-                  <div className="text-xs text-[#8DA9C4] font-semibold">{test.role}</div>
-                </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+            <ScrollReveal origin="bottom" distance={30} delay={0.1} reset={true}>
+              <div className="bg-[#141923] border border-zinc-800 rounded-2xl p-6 text-center">
+                <div className="text-3xl font-black text-[#E0B0FF] mb-2">+320</div>
+                <div className="text-xs text-zinc-300 font-bold">Familias en lista de espera</div>
               </div>
             </ScrollReveal>
-          ))}
+            <ScrollReveal origin="bottom" distance={30} delay={0.2} reset={true}>
+              <div className="bg-[#141923] border border-zinc-800 rounded-2xl p-6 text-center">
+                <div className="text-3xl font-black text-[#8DA9C4] mb-2">+80</div>
+                <div className="text-xs text-zinc-300 font-bold">Tarjetas desbloqueadas</div>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal origin="bottom" distance={30} delay={0.3} reset={true}>
+              <div className="bg-[#141923] border border-zinc-800 rounded-2xl p-6 text-center">
+                <div className="text-3xl font-black text-[#FFE885] mb-2">3</div>
+                <div className="text-xs text-zinc-300 font-bold">Demos en prueba privada</div>
+              </div>
+            </ScrollReveal>
+          </div>
         </div>
       </section>
     </>

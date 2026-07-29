@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { gsap } from 'gsap';
+import { Sparkles } from 'lucide-react';
 import './HoloCard.css';
 import backcardPokemon from '../../assets/backcard-pokemon.webp';
 
@@ -267,7 +268,7 @@ const HoloCard = ({
                   
                   {/* Space Icon */}
                   <div className="w-20 h-20 rounded-full bg-gradient-to-b from-indigo-500/20 to-purple-500/20 border border-indigo-500/30 flex items-center justify-center shadow-[0_0_15px_rgba(99,102,241,0.2)] my-4">
-                    <span className="text-3xl text-indigo-400">✨</span>
+                    <Sparkles size={28} className="text-indigo-400" />
                   </div>
                   
                   <div className="text-center w-full">

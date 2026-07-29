@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Award, Download, Share2, X, Sparkles, User, Check, RefreshCw
+  Award, Download, Share2, X, Sparkles, User, Check, RefreshCw, Gift
 } from 'lucide-react';
 import astronautCommander from '../../assets/lanyard/astronaut_commander.png';
 
@@ -422,14 +422,18 @@ export default function CommanderPassport({
               Oficialmente formas parte de la tripulación de LumiNauts. Comparte tu credencial estelar con tus cadetes y educadores para liderar la misión.
             </p>
             
-            <div className="py-3 sm:py-4 border-t border-b border-zinc-800/80 space-y-1">
+            <div className="py-3 sm:py-4 border-t border-b border-zinc-800/80 space-y-2">
               <p className="font-bold text-xs text-white flex items-center gap-2">
                 <Sparkles size={14} className="text-[#E0B0FF]" />
-                <span>Insignia de Fundador Desbloqueada</span>
+                <span>Pack Fundador y Credencial Desbloqueada</span>
               </p>
               <p className="text-xs text-zinc-400">
                 Registrada para el correo: <strong className="text-white">{email}</strong>
               </p>
+              <div className="mt-2 p-2.5 rounded-xl bg-zinc-900/80 border border-zinc-800 text-[11px] text-zinc-300 flex items-center justify-between">
+                <span className="flex items-center gap-1.5"><Gift size={13} className="text-[#FFE885] shrink-0" /> Próxima recompensa: <strong>Insignia Fundador (1 amigo)</strong></span>
+                <span className="text-[#E0B0FF] font-bold">0/1</span>
+              </div>
             </div>
           </div>
 
@@ -468,16 +472,26 @@ export default function CommanderPassport({
                 }`}
               >
                 {copied ? <Check size={14} className="text-[#8DA9C4]" /> : <Share2 size={14} />}
-                <span>{copied ? '¡Copiado!' : 'Compartir Invitación'}</span>
+                <span>{copied ? '¡Copiado!' : 'Copiar Link'}</span>
               </button>
 
-              <button
-                onClick={onClose}
-                className="py-2.5 sm:py-3 rounded-xl font-bold text-xs border border-zinc-800 bg-transparent text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors cursor-pointer"
+              <a
+                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`¡Hola! Me acabo de registrar en LumiNauts. Obtén tu Pack Fundador y credencial estelar aquí: ${window.location.origin}`)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="py-2.5 sm:py-3 rounded-xl font-bold text-xs border border-[#25D366]/30 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] flex items-center justify-center gap-2 transition-colors cursor-pointer text-center"
               >
-                Volver a Estación
-              </button>
+                <Share2 size={14} />
+                <span>WhatsApp</span>
+              </a>
             </div>
+
+            <button
+              onClick={onClose}
+              className="w-full py-2.5 sm:py-3 rounded-xl font-bold text-xs border border-zinc-800 bg-transparent text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors cursor-pointer"
+            >
+              Volver a Estación
+            </button>
           </div>
         </div>
       </div>
