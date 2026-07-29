@@ -4,7 +4,7 @@ import { Users, Rocket, Play, CreditCard, Sparkles } from 'lucide-react';
 import AnimatedCounter from './AnimatedCounter';
 import Button from '../ui/Button';
 import ShineButton from '../ui/ShineButton';
-import { BlurReveal } from '../ui/blur-reveal';
+import ScrollReveal from '../ui/ScrollReveal';
 import LuminautsInteractiveCard from '../ui/LuminautsInteractiveCard';
 import lowPolyEarthGLB from '../../assets/low_poly_earth.glb';
 import { getEmailSuggestion } from '../../utils/emailValidator';
@@ -25,6 +25,20 @@ export default function WaitlistHeroSection({
     return typeof window !== 'undefined' && !!window.customElements?.get('model-viewer');
   });
 
+  const [isIntersecting, setIsIntersecting] = React.useState(true);
+  const modelContainerRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsIntersecting(entry.isIntersecting);
+    }, { threshold: 0 });
+    if (modelContainerRef.current) {
+      observer.observe(modelContainerRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
   React.useEffect(() => {
     if (isModelLoaded) return;
 
@@ -41,7 +55,6 @@ export default function WaitlistHeroSection({
       document.head.appendChild(script);
     };
 
-    // Defer loading to after initial page paint and CPU activity settles
     if (window.requestIdleCallback) {
       window.requestIdleCallback(() => setTimeout(loadScript, 800));
     } else {
@@ -50,20 +63,73 @@ export default function WaitlistHeroSection({
   }, [isModelLoaded]);
 
   return (
-    <div id="section-waitlist-hero" className="relative h-[400vh] w-full hero-scroll-container waitlist-section-hero">
-      {/* Sticky Stage */}
+    <div id="section-waitlist-hero" className="relative lg:h-[400vh] h-auto w-full hero-scroll-container waitlist-section-hero bg-transparent">
+      {/* Sticky Stage wrapper */}
       <div 
-        style={{ height: 'var(--app-height, 100vh)' }}
-        className="sticky top-0 w-full overflow-hidden flex flex-col justify-center items-center bg-transparent text-white z-10 transition-colors duration-300"
+        style={typeof window !== 'undefined' && window.innerWidth >= 1024 ? { height: 'var(--app-height, 100vh)' } : {}}
+        className="relative lg:sticky lg:top-0 w-full lg:h-screen lg:overflow-hidden flex flex-col justify-center items-center bg-transparent text-white z-10 transition-colors duration-300 py-12 lg:py-0"
       >
         
-        {/* 3D Line Globe Container */}
-        <div className="absolute inset-0 flex items-center justify-center lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8 pointer-events-none overflow-hidden z-5">
+        {/* Panel 1: Main Title & Initial Form */}
+        <div className="panel-1 order-1 relative lg:absolute lg:inset-0 flex flex-col justify-center items-center text-center pt-12 pb-4 z-10 lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-3 lg:px-8 pointer-events-auto lg:pointer-events-none">
+          <ScrollReveal origin="bottom" distance={30} duration={0.8} reset={false} className="w-full flex flex-col items-center text-center lg:items-start lg:text-left lg:col-span-7 pointer-events-auto">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-black tracking-tight leading-[1.1] max-w-5xl mb-6 mt-6 text-white">
+              La estación <span className="text-[#E0B0FF] font-black">educativa</span> del futuro.
+            </h1>
+            
+            <p className="text-base sm:text-lg text-zinc-400 max-w-xl font-medium leading-relaxed mb-12">
+              LumiNauts combina ciencia, matemáticas y juego estelar. Registra tu correo hoy y asegura tu boleto de acceso anticipado al lanzamiento oficial.
+            </p>
+
+            {status === 'success' && (
+              <Button 
+                type="button"
+                onClick={() => setShowPassport(true)}
+                variant="shimmer"
+                size="md"
+                className="w-full max-w-md z-20 pointer-events-auto justify-between px-4 mb-4"
+              >
+                <div className="flex items-center gap-2">
+                  <CreditCard size={16} className="text-[#E0B0FF]" />
+                  <span>Ver mi Pasaporte de Comandante</span>
+                </div>
+                <div className="flex items-center gap-1 text-[11px] bg-[#E0B0FF]/10 text-[#E0B0FF] px-2 py-0.5 rounded-full border border-[#E0B0FF]/30">
+                  <Sparkles size={11} />
+                  <span className="font-bold">ID</span>
+                </div>
+              </Button>
+            )}
+            {/* Real-time Counter */}
+            <motion.div 
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#8DA9C4] pointer-events-auto mb-6"
+            >
+              <Users className="w-4 h-4 text-[#E0B0FF]" />
+              <span>
+                Únete a <AnimatedCounter value={subscriberCount} /> cadetes y educadores registrados
+              </span>
+            </motion.div>
+            <div className="flex justify-center gap-6 z-25 pointer-events-auto mb-8">
+              <ShineButton onClick={() => setShowDemoModal(true)} className="text-xs py-2.5 px-5 flex items-center gap-2 bg-transparent border border-[#6B8BB4]/30 text-[#8DA9C4] hover:bg-[#6B8BB4]/10">
+                <Play size={14} fill="currentColor"/> Probar Demo Estelar
+              </ShineButton>
+            </div>
+          </ScrollReveal>
+          <div className="hidden lg:block lg:col-span-5"></div>
+        </div>
+
+        {/* 3D Line Globe Container - Placed below Panel 1 on mobile */}
+        <div 
+          ref={modelContainerRef}
+          className="relative lg:absolute h-72 lg:h-full lg:inset-0 flex items-center justify-center lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8 pointer-events-none overflow-hidden z-5 mb-8 lg:mb-0 order-2 lg:order-none"
+        >
           <div className="hidden lg:block lg:col-span-7"></div>
           <div className="flex items-center justify-center lg:col-span-5 relative w-full h-full">
             <div className="ep-orbit-wrapper relative">
               <div className="ep-model-container relative z-10">
-                {isModelLoaded ? (
+                {isModelLoaded && isIntersecting ? (
                   <model-viewer
                     ref={modelViewerRef}
                     src={lowPolyEarthGLB}
@@ -74,6 +140,9 @@ export default function WaitlistHeroSection({
                     disable-pan
                     shadow-intensity="0"
                     exposure="0.5"
+                    auto-rotate
+                    rotation-per-second="25deg"
+                    auto-rotate-delay="0"
                     onLoad={() => {
                       if (typeof window !== 'undefined' && window.ScrollTrigger) {
                         window.ScrollTrigger.refresh();
@@ -89,62 +158,10 @@ export default function WaitlistHeroSection({
             </div>
           </div>
         </div>
-        
-        {/* Panel 1: Main Title & Initial Form */}
-        <div className="panel-1 absolute inset-0 flex flex-col justify-center items-center text-center p-6 z-10 lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8 pointer-events-none">
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left lg:col-span-7 pointer-events-auto">
-            {/* Real-time Counter */}
-            <motion.div 
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-8 flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#8DA9C4] pointer-events-auto"
-            >
-              <Users className="w-4 h-4 text-[#E0B0FF]" />
-              <span>
-                Únete a <AnimatedCounter value={subscriberCount} /> cadetes y educadores registrados
-              </span>
-            </motion.div>
-
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-black tracking-tight leading-[1.1] max-w-5xl mb-6 text-white">
-              La estación <span className="text-[#E0B0FF] font-black">educativa</span> del futuro.
-            </h1>
-            
-            <p className="text-base sm:text-lg text-zinc-400 max-w-xl font-medium leading-relaxed mb-8">
-              LumiNauts combina ciencia, matemáticas y juego estelar. Registra tu correo hoy y asegura tu boleto de acceso anticipado al lanzamiento oficial.
-            </p>
-
-            {status == true && (
-              <Button 
-                type="button"
-                onClick={() => setShowPassport(true)}
-                variant="shimmer"
-                size="md"
-                className="w-full max-w-md z-20 pointer-events-auto justify-between px-4"
-              >
-                <div className="flex items-center gap-2">
-                  <CreditCard size={16} className="text-[#E0B0FF]" />
-                  <span>Ver mi Pasaporte de Comandante</span>
-                </div>
-                <div className="flex items-center gap-1 text-[11px] bg-[#E0B0FF]/10 text-[#E0B0FF] px-2 py-0.5 rounded-full border border-[#E0B0FF]/30">
-                  <Sparkles size={11} />
-                  <span className="font-bold">ID</span>
-                </div>
-              </Button>
-            )}
-
-            <div className="flex justify-center gap-6 z-25 pointer-events-auto">
-              <ShineButton onClick={() => setShowDemoModal(true)} className="text-xs py-2.5 px-5 flex items-center gap-2 bg-transparent border border-[#6B8BB4]/30 text-[#8DA9C4] hover:bg-[#6B8BB4]/10">
-                <Play size={14} fill="currentColor"/> Probar Demo Estelar
-              </ShineButton>
-            </div>
-          </div>
-          <div className="hidden lg:block lg:col-span-5"></div>
-        </div>
 
         {/* Panel 2: Video/Image Showcase placeholder */}
-        <div className="panel-2 absolute inset-0 flex justify-center items-center z-10 opacity-0 pointer-events-none lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8">
-          <div className="relative w-full h-full flex flex-col justify-center items-center lg:items-start lg:col-span-7 pointer-events-auto">
+        <div className="panel-2 order-3 relative lg:absolute lg:inset-0 flex justify-center items-center z-10 pointer-events-auto lg:pointer-events-none lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8 my-12 lg:my-0">
+          <ScrollReveal origin="bottom" distance={35} duration={0.8} reset={false} className="relative w-full h-full flex flex-col justify-center items-center lg:items-start lg:col-span-7 pointer-events-auto">
             <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-3xl p-4 md:p-6 max-w-xl text-center lg:text-left">
               <Rocket size={40} className="mx-auto lg:mx-0 mb-4 text-[#E0B0FF] animate-pulse" />
               <h3 className="text-2xl md:text-3xl font-black mb-2 text-white">Órbita del Aprendizaje</h3>
@@ -152,63 +169,71 @@ export default function WaitlistHeroSection({
                 Juegos interactivos donde los cadetes tripulan naves espaciales y resuelven acertijos analíticos alineando estrellas para avanzar.
               </p>
               <div className="w-full aspect-video bg-zinc-950 border border-zinc-800/50 rounded-2xl flex items-center justify-center relative overflow-hidden shadow-lg">
-                {/* Falsa interfaz de juego como video */}
                 <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnBub3J5MTV1dTA2c3kzeHJ6azIwYXdoaXRlMjNjZmdpMnpiaHE3diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/71fMwwGrFRszyoHhUy/giphy.gif" alt="Demo gameplay" className="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-lighten" />
                 <div className="absolute inset-0 bg-linear-to-t from-zinc-950 via-transparent to-transparent opacity-80"></div>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
           <div className="hidden lg:block lg:col-span-5"></div>
         </div>
 
         {/* Panel 3: Premium Features & Stats */}
-        <div className="panel-3 absolute inset-0 flex flex-col justify-center items-center text-center p-4 md:p-6 z-10 opacity-0 pointer-events-none lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8">
+        <div className="panel-3 order-4 relative lg:absolute lg:inset-0 flex flex-col justify-center items-center text-center p-4 md:p-6 z-10 pointer-events-auto lg:pointer-events-none lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8 my-12 lg:my-0">
           <div className="flex flex-col items-center text-center lg:items-start lg:text-left lg:col-span-7 w-full pointer-events-auto">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-black mb-8 text-white">
-              Aprendizaje que <span className="text-[#8DA9C4]">engancha de verdad.</span>
-            </h2>
+            <ScrollReveal origin="bottom" distance={25} duration={0.8} reset={false}>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-black mb-8 text-white">
+                Aprendizaje que <span className="text-[#8DA9C4]">engancha de verdad.</span>
+              </h2>
+            </ScrollReveal>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3.5 w-full max-w-sm sm:max-w-xl md:max-w-3xl lg:max-w-2xl mx-auto lg:mx-0">
-              <LuminautsInteractiveCard
-                interactive={false}
-                className="hero-stat-card px-4"
-                glowColor="rgba(141, 169, 196, 0.15)"
-              >
-                <div>
-                  <div className="text-xl sm:text-2xl font-black text-[#8DA9C4] mb-0.5">+50</div>
-                  <div className="font-bold text-white text-xs sm:text-sm mb-0.5">Misiones Activas</div>
-                  <div className="text-zinc-400 text-[11px] sm:text-xs font-semibold leading-normal">Desarrolladas por pedagogos y expertos en lógica.</div>
-                </div>
-              </LuminautsInteractiveCard>
-              <LuminautsInteractiveCard
-                interactive={false}
-                className="hero-stat-card px-4"
-                glowColor="rgba(224, 176, 255, 0.15)"
-              >
-                <div>
-                  <div className="text-xl sm:text-2xl font-black text-[#E0B0FF] mb-0.5">98%</div>
-                  <div className="font-bold text-white text-xs sm:text-sm mb-0.5">Interés y Enfoque</div>
-                  <div className="text-zinc-400 text-[11px] sm:text-xs font-semibold leading-normal">Asegurado mediante rachas estelares y misiones narrativas.</div>
-                </div>
-              </LuminautsInteractiveCard>
-              <LuminautsInteractiveCard
-                interactive={false}
-                className="hero-stat-card col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-1 px-4"
-                glowColor="rgba(253, 249, 226, 0.15)"
-              >
-                <div>
-                  <div className="text-xl sm:text-2xl font-black text-[#FDF9E2] mb-0.5">100%</div>
-                  <div className="font-bold text-white text-xs sm:text-sm mb-0.5">Seguro para Niños</div>
-                  <div className="text-zinc-400 text-[11px] sm:text-xs font-semibold leading-normal">Sin anuncios, sin microtransacciones, con control parental.</div>
-                </div>
-              </LuminautsInteractiveCard>
+              <ScrollReveal origin="bottom" distance={30} delay={0.1} reset={false} className="w-full">
+                <LuminautsInteractiveCard
+                  interactive={false}
+                  className="hero-stat-card px-4 w-full h-full"
+                  glowColor="rgba(141, 169, 196, 0.15)"
+                >
+                  <div>
+                    <div className="text-xl sm:text-2xl font-black text-[#8DA9C4] mb-0.5">+50</div>
+                    <div className="font-bold text-white text-xs sm:text-sm mb-0.5">Misiones Activas</div>
+                    <div className="text-zinc-400 text-[11px] sm:text-xs font-semibold leading-normal">Desarrolladas por pedagogos y expertos en lógica.</div>
+                  </div>
+                </LuminautsInteractiveCard>
+              </ScrollReveal>
+              <ScrollReveal origin="bottom" distance={30} delay={0.2} reset={false} className="w-full">
+                <LuminautsInteractiveCard
+                  interactive={false}
+                  className="hero-stat-card px-4 w-full h-full"
+                  glowColor="rgba(224, 176, 255, 0.15)"
+                >
+                  <div>
+                    <div className="text-xl sm:text-2xl font-black text-[#E0B0FF] mb-0.5">98%</div>
+                    <div className="font-bold text-white text-xs sm:text-sm mb-0.5">Interés y Enfoque</div>
+                    <div className="text-zinc-400 text-[11px] sm:text-xs font-semibold leading-normal">Asegurado mediante rachas estelares y misiones narrativas.</div>
+                  </div>
+                </LuminautsInteractiveCard>
+              </ScrollReveal>
+              <ScrollReveal origin="bottom" distance={30} delay={0.3} reset={false} className="w-full">
+                <LuminautsInteractiveCard
+                  interactive={false}
+                  className="hero-stat-card col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-1 px-4 w-full h-full"
+                  glowColor="rgba(253, 249, 226, 0.15)"
+                >
+                  <div>
+                    <div className="text-xl sm:text-2xl font-black text-[#FDF9E2] mb-0.5">100%</div>
+                    <div className="font-bold text-white text-xs sm:text-sm mb-0.5">Seguro para Niños</div>
+                    <div className="text-zinc-400 text-[11px] sm:text-xs font-semibold leading-normal">Sin anuncios, sin microtransacciones, con control parental.</div>
+                  </div>
+                </LuminautsInteractiveCard>
+              </ScrollReveal>
             </div>
           </div>
           <div className="hidden lg:block lg:col-span-5"></div>
         </div>
 
-        {/* Panel 4: Final CTA Form */}
-        <div className="panel-4 absolute inset-0 flex flex-col justify-center items-center text-center p-4 md:p-6 z-10 opacity-0 pointer-events-none lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8">
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left lg:col-span-7 w-full pointer-events-auto">
+        {/* Panel 4: Final CTA Form - High padding on mobile to isolate as standalone screen */}
+        <div className="panel-4 order-5 relative lg:absolute lg:inset-0 flex flex-col justify-center items-center text-center p-6 py-28 sm:py-36 my-16 lg:my-0 z-10 pointer-events-auto lg:pointer-events-none lg:grid lg:grid-cols-12 max-w-7xl mx-auto w-full px-6 lg:px-8">
+          <ScrollReveal origin="bottom" distance={40} duration={0.8} reset={false} className="flex flex-col items-center text-center lg:items-start lg:text-left lg:col-span-7 w-full pointer-events-auto">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-4 tracking-tight text-white">¿Listo para tripular?</h2>
             <p className="text-sm md:text-base text-zinc-400 mb-6 max-w-xl font-medium leading-relaxed">
               Únete hoy al waitlist oficial. Los usuarios registrados recibirán insignias de fundadores exclusivas y acceso prioritario una semana antes del despegue.
@@ -275,7 +300,7 @@ export default function WaitlistHeroSection({
                 </div>
               )}
             </div>
-          </div>
+          </ScrollReveal>
           <div className="hidden lg:block lg:col-span-5"></div>
         </div>
       </div>

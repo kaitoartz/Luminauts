@@ -21,6 +21,7 @@ import { initViewportHelper } from './utils/viewportHelper';
 // Page Views (Lazy Loaded)
 const Landing = lazy(() => import('./pages/Landing'));
 const WaitlistLanding = lazy(() => import('./pages/WaitlistLanding'));
+const WaitlistLandingDebug = lazy(() => import('./pages/WaitlistLandingDebug'));
 const Catalog = lazy(() => import('./pages/Catalog'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const QuizGame = lazy(() => import('./pages/QuizGame'));
@@ -319,10 +320,26 @@ const App = () => {
     parents: <ParentsPanel onNavigate={navigate} isLoading={isTostadora && pageLoading && view === 'parents'} />,
     profile: <ProfilePanel onNavigate={navigate} user={user} onSaveUser={saveUser} isLoading={isTostadora && pageLoading && view === 'profile'} />,
     pricing: <PricingPanel onNavigate={navigate} isLoading={isTostadora && pageLoading && view === 'pricing'} />,
-    adventure: <Adventure onNavigate={navigate} user={user} />
+    adventure: <Adventure onNavigate={navigate} user={user} />,
+    debug: (
+      <WaitlistLandingDebug 
+        onNavigate={navigate} 
+        games={games} 
+        theme={theme} 
+        isLoading={isTostadora && pageLoading && view === 'debug'} 
+        isSplashActive={false} 
+      />
+    )
   };
 
-  const activeView = isWaitlistMode ? 'landing' : view;
+  const isDebugRoute = typeof window !== 'undefined' && (
+    window.location.hash === '#debug' || 
+    window.location.hash === '#test-mobile' || 
+    window.location.pathname === '/debug' || 
+    window.location.pathname === '/test-mobile' ||
+    window.location.search.includes('debug')
+  );
+  const activeView = isDebugRoute ? 'debug' : (isWaitlistMode ? 'landing' : view);
 
   if (appLoading && !isWaitlistMode) {
     return <AstronautLoader />;

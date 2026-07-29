@@ -48,7 +48,19 @@ const Navbar = ({ currentView, onNavigate, apiStatus, onOpenSettings, theme, onT
         }`}>
           
           {/* Logo */}
-          <div className="flex items-center gap-2.5 cursor-pointer group shrink-0" onClick={() => !isWaitlistMode && onNavigate('landing')}>
+          <div 
+            className="flex items-center gap-2.5 cursor-pointer group shrink-0" 
+            onClick={() => {
+              const el = document.getElementById('section-waitlist-hero');
+              if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              } else if (isWaitlistMode) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              } else {
+                onNavigate('landing');
+              }
+            }}
+          >
             <div className="w-9 h-9 sm:w-11 sm:h-11 bg-linear-to-tr from-[#6B8BB4] to-[#E0B0FF] rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/10 group-hover:scale-105 transition-transform shrink-0">
               <Rocket size={18} className="sm:w-5 sm:h-5" />
             </div>

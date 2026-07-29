@@ -331,107 +331,28 @@ const WaitlistLanding = ({ onNavigate, theme, isLoading, isSplashActive, games =
     gsap.ticker.lagSmoothing(0);
 
     const ctx = gsap.context(() => {
-      const cometTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".hero-scroll-container",
-          start: "15% top",
-          end: "55% top",
-          scrub: 1,
-        }
-      });
-      cometTl.fromTo("#fstar",
-        { opacity: 0, x: 300, y: -150 },
-        { opacity: 1, x: 50, y: 100, ease: "power1.out" }
-      ).to("#fstar",
-        { opacity: 0, x: -350, y: 400, ease: "power1.in" }
-      );
-
       const mm = gsap.matchMedia();
       const hasReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Mobile/Tablet: Centered, scale up to 1.6
-      mm.add("(max-width: 1023px)", () => {
-        gsap.set(".panel-2, .panel-3, .panel-4", { autoAlpha: 0, pointerEvents: "none" });
-        gsap.set(".panel-1", { autoAlpha: 1, pointerEvents: "auto" });
-
-        const tl = gsap.timeline({
+      // Desktop/PC (min-width: 1024px) only: Split layout and sticky timelines
+      mm.add("(min-width: 1024px)", () => {
+        // Comet Scroll Animation
+        const cometTl = gsap.timeline({
           scrollTrigger: {
             trigger: ".hero-scroll-container",
-            start: "top top",
-            end: "bottom bottom",
+            start: "15% top",
+            end: "55% top",
             scrub: 1,
           }
         });
+        cometTl.fromTo("#fstar",
+          { opacity: 0, x: 300, y: -150 },
+          { opacity: 1, x: 50, y: 100, ease: "power1.out" }
+        ).to("#fstar",
+          { opacity: 0, x: -350, y: 400, ease: "power1.in" }
+        );
 
-        const syncOrbit = (target) => {
-          const els = gsap.utils.toArray(target);
-          els.forEach(el => {
-            if (el) {
-              const attr = el.getAttribute('camera-orbit');
-              if (attr) {
-                el.cameraOrbit = attr;
-                if (typeof el.jumpToGoal === 'function') {
-                  el.jumpToGoal();
-                }
-              }
-            }
-          });
-        };
-
-        const targetViewer = modelViewerElement || "model-viewer.ep-earth-viewer";
-        if (!hasReducedMotion) {
-          gsap.set(targetViewer, { attr: { "camera-orbit": "0deg 75deg 105%" } });
-          syncOrbit(targetViewer);
-        }
-
-        tl.fromTo(".ep-orbit-wrapper", 
-          { scale: 1, y: "20%", opacity: 0.5 }, 
-          { scale: 1, y: "0%", opacity: 1, duration: 2.2, ease: "power2.out" }
-        )
-          .to(".panel-1", { autoAlpha: 0, pointerEvents: "none", scale: 1, duration: 1.2 })
-          .to(".panel-2", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<");
-
-        if (!hasReducedMotion) {
-          tl.to(targetViewer, { 
-            attr: { "camera-orbit": "160deg 180deg 105%" }, 
-            duration: 1.2, 
-            ease: "power1.inOut",
-            onUpdate: () => syncOrbit(targetViewer)
-          }, "<");
-        }
-
-        tl.to(".panel-2", { autoAlpha: 0, pointerEvents: "none", duration: 1, delay: 0.5 })
-          .to(".ep-orbit-wrapper", { scale: 1, duration: 1.5 }, "<")
-          .to(".panel-3", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<");
-
-        if (!hasReducedMotion) {
-          tl.to(targetViewer, { 
-            attr: { "camera-orbit": "520deg 0deg 105%" }, 
-            duration: 1.2, 
-            ease: "power1.inOut",
-            onUpdate: () => syncOrbit(targetViewer)
-          }, "<");
-        }
-
-        tl.from(".hero-stat-card", { y: 60, opacity: 0, stagger: 0.2, ease: "back.out(1.7)", duration: 1.2 }, "<")
-          .to(".panel-3", { autoAlpha: 0, pointerEvents: "none", duration: 1, delay: 0.5 })
-          .to(".panel-4", { autoAlpha: 1, pointerEvents: "auto", duration: 1.2 }, "<");
-
-        if (!hasReducedMotion) {
-          tl.to(targetViewer, { 
-            attr: { "camera-orbit": "780deg 75deg 105%" }, 
-            duration: 1.2, 
-            ease: "power1.inOut",
-            onUpdate: () => syncOrbit(targetViewer)
-          }, "<");
-        }
-
-        tl.from(".panel-4 h2, .panel-4 p, .panel-4 .flex-container", { y: 40, opacity: 0, stagger: 0.15, ease: "power3.out", duration: 1.2 }, "<")
-          .to(".ep-orbit-wrapper", { scale: 1, opacity: 1, duration: 1.5, ease: "power1.inOut" }, "<");
-      });
-
-      // Desktop/PC: Split layout on right side, scale limited to 1.05
-      mm.add("(min-width: 1024px)", () => {
+        // Panel states initial setup
         gsap.set(".panel-2, .panel-3, .panel-4", { autoAlpha: 0, pointerEvents: "none" });
         gsap.set(".panel-1", { autoAlpha: 1, pointerEvents: "auto" });
 
